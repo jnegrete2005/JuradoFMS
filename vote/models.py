@@ -1,68 +1,59 @@
 from django.db import models
+from django.contrib.postgres.fields import ArrayField 
 
 # Create your models here.
 class Competitor(models.Model):
   """
   Competitor model object
   """
+  # Create the choices
+  PERSONAJES = 0
+  OBJETOS = 1
+  IMAGENES = 2
+  TERMINACIONES = 3
+  ACTUALIDAD = 4
+  CHOICES = (
+    (PERSONAJES, 'Personajes contrapuestos'),
+    (OBJETOS, 'Objetos'),
+    (IMAGENES, 'Imágenes vaiadas'),
+    (TERMINACIONES, 'Terminaciones'),
+    (ACTUALIDAD, 'Temática de actualidad')
+  )
+
   name = models.CharField(max_length=20)
-  easy = models.CharField(max_length=27, null=True, blank=True)
-  hard = models.CharField(max_length=27, null=True, blank=True)
-  tematicas = models.CharField(max_length=21, null=True, blank=True)
-  random = models.CharField(max_length=27, null=True, blank=True)
-  minuto1 = models.CharField(max_length=27, null=True, blank=True)
-  minuto2 = models.CharField(max_length=27, null=True, blank=True)
-  deluxe = models.CharField(max_length=42, null=True, blank=True)
-  replica = models.CharField(max_length=27, null=True, blank=True)
+  easy = ArrayField(models.PositiveSmallIntegerField(), size=9, null=True, blank=True)
+  hard = ArrayField(models.PositiveSmallIntegerField(), size=9, null=True, blank=True)
+  tematicas = ArrayField(models.PositiveSmallIntegerField(), size=7, null=True, blank=True)
+  random_mode = models.IntegerField(choices=CHOICES, default=0)
+  random_score = ArrayField(models.PositiveSmallIntegerField(), size=9, null=True, blank=True)
+  minuto1 = ArrayField(models.PositiveSmallIntegerField(), size=9, null=True, blank=True)
+  minuto2 = ArrayField(models.PositiveSmallIntegerField(), size=9, null=True, blank=True)
+  deluxe = ArrayField(models.PositiveSmallIntegerField(), size=14, null=True, blank=True)
+  replica = ArrayField(models.PositiveSmallIntegerField(), size=9, null=True, blank=True)
 
-  def to_list(self, mode):
-    """
-    Will convert the list string value to an integer list
-    """
-    field = self.__dict__[mode]
+  def get_sum(self, mode):
+    if mode == 'name' or name == 'random_mode':
+      raise NameError(f'mode can\'t be equal to {mode}')
 
-    if field == None:
-      if mode == 'tematicas':
-        return [9 for i in range(7)]
-      elif mode == 'deluxe':
-        return [9 for i in range(14)]
-      else:
-        return [9 for i in range(9)]
+    i = 0 
 
-    return list(map(int, str(field).replace('[', '').replace(']', '').split(', ')))
+    for j in self.__dict__[mode]:
+      if j != 9:
+        i += j
 
-  def to_list_end(self, mode):
-    """
-    For ignoring the 9s when adding up values
-    """
-    def to_int(i):
-
-      return 0 if i == '9' else int(i)
-
-    field = self.__dict__[mode]
-
-    if field == None:
-      if mode == 'tematicas':
-        return [0 for i in range(7)]
-      elif mode == 'deluxe':
-        return [0 for i in range(14)]
-      else:
-        return [0 for i in range(9)]
-
-
-    return list(map(to_int, str(field).replace('[', '').replace(']', '').split(', ')))
+    return i
 
   def get_total(self):
     """
-    Will give you the total of the competitor
+    Will give you the total of the competitor (excluding replica)
     """
-    return (sum(self.to_list_end('easy')) + 
-            sum(self.to_list_end('hard')) + 
-            sum(self.to_list_end('tematicas')) +
-            sum(self.to_list_end('random')) +
-            sum(self.to_list_end('minuto1')) +
-            sum(self.to_list_end('minuto2')) +
-            sum(self.to_list_end('deluxe')))
+    return (sum(self.get_sum('easy')) + 
+            sum(self.get_sum('hard')) + 
+            sum(self.get_sum('tematicas')) +
+            sum(self.get_sum('random')) +
+            sum(self.get_sum('minuto1')) +
+            sum(self.get_sum('minuto2')) +
+            sum(self.get_sum('deluxe')))
 
   def __str__(self):
     return self.name
@@ -79,27 +70,28 @@ class VotingPoll(models.Model):
   def __str__(self):
     return f'{self.competitor_1} vs {self.competitor_2}'
 
-  def get_winner(self):
+  def get_winner(self, replica=False):
     """
     Will return the winner, or replica
     """
     comp_1 = self.comp_1
     comp_2 = self.comp_2
 
+    # Replica mode case
     if replica:
-      maxi = max(sum(comp_1.to_list_end('replica')), sum(comp_2.to_list_end('replica')))
-      
-      if ((maxi == sum(comp_1.to_list_end('replica')) and maxi == sum(comp_2.to_list_end('replica')) 
-        or (abs(sum(comp_1.to_list_end('replica')) - sum(comp_2.to_list_end('replica'))) < 6))):
+      if (comp_1.get_sum('replica') == comp_2.get_sum('replica')
+          or abs(comp_1.get_sum('replica') - comp_2.get_sum('replica')) < 6):
         return 'Réplica'
 
-      return comp_1 if maxi == sum(comp_1.to_list_end('replica')) else comp_2
+      max_num = max(comp_1.get_sum('replica'), comp_2.get_sum('replica'))
 
+      return comp_1 if max_num == comp_1 else comp_2
 
-    maxi = max(comp_1.get_total(), comp_2.get_total())
-
-    if ((maxi == comp_1.get_total() and maxi == comp_2.get_total()) 
-      or (abs(comp_1.get_total() - comp_2.get_total()) < 6)):
+    # Normal case
+    if (comp_1.get_total() == comp_2.get_total() 
+        or abs(comp_1.get_total() - comp_2.get_total()) < 6):
       return 'Réplica'
 
-    return comp_1 if maxi == comp_1.get_total() else comp_2
+    max_num = max(comp_1.get_total(), comp_2.get_total())
+
+    return comp_1 if max_num == comp_1.get_total() else comp_2
