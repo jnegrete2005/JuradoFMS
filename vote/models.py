@@ -24,15 +24,15 @@ class Competitor(models.Model):
   easy = ArrayField(models.PositiveSmallIntegerField(), size=9, null=True, blank=True)
   hard = ArrayField(models.PositiveSmallIntegerField(), size=9, null=True, blank=True)
   tematicas = ArrayField(models.PositiveSmallIntegerField(), size=7, null=True, blank=True)
-  random_mode = models.IntegerField(choices=CHOICES, default=0)
+  random_mode = models.IntegerField(choices=CHOICES, default=0, null=True, blank=True)
   random_score = ArrayField(models.PositiveSmallIntegerField(), size=9, null=True, blank=True)
-  minuto1 = ArrayField(models.PositiveSmallIntegerField(), size=9, null=True, blank=True)
-  minuto2 = ArrayField(models.PositiveSmallIntegerField(), size=9, null=True, blank=True)
+  min1 = ArrayField(models.PositiveSmallIntegerField(), size=9, null=True, blank=True)
+  min2 = ArrayField(models.PositiveSmallIntegerField(), size=9, null=True, blank=True)
   deluxe = ArrayField(models.PositiveSmallIntegerField(), size=14, null=True, blank=True)
   replica = ArrayField(models.PositiveSmallIntegerField(), size=9, null=True, blank=True)
 
   def get_sum(self, mode):
-    if mode == 'name' or name == 'random_mode':
+    if mode == 'name' or mode == 'random_mode':
       raise NameError(f'mode can\'t be equal to {mode}')
 
     i = 0 
@@ -47,13 +47,13 @@ class Competitor(models.Model):
     """
     Will give you the total of the competitor (excluding replica)
     """
-    return (sum(self.get_sum('easy')) + 
-            sum(self.get_sum('hard')) + 
-            sum(self.get_sum('tematicas')) +
-            sum(self.get_sum('random')) +
-            sum(self.get_sum('minuto1')) +
-            sum(self.get_sum('minuto2')) +
-            sum(self.get_sum('deluxe')))
+    return (self.get_sum('easy') + 
+            self.get_sum('hard') + 
+            self.get_sum('tematicas') +
+            self.get_sum('random_score') +
+            self.get_sum('min1') +
+            self.get_sum('min2') +
+            self.get_sum('deluxe'))
 
   def __str__(self):
     return self.name
