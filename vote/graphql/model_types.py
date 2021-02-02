@@ -5,7 +5,7 @@ class CompetitorType(DjangoObjectType):
   class Meta:
     model = Competitor
     fields = (
-      'id', 'name', 'easy', 'hard', 'tematicas', 'random', 'minuto1', 'minuto2', 'deluxe', 'replica'
+      'id', 'name', 'easy', 'hard', 'tematicas', 'random_mode', 'random_score', 'min1', 'min2', 'deluxe', 'replica'
       )
 
 
