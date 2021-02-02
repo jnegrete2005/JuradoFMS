@@ -1,9 +1,7 @@
 from django.urls import path
-from graphene_django.views import GraphQLView
 from . import views
 
+app_name = 'vote'
 urlpatterns = [
   path('', views.index, name='index'),
-  
-  path('graphql/', GraphQLView.as_view(graphiql=True))
 ]
