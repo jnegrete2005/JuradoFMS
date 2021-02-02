@@ -1,0 +1,41 @@
+{% extends 'vote/layout.html' %}
+
+{% block body %}
+
+<div id="choose-comps">
+  <form class="needs-validation" novalidate>
+    {% csrf_token %}
+  
+    <div class="mb-5 mt-5">
+      <h1 class="text-center fw-normal">Escoge a los Gallos para empezar</h1>
+    </div>
+  
+    <div class="row row-cols-1 row-cols-md-2 g-3 justify-content-center">
+      <!-- First competitor -->
+      <div class="col col-md-3">
+        <input class="form-control form-control-lg" placeholder="Primer Gallo" type="text" name="comp-1" id="comp-1" maxlength="20" required>
+        <div class="invalid-feedback">Llena este campo para continuar</div>
+      </div>
+  
+      <!-- Second competitor -->
+      <div class="col col-md-3">
+        <input class="form-control form-control-lg" placeholder="Segundo Gallo" type="text" name="comp-2" id="comp-2" maxlength="20" required>
+        <div class="invalid-feedback">Llena este campo para continuar</div>
+      </div>
+    </div>
+  
+    <br><br>
+  
+    <div class="row">
+      <div class="col d-flex justify-content-center">
+        <input type="submit" role="button" class="btn btn-primary" value="Empieza!">
+      </div>
+    </div>
+  </form>
+</div>
+
+<div id="poll">
+  
+</div>
+
+{% endblock body %}
