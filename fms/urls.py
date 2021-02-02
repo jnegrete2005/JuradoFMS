@@ -15,8 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic.base import RedirectView
+
+from graphene_django.views import GraphQLView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('vote.urls'))
+    path('vota/', include('vote.urls')),
+    path('', RedirectView.as_view(url='vota/')),
+    path('graphql/', GraphQLView.as_view(graphiql=True)),
 ]
