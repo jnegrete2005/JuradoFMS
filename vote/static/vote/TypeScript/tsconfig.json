@@ -3,7 +3,7 @@
     "watch": true,
     "target": "esnext",
     "lib": ["DOM", "ESNext"],
-    "outDir": "../"
+    "outDir": "../JS/"
   },
   "exclude": [""],
 }
