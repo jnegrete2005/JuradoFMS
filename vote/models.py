@@ -26,8 +26,8 @@ class Competitor(models.Model):
   tematicas = ArrayField(models.PositiveSmallIntegerField(), size=7, null=True, blank=True)
   random_mode = models.IntegerField(choices=CHOICES, default=0, null=True, blank=True)
   random_score = ArrayField(models.PositiveSmallIntegerField(), size=9, null=True, blank=True)
-  min1 = ArrayField(models.PositiveSmallIntegerField(), size=9, null=True, blank=True, verbose_name='Minuto 1')
-  min2 = ArrayField(models.PositiveSmallIntegerField(), size=9, null=True, blank=True, verbose_name='Minuto 2')
+  min1 = ArrayField(models.PositiveSmallIntegerField(), size=9, null=True, blank=True, verbose_name='minuto 1')
+  min2 = ArrayField(models.PositiveSmallIntegerField(), size=9, null=True, blank=True, verbose_name='minuto 2')
   deluxe = ArrayField(models.PositiveSmallIntegerField(), size=14, null=True, blank=True)
   replica = ArrayField(models.PositiveSmallIntegerField(), size=9, null=True, blank=True)
 
