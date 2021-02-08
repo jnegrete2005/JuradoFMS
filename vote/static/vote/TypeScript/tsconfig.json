@@ -3,7 +3,8 @@
     "watch": true,
     "target": "esnext",
     "lib": ["DOM", "ESNext"],
-    "outDir": "../JS/"
+    "outDir": "../JS/",
+    "moduleResolution": "node"
   },
   "exclude": [""],
 }
