@@ -68,7 +68,7 @@ class VotingPoll(models.Model):
   comp_2 = models.ForeignKey(Competitor, on_delete=models.CASCADE, related_name='comp_2')
 
   def __str__(self):
-    return f'{self.competitor_1} vs {self.competitor_2}'
+    return f'{self.comp_1} vs {self.comp_2}'
 
   def get_winner(self, replica=False):
     """
