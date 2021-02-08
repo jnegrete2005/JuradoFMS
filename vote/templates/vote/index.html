@@ -1,41 +1,145 @@
-{% extends 'vote/layout.html' %}
+{% load static %}
 
-{% block body %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<div id="choose-comps">
-  <form class="needs-validation" novalidate>
-    {% csrf_token %}
-  
-    <div class="mb-5 mt-5">
-      <h1 class="text-center fw-normal">Escoge a los Gallos para empezar</h1>
-    </div>
-  
-    <div class="row row-cols-1 row-cols-md-2 g-3 justify-content-center">
-      <!-- First competitor -->
-      <div class="col col-md-3">
-        <input class="form-control form-control-lg" placeholder="Primer Gallo" type="text" name="comp-1" id="comp-1" maxlength="20" required>
-        <div class="invalid-feedback">Llena este campo para continuar</div>
+  <title>{% block title %}Jurado FMS{% endblock title %}</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+  <!-- Static Files -->
+  <link rel="stylesheet" href="{% static 'vote/CSS/navbar.css' %}">
+  <link rel="stylesheet" href="{% static 'vote/CSS/polls.css' %}">
+
+  <script src="{% static 'vote/JS/navbar.js' %}"></script>
+  <script src="{% static 'vote/JS/create_polls.js' %}" type="module"></script>
+  <script src="{% static 'vote/JS/forms.js' %}"></script>
+  <script src="{% static 'vote/JS/util.js' %}" type="module"></script>
+  <script src="{% static 'vote/JS/types.js' %}" type="module"></script>
+</head>
+<body>
+  <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modal-title"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="modal-body">
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
       </div>
-  
-      <!-- Second competitor -->
-      <div class="col col-md-3">
-        <input class="form-control form-control-lg" placeholder="Segundo Gallo" type="text" name="comp-2" id="comp-2" maxlength="20" required>
-        <div class="invalid-feedback">Llena este campo para continuar</div>
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
+    <div class="container-fluid container-md continer-lg">
+      <a href="{% url 'vote:index' %}" class="navbar-brand">Jurado FMS</a>
+      
+      <!-- Toogler btn -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Navbar content -->
+      <div class="collapse navbar-collapse" id="navbarToggler">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="#" data-mode="easy">Easy</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" data-mode="hard">Hard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" data-mode="tematicas">Temáticas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" data-mode="random">Random</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" data-mode="min1">Minuto 1</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" data-mode="min2">Minuto 2</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" data-mode="deluxe">Deluxe</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" data-mode="replica">Réplica</a>
+          </li>
+        </ul>
       </div>
     </div>
-  
-    <br><br>
-  
-    <div class="row">
-      <div class="col d-flex justify-content-center">
-        <input type="submit" role="button" class="btn btn-primary" value="Empieza!">
-      </div>
+  </nav>
+
+  <div class="container-fluid container-md continer-lg">
+    <div id="choose-comps" class="mb-5">
+      <form class="needs-validation" id="comps-form" novalidate>
+        <div class="mb-5">
+          <h1 class="text-center fw-normal">Escoge a los Gallos para empezar</h1>
+        </div>
+      
+        <div class="row row-cols-1 row-cols-md-2 g-3 justify-content-center">
+          <!-- First competitor -->
+          <div class="col col-md-3">
+            <input class="form-control form-control-lg" placeholder="Primer Gallo" type="text" name="comp--input" id="comp-1-input" maxlength="20" required>
+            <div class="invalid-feedback">Llena este campo para continuar</div>
+          </div>
+      
+          <!-- Second competitor -->
+          <div class="col col-md-3">
+            <input class="form-control form-control-lg" placeholder="Segundo Gallo" type="text" name="comp-2-input" id="comp-2-input" maxlength="20" required>
+            <div class="invalid-feedback">Llena este campo para continuar</div>
+          </div>
+        </div>
+      
+        <br><br>
+      
+        <div class="row">
+          <div class="col d-flex justify-content-center">
+            <input type="submit" role="button" class="btn btn-primary" value="Empieza!">
+          </div>
+        </div>
+      </form>
     </div>
-  </form>
-</div>
+    
+    <div id="poll" class="visually-hidden">
+    
+      <div class="mb-3">
+        <h1 class="fw-normal" id="mode" data-current_mode=""></h1>
+      </div>
+      
+      <form class="poll">
+        <div class="row g-4">
+          <!-- Competitor 1 -->
+          <div class="col-12 col-md comp-container" id="comp-1-container">
+            <h3 class="fw-normal mb-0 text-center text-md-start" id="comp-1"></h3>
+          </div>
+        </div>
 
-<div id="poll">
-  
-</div>
+        <hr>
 
-{% endblock body %}
+        <!-- Competitor 2 -->
+        <div class="row g-4">
+          <div class="col-12 col-md comp-container" id="comp-2-container">
+            <h3 class="fw-normal mb-0 text-center text-md-start" id="comp-2"></h3>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- Bootstrap Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+</body>
+</html>
