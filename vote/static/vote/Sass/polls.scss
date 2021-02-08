@@ -1,0 +1,25 @@
+@import 'media_queries';
+
+.poll {
+  padding: 17px;
+  border: 3px solid gainsboro;
+  border-radius: 10px;
+}
+
+input[type=number] {
+  width: 30px;
+  height: 30px;
+  
+  padding: 0;
+  text-align: center!important;
+
+  @include md() {
+    width: 35px;
+    height: 35px;
+  }
+
+  &::-webkit-inner-spin-button, &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
