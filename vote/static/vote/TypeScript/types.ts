@@ -93,18 +93,3 @@ export class VotingPoll {
 type arr = [number, number, number, number, number, number, number, number, number]
 type arr7 = [number, number, number, number, number, number, number]
 type arr14 = [number, number, number, number, number, number, number, number, number, number, number, number, number, number]
-
-export type CreateCompetitors = {
-  data: {
-    createCompetitors: {
-      comp1: {
-        id: number
-        name: string
-      }
-      comp2: {
-        id: number
-        name: string
-      }
-    }
-  }
-}

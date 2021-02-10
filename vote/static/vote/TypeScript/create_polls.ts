@@ -1,5 +1,5 @@
 import { addInputs, getCookie, useModal } from "./util.js";
-import { Competitor, CreateCompetitors } from "./types.js"
+import { Competitor } from "./types.js"
 
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('comps-form').addEventListener('submit', (event) => createPoll(event))
@@ -38,9 +38,9 @@ function createPoll(event: Event):void {
   fetch('/graphql/#', {
     method: 'POST',
     headers: {
-      "Content-Type": 'application/json',
-      "Accept": 'application/json',
-      "X-CSRFToken": getCookie('csrftoken')
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'X-CSRFToken': getCookie('csrftoken')
     },
     body: JSON.stringify({ 
       query: mutation,
@@ -50,7 +50,6 @@ function createPoll(event: Event):void {
   })
   .then(response => {
     if (!response.ok) {
-      console.log(response)
       throw Error(`${response.statusText} - ${response.url}`);
     }
     return response.json();
@@ -76,7 +75,7 @@ function createPoll(event: Event):void {
     addInputs(9)
 
     // Mode config
-    // TODO
+    history.pushState({mode: 'easy'}, '', '#easy')
   })
   .catch(err => {
     if (err.stack === 'TypeError: Failed to fetch') {
@@ -84,4 +83,19 @@ function createPoll(event: Event):void {
     }
     useModal('Error', err);
   })
+}
+
+type CreateCompetitors = {
+  data: {
+    createCompetitors: {
+      comp1: {
+        id: number
+        name: string
+      }
+      comp2: {
+        id: number
+        name: string
+      }
+    }
+  }
 }
