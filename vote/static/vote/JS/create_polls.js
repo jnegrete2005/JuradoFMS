@@ -31,9 +31,9 @@ function createPoll(event) {
     fetch('/graphql/#', {
         method: 'POST',
         headers: {
-            "Content-Type": 'application/json',
-            "Accept": 'application/json',
-            "X-CSRFToken": getCookie('csrftoken')
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
         },
         body: JSON.stringify({
             query: mutation,
@@ -43,7 +43,6 @@ function createPoll(event) {
     })
         .then(response => {
         if (!response.ok) {
-            console.log(response);
             throw Error(`${response.statusText} - ${response.url}`);
         }
         return response.json();
@@ -64,7 +63,7 @@ function createPoll(event) {
         // Add inputs
         addInputs(9);
         // Mode config
-        // TODO
+        history.pushState({ mode: 'easy' }, '', '#easy');
     })
         .catch(err => {
         if (err.stack === 'TypeError: Failed to fetch') {
