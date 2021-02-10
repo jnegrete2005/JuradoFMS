@@ -1,15 +1,20 @@
 from graphene_django import DjangoObjectType
+from graphene.types.objecttype import ObjectType
 from ..models import Competitor, VotingPoll
+
+import graphene
 
 class CompetitorType(DjangoObjectType):
   class Meta:
     model = Competitor
-    fields = (
-      'id', 'name', 'easy', 'hard', 'tematicas', 'random_mode', 'random_score', 'min1', 'min2', 'deluxe', 'replica'
-      )
+    fields = '__all__'
+
+
+class CompetitorModeType(ObjectType):
+  mode = graphene.List(graphene.Int)
 
 
 class VotingPollType(DjangoObjectType):
   class Meta:
     model = VotingPoll
-    fields = ('comp_1', 'comp_2')
+    fields = '__all__'
