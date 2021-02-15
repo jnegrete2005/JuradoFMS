@@ -41,8 +41,8 @@ export class Competitor {
     }
     serialize() {
         return JSON.stringify({
-            id: this.id,
-            name: this.name,
+            id: this._id,
+            name: this._name,
             easy: this.easy,
             hard: this.hard,
             tematicas: this.hard,
@@ -54,20 +54,35 @@ export class Competitor {
             replica: this.replica
         });
     }
-    unserialize(data) {
+    static unserialize(data) {
         const newData = JSON.parse(data);
         return new Competitor(newData.id, newData.name, newData.easy, newData.hard, newData.tematicas, newData.random_mode, newData.random_score, newData.min1, newData.min2, newData.deluxe, newData.replica);
     }
 }
 export class VotingPoll {
-    constructor(_comp_1, _comp_2) {
+    constructor(_id, _comp_1, _comp_2) {
+        this._id = _id;
         this._comp_1 = _comp_1;
         this._comp_2 = _comp_2;
+    }
+    get id() {
+        return this._id;
     }
     get comp_1() {
         return this._comp_1;
     }
     get comp_2() {
         return this._comp_2;
+    }
+    serialize() {
+        return JSON.stringify({
+            id: this._id,
+            comp_1: this._comp_1,
+            comp_2: this._comp_2
+        });
+    }
+    static unserialize(data) {
+        const newData = JSON.parse(data);
+        return new VotingPoll(newData.id, newData.comp_1, newData.comp_2);
     }
 }
