@@ -55,8 +55,8 @@ export class Competitor {
 
   serialize() {
     return JSON.stringify({
-      id: this.id,
-      name: this.name,
+      id: this._id,
+      name: this._name,
       easy: this.easy,
       hard: this.hard,
       tematicas: this.hard,
@@ -69,7 +69,7 @@ export class Competitor {
     })
   }
 
-  unserialize(data: string) {
+  static unserialize(data: string) {
     const newData = JSON.parse(data)
     return new Competitor(newData.id, newData.name, newData.easy, newData.hard, newData.tematicas, newData.random_mode, newData.random_score, newData.min1, newData.min2, newData.deluxe, newData.replica)
   }
@@ -77,9 +77,14 @@ export class Competitor {
 
 export class VotingPoll {
   constructor(
+    private _id: number,
     private _comp_1: Competitor,
     private _comp_2: Competitor
   ) {}
+
+  public get id(): number {
+    return this._id;
+  }
 
   public get comp_1(): Competitor {
     return this._comp_1;
@@ -87,6 +92,19 @@ export class VotingPoll {
 
   public get comp_2(): Competitor {
     return this._comp_2;
+  }
+
+  serialize() {
+    return JSON.stringify({
+      id: this._id,
+      comp_1: this._comp_1,
+      comp_2: this._comp_2
+    })
+  }
+
+  static unserialize(data: string) {
+    const newData = JSON.parse(data)
+    return new VotingPoll(newData.id, newData.comp_1, newData.comp_2)
   }
 }
 
