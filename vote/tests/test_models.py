@@ -1,11 +1,11 @@
 from django.test import TestCase
 
+from .setup import setUp as sU
 from ..models import Competitor, VotingPoll
-from .setup import setUp as su
 
 # Create your tests here.
 class VoteTestCase(TestCase):
-  setUp = su
+  setUp = sU
   
   # Competitor
   def test_get_comp(self):
