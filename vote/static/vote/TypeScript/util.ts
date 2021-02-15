@@ -61,6 +61,7 @@ export function addInputs(lenght: number, data?: GetModes) {
       } else if (comp_container.id === 'comp-2-container') {
         input.classList.add('form-control', 'comp-2-input')
       }
+      input.required = true
       container.append(input)
 
       // Populate inputs
@@ -88,6 +89,17 @@ export function addInputs(lenght: number, data?: GetModes) {
 
 function insertAfter(newNode: HTMLElement, referenceNode: HTMLElement) {
   referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+}
+
+export function createAlert(text: string | HTMLElement): void {
+  const alert = `
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    ${text}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  `
+
+  document.getElementById('alert-container').append(alert)
 }
 
 if (typeof(String.prototype.trim) === "undefined") {
