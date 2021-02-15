@@ -51,6 +51,7 @@ export function addInputs(lenght, data) {
             else if (comp_container.id === 'comp-2-container') {
                 input.classList.add('form-control', 'comp-2-input');
             }
+            input.required = true;
             container.append(input);
             // Populate inputs
             if (data) {
@@ -77,6 +78,15 @@ export function addInputs(lenght, data) {
 }
 function insertAfter(newNode, referenceNode) {
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+}
+export function createAlert(text) {
+    const alert = `
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    ${text}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  `;
+    document.getElementById('alert-container').append(alert);
 }
 if (typeof (String.prototype.trim) === "undefined") {
     String.prototype.trim = function () {
