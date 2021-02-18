@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from .setup import setUp as sU
+from .util import setUp as sU
 from ..models import Competitor, VotingPoll
 
 # Create your tests here.
