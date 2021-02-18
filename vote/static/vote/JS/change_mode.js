@@ -4,15 +4,13 @@ import { addInputs, createAlert, getCookie } from "./util";
 function saveMode(mode) {
     // Create the mutation
     const mutation = `
-    mutation SaveMode($id1: ID!, $id2: ID!, $mode: String!, $value1: [Int]!, $value2: [Int]!) {
-      comp1: saveMode(id: $id1, mode: $mode, value: $value1) {
-        comp {
-          ${mode}
+    mutation SaveModes($id: ID!, $mode: String!, $value1: [Int]!, $value2: [Int]!) {
+      saveModes(pollId: $id, mode: $mode, value1:$value1, value2: $value2) {
+        comp1 {
+          mode
         }
-      }
-      comp2: saveMode(id: $id2, mode: $mode, value: $value2) {
-        comp {
-          ${mode}
+        comp2 {
+          mode
         }
       }
     }
@@ -28,8 +26,7 @@ function saveMode(mode) {
         body: JSON.stringify({
             query: mutation,
             variables: {
-                "id1": VotingPoll.unserialize(localStorage.getItem('poll')).comp_1.id,
-                "id2": VotingPoll.unserialize(localStorage.getItem('poll')).comp_2.id,
+                "id": VotingPoll.unserialize(localStorage.getItem('poll')).comp_1.id,
                 "mode": mode,
             }
         })
@@ -41,15 +38,12 @@ function changeMode(mode) {
     document.getElementById('mode').innerHTML = modes_aliases[mode];
     // Create the query
     const query = `
-    query GetModes($pollID: ID!) {
-      votingPoll(id: $pollID) {
-        id
-        comp1 {
-          mode: ${mode}
-        }
-        comp2 {
-          mode: ${mode}
-        }
+    query GetModes($id1: ID!, $id2: ID!, $mode: String!) {
+      comp1: getMode(id: $id1, mode: $mode) {
+        mode
+      }
+      comp2: getMode(id: $id2, mode: $mode) {
+        mode
       }
     }
   `;
