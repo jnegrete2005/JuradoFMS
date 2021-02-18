@@ -1,75 +1,18 @@
-import json
+from json import loads
 
 from graphene_django.utils.testing import GraphQLTestCase
 
+from .util import Query, setUpTestData as setUpTD
 from ..models import Competitor, VotingPoll
 
 # Create your tests here.
 class QueriesTestCase(GraphQLTestCase):
-  @classmethod
-  def setUpTestData(cls):
-    # Create Competitors
-    c1_a = Competitor.objects.create(
-      name='Si',
-      easy=[1,1,1,1,1,1,1,1,1],
-      hard=[1,1,1,1,1,1,1,1,1],
-      tematicas=[1,1,1,1,1,1,1],
-      random_mode=1,
-      random_score=[1,1,1,1,1,1,1,1,1],
-      min1=[1,1,1,1,1,1,1,1,1],
-      min2=[1,1,1,1,1,1,1,1,1],
-      deluxe=[1,1,1,1,1,1,1,1,1,1,1,1,1,1]
-    )
-    c1_b =  Competitor.objects.create(
-      name='No',
-      easy=[2,2,9,2,2,2,2,2,9],
-      hard=[2,2,2,2,2,2,2,2,2],
-      tematicas=[2,2,2,2,2,2,2],
-      random_mode=2,
-      random_score=[2,2,2,2,2,2,2,2,2],
-      min1=[2,2,2,2,2,2,2,2,2],
-      min2=[2,2,2,2,2,2,2,2,2],
-      deluxe=[2,2,2,2,2,2,2,2,2,2,2,2,2,2]
-    )
-    c2_a = Competitor.objects.create(
-      name='Replica 1',
-      easy=[3,3,3,3,3,3,3,3,3],
-      hard=[3,3,3,3,3,3,3,3,3],
-      tematicas=[3,3,3,3,3,3,3],
-      random_mode=3,
-      random_score=[3,3,3,3,3,3,3,3,3],
-      min1=[3,3,3,3,3,3,3,3,3],
-      min2=[3,3,3,3,3,3,3,3,3],
-      deluxe=[3,3,3,3,3,3,3,3,3,3,3,3,3,3],
-      replica=[3,3,3,3,3,3,3,9,9]
-    )
-    c2_b = Competitor.objects.create(
-      name='Replica 2',
-      easy=[3,3,3,3,3,3,3,3,9],
-      hard=[3,3,3,3,3,3,3,3,3],
-      tematicas=[3,3,3,3,3,3,3],
-      random_mode=3,
-      random_score=[3,3,3,3,3,3,3,3,3],
-      min1=[3,3,3,3,3,3,3,3,3],
-      min2=[3,3,3,3,3,3,3,3,3],
-      deluxe=[3,3,3,3,3,3,3,3,3,3,3,3,3,3],
-      replica=[3,3,3,3,3,3,3,3,3]
-    )
-
-    # Create VotingPolls
-    poll1 = VotingPoll.objects.create(
-      comp_1=c1_a,
-      comp_2=c1_b
-    )
-    poll2 = VotingPoll.objects.create(
-      comp_1=c2_a,
-      comp_2=c2_b
-    )
+  setUpTestData = setUpTD
 
   def test_voting_poll(self):
     """ Should return a complete VotingPoll """
 
-    response = self.query(
+    query = Query(
       """ 
       query votingPoll($id: ID!) {
         votingPoll(id: $id) {
@@ -84,9 +27,47 @@ class QueriesTestCase(GraphQLTestCase):
         }
       }
       """,
-      variables={ 'id': VotingPoll.objects.first().id }
+      { 'id': VotingPoll.objects.first().id }
     )
-    content = json.loads(response.content)    
-    self.assertResponseNoErrors(response)
-    self.assertEqual(content['data']['votingPoll']['comp1']['name'], 'Si')
+
+    self.assertResponseNoErrors(query.response)
+    self.assertEqual(query.content['data']['votingPoll']['comp1']['name'], 'Si')
+
+  def test_get_comp(self):
+    """ Query to return a single Competitor """
+    
+    query = Query(
+      """  
+      query GetComp($id: ID!) {
+        comp(id: $id) {
+          id
+          name
+        }
+      }
+      """,
+      { 'id': Competitor.objects.first().id }
+    )
+
+    self.assertResponseNoErrors(query.response)
+    self.assertEqual(query.content['data']['comp']['name'], 'Si')
+
+  def test_get_mode(self):
+    """ Returns a mode in the form of 'mode' """
+
+    query = Query(
+      """  
+      query GetMode($id: ID!, $mode: String!) {
+        getMode(id: $id, mode: $mode) {
+          mode
+        }
+      }
+      """,
+      {
+        'id': Competitor.objects.first().id,
+        'mode': 'easy'
+      }
+    )
+
+    self.assertResponseNoErrors(query.response)
+    self.assertEqual(query.content['data']['getMode']['mode'], [1,1,1,1,1,1,1,1,1])
   
