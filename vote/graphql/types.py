@@ -13,3 +13,7 @@ class VotingPollType(DjangoObjectType):
   class Meta:
     model = VotingPoll
     fields = '__all__'
+
+
+class CompMode(graphene.ObjectType):
+  mode = graphene.List(graphene.Int)
