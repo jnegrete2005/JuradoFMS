@@ -1,4 +1,4 @@
-import { GetModes } from "./change_mode";
+import { GetModes } from "./types.js";
 
 export function getCookie(name: string): string {
   let cookieValue: null | string = null;
@@ -33,11 +33,11 @@ export function useModal(title: string, body: string):void {
 
 export function addInputs(lenght: number, data?: GetModes) {
   if (data) {
-    data.data.comp1.reverse()
-    data.data.comp2.reverse()
+    data.data.comp1.mode.reverse()
+    data.data.comp2.mode.reverse()
   }
 
-  Array.prototype.forEach.call(document.getElementsByClassName('comp-container'), (comp_container: HTMLElement) => {
+  Array.from(document.getElementsByClassName('comp-container')).forEach((comp_container: HTMLElement, index) => {
     for (let i = 0; i < lenght; i++) {
       // Create the container and add the classes
       const container = document.createElement('div')
@@ -56,11 +56,13 @@ export function addInputs(lenght: number, data?: GetModes) {
       // Create the inputs
       const input = document.createElement('input')
       input.type = 'number'
+
       if (comp_container.id === 'comp-1-container') {
         input.classList.add('form-control', 'comp-1-input')
       } else if (comp_container.id === 'comp-2-container') {
         input.classList.add('form-control', 'comp-2-input')
       }
+      
       input.required = true
       container.append(input)
 
@@ -99,11 +101,15 @@ export function createAlert(text: string | HTMLElement): void {
   </div>
   `
 
-  document.getElementById('alert-container').append(alert)
+  document.getElementById('alert-container').innerHTML = alert
 }
 
 if (typeof(String.prototype.trim) === "undefined") {
   String.prototype.trim = function() {
     return String(this).replace(/^\s+|\s+$/g, '');
   };
+}
+
+export function getKeyByValue(object: object, value: string | number) { 
+  return Object.keys(object).find(key => object[key] === value); 
 }
