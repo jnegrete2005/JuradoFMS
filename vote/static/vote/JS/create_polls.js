@@ -1,4 +1,4 @@
-import { addInputs, getCookie, useModal } from "./util.js";
+import { addInputs, createAlert, getCookie, useModal } from "./util.js";
 import { Competitor, VotingPoll } from "./types.js";
 import { prepareNavbar } from "./navbar.js";
 document.addEventListener('DOMContentLoaded', () => {
@@ -69,10 +69,16 @@ function createPoll(event) {
         // Add inputs
         addInputs(9);
         // Mode config
-        history.pushState({ mode: 'easy' }, 'Easy Mode', 'easy');
+        history.pushState({ mode: 'easy' }, 'Easy Mode', '#easy');
         prepareNavbar('easy');
         document.getElementById('mode').dataset.current_mode = 'easy';
         document.getElementById('mode').innerHTML = 'Easy Mode';
+        // Make the previous btn disabled
+        const previous = document.getElementById('previous');
+        previous.disabled = true;
+        previous.classList.add('disabled');
+        // Add the alert
+        createAlert('Recuerda que los últimos 3 cuadritos siempre son para Skills, Flow y Puesta en escena');
     })
         .catch((err) => {
         if (err.stack === 'TypeError: Failed to fetch') {
