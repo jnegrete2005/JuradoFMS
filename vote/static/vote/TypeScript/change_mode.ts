@@ -1,12 +1,12 @@
-import { prepareNavbar } from "./navbar";
-import { VotingPoll } from "./types";
-import { addInputs, createAlert, getCookie } from "./util";
+import { prepareNavbar } from "./navbar.js";
+import { GetModes, VotingPoll, modes_aliases } from "./types.js";
+import { addInputs, createAlert, getCookie } from "./util.js";
 
-function saveMode(mode: string): void {
+export function saveMode(mode: string): void {
   // Create the mutation
   const mutation = `
     mutation SaveModes($id: ID!, $mode: String!, $value1: [Int]!, $value2: [Int]!) {
-      saveModes(pollId: $id, mode: $mode, value1:$value1, value2: $value2) {
+      saveModes(pollId: $id, mode: $mode, value1: $value1, value2: $value2) {
         comp1 {
           mode
         }
@@ -16,6 +16,21 @@ function saveMode(mode: string): void {
       }
     }
   `
+
+  function returnValueOr9(el: HTMLInputElement): number {
+    function validInput(inp: number | undefined): boolean {
+      if (!inp || inp < 0 || inp > 4) {
+        return false
+      } else {
+        return true
+      }
+    }
+    
+    return validInput(parseInt(el.value)) ? parseInt(el.value) : 9
+  }
+
+  const value1 = Array.from(document.getElementsByClassName('comp-1-input')).map(returnValueOr9)
+  const value2 = Array.from(document.getElementsByClassName('comp-2-input')).map(returnValueOr9)
 
   // Fetch
   fetch('/graphql/', {
@@ -28,17 +43,16 @@ function saveMode(mode: string): void {
     body: JSON.stringify({
       query: mutation,
       variables: {
-        "id": VotingPoll.unserialize(localStorage.getItem('poll')).comp_1.id,
+        "id": VotingPoll.unserialize(localStorage.getItem('poll')).id,
         "mode": mode,
-        // TODO
-        // "value1": [1,2,1,1,1,1,1,1,1],
-        // "value2": [1,2,1,1,1,1,1,1,1]
+        value1,
+        value2,
       }
     })
   })
 }
 
-function changeMode(mode: string): void {
+function nextMode(mode: string): void {
   // Change the current mode
   document.getElementById('mode').dataset.current_mode = mode
   document.getElementById('mode').innerHTML = modes_aliases[mode]
@@ -82,7 +96,7 @@ function changeMode(mode: string): void {
   .then((data: GetModes) => {
     // Fill the inputs
     if (data.data.comp1 !== null) {
-      addInputs(data.data.comp1.length, data)
+      addInputs(data.data.comp1.mode.length, data)
     } else {
       switch (mode) {
         case 'tematicas':
@@ -109,37 +123,4 @@ function changeMode(mode: string): void {
     // Prepare the navbar
     prepareNavbar(mode)
   })
-}
-
-const modes_to_int = {
-  easy: 0,
-  hard: 1,
-  tematicas: 2,
-  random_mode: 3,
-  min1: 4,
-  min2: 5,
-  deluxe: 6,
-  replica: 7
-}
-
-const modes_aliases = {
-  easy: 'Easy Mode',
-  hard: 'Hard Mode',
-  tematicas: 'Temáticas',
-  random_mode: 'Random Mode',
-  min1: 'Primer Minuto',
-  min2: 'Segundo Munuto',
-  deluxe: 'Deluxe',
-  replica: 'Réplica'
-}
-
-function getKeyByValue(object: object, value: string | number) { 
-  return Object.keys(object).find(key => object[key] === value); 
-}
-
-export type GetModes = {
-  data: {
-    comp1: number[] | null,
-    comp2: number[] | null
-  }
 }
