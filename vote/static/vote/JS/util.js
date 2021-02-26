@@ -26,10 +26,10 @@ export function useModal(title, body) {
 }
 export function addInputs(lenght, data) {
     if (data) {
-        data.data.comp1.reverse();
-        data.data.comp2.reverse();
+        data.data.comp1.mode.reverse();
+        data.data.comp2.mode.reverse();
     }
-    Array.prototype.forEach.call(document.getElementsByClassName('comp-container'), (comp_container) => {
+    Array.from(document.getElementsByClassName('comp-container')).forEach((comp_container, index) => {
         for (let i = 0; i < lenght; i++) {
             // Create the container and add the classes
             const container = document.createElement('div');
@@ -86,10 +86,13 @@ export function createAlert(text) {
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>
   `;
-    document.getElementById('alert-container').append(alert);
+    document.getElementById('alert-container').innerHTML = alert;
 }
 if (typeof (String.prototype.trim) === "undefined") {
     String.prototype.trim = function () {
         return String(this).replace(/^\s+|\s+$/g, '');
     };
+}
+export function getKeyByValue(object, value) {
+    return Object.keys(object).find(key => object[key] === value);
 }
