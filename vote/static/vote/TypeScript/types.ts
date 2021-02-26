@@ -108,6 +108,44 @@ export class VotingPoll {
   }
 }
 
-type arr = [number, number, number, number, number, number, number, number, number]
-type arr7 = [number, number, number, number, number, number, number]
-type arr14 = [number, number, number, number, number, number, number, number, number, number, number, number, number, number]
+type FixedSizeArray<N extends number, T> = N extends 0 ? never[] : {
+  0: T;
+  length: N;
+} & ReadonlyArray<T>;
+
+type arr = FixedSizeArray<9, number>
+type arr7 = FixedSizeArray<7, number>
+type arr14 = FixedSizeArray<14, number>
+
+export type GetModes = {
+  data: {
+    comp1: {
+      mode: number[]
+    },
+    comp2: {
+      mode: number[]
+    }
+  }
+}
+
+export const modes_to_int = {
+  easy: 0,
+  hard: 1,
+  tematicas: 2,
+  random: 3,
+  min1: 4,
+  min2: 5,
+  deluxe: 6,
+  replica: 7
+}
+
+export const modes_aliases = {
+  easy: 'Easy Mode',
+  hard: 'Hard Mode',
+  tematicas: 'Temáticas',
+  random: 'Random Mode',
+  min1: 'Primer Minuto',
+  min2: 'Segundo Minuto',
+  deluxe: 'Deluxe',
+  replica: 'Réplica'
+}
