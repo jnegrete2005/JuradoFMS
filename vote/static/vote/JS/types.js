@@ -86,3 +86,23 @@ export class VotingPoll {
         return new VotingPoll(newData.id, newData.comp_1, newData.comp_2);
     }
 }
+export const modes_to_int = {
+    easy: 0,
+    hard: 1,
+    tematicas: 2,
+    random: 3,
+    min1: 4,
+    min2: 5,
+    deluxe: 6,
+    replica: 7
+};
+export const modes_aliases = {
+    easy: 'Easy Mode',
+    hard: 'Hard Mode',
+    tematicas: 'Temáticas',
+    random: 'Random Mode',
+    min1: 'Primer Minuto',
+    min2: 'Segundo Minuto',
+    deluxe: 'Deluxe',
+    replica: 'Réplica'
+};
