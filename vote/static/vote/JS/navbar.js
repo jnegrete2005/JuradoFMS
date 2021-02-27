@@ -10,9 +10,7 @@ export function prepareNavbar(mode, replica) {
     }
     else {
         nav_links.forEach((link) => {
-            if (link.dataset.mode === mode) {
-                link.classList.add('active');
-            }
+            link.classList.toggle('active', link.dataset.mode === mode);
             if (!replica) {
                 link.classList.toggle('disabled', link.dataset.mode === 'replica');
             }
