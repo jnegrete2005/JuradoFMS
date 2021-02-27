@@ -31,13 +31,21 @@ export function useModal(title: string, body: string):void {
   })
 }
 
-export function addInputs(lenght: number, data?: GetModes) {
+export function addInputs(lenght: number, data?: GetModes, first=false) {
   if (data) {
     data.data.comp1.mode.reverse()
     data.data.comp2.mode.reverse()
   }
 
-  Array.from(document.getElementsByClassName('comp-container')).forEach((comp_container: HTMLElement, index) => {
+  if (!first) {
+    Array.from(document.getElementsByClassName('inputs-container')).forEach((container: HTMLDivElement, index) => {
+      const comp = container.firstElementChild
+      container.innerHTML = ''
+      container.append(comp)
+    })
+  }
+
+  Array.from(document.getElementsByClassName('comp-container')).forEach((comp_container: HTMLElement) => {
     for (let i = 0; i < lenght; i++) {
       // Create the container and add the classes
       const container = document.createElement('div')
@@ -49,7 +57,7 @@ export function addInputs(lenght: number, data?: GetModes) {
         if (Math.round(lenght % 3) === 2) {
           container.classList.replace('col-4', 'col-6')
         } else if (Math.round(lenght % 3) === 1 && i > lenght - 2) {
-          console.log(container.classList.replace('col-4', 'col')) 
+          container.classList.replace('col-4', 'col')
         }
       }
 
@@ -69,12 +77,12 @@ export function addInputs(lenght: number, data?: GetModes) {
       // Populate inputs
       if (data) {
         if (comp_container.id === 'comp-1-container') {
-          if (data.data.comp1 !== null && data.data.comp1[i] !== 9) {
-            input.value = data.data.comp1[i].toString()
+          if (data.data.comp1.mode.length !== 0 && data.data.comp1.mode[i] !== 9) {
+            input.value = data.data.comp1.mode[i].toString()
           }
         } else if (comp_container.id === 'comp-2-container') {
-          if (data.data.comp2 !== null && data.data.comp2[i] !== 9) {
-            input.value = data.data.comp2[i].toString()
+          if (data.data.comp2.mode.length !== 0 && data.data.comp2.mode[i] !== 9) {
+            input.value = data.data.comp2.mode[i].toString()
           }
         }
       }
