@@ -67,7 +67,7 @@ function createPoll(event) {
         document.getElementById('comp-1').innerHTML = comp_1.name;
         document.getElementById('comp-2').innerHTML = comp_2.name;
         // Add inputs
-        addInputs(9);
+        addInputs(9, null, true);
         // Mode config
         history.pushState({ mode: 'easy' }, 'Easy Mode', '#easy');
         prepareNavbar('easy');
