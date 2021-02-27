@@ -2,7 +2,7 @@ import { prepareNavbar } from "./navbar.js";
 import { GetModes, VotingPoll, modes_aliases } from "./types.js";
 import { addInputs, createAlert, getCookie } from "./util.js";
 
-export function saveMode(mode: string): void {
+function saveMode(mode: string): void {
   // Create the mutation
   const mutation = `
     mutation SaveModes($id: ID!, $mode: String!, $value1: [Int]!, $value2: [Int]!) {
@@ -17,6 +17,7 @@ export function saveMode(mode: string): void {
     }
   `
 
+  // Returns the value of the input. If invalid, returns 9
   function returnValueOr9(el: HTMLInputElement): number {
     function validInput(inp: number | undefined): boolean {
       if (!inp || inp < 0 || inp > 4) {
@@ -29,6 +30,7 @@ export function saveMode(mode: string): void {
     return validInput(parseInt(el.value)) ? parseInt(el.value) : 9
   }
 
+  // Get the values
   const value1 = Array.from(document.getElementsByClassName('comp-1-input')).map(returnValueOr9)
   const value2 = Array.from(document.getElementsByClassName('comp-2-input')).map(returnValueOr9)
 
@@ -53,10 +55,6 @@ export function saveMode(mode: string): void {
 }
 
 function nextMode(mode: string): void {
-  // Change the current mode
-  document.getElementById('mode').dataset.current_mode = mode
-  document.getElementById('mode').innerHTML = modes_aliases[mode]
-
   // Create the query
   const query = `
     query GetModes($id1: ID!, $id2: ID!, $mode: String!) {
@@ -95,7 +93,7 @@ function nextMode(mode: string): void {
   })
   .then((data: GetModes) => {
     // Fill the inputs
-    if (data.data.comp1 !== null) {
+    if (data.data.comp1.mode.length !== 0 && data.data.comp1 !== undefined) {
       addInputs(data.data.comp1.mode.length, data)
     } else {
       switch (mode) {
@@ -113,14 +111,41 @@ function nextMode(mode: string): void {
       }
     }
 
-    // Create the alert 
+    // Refresh the alert
     createAlert('Recuerda que los últimos 3 cuadritos siempre son para Skills, Flow y Puesta en escena')
     
     // Fill the heading with the mode
     document.getElementById('mode').dataset.current_mode = mode
     document.getElementById('mode').innerHTML = modes_aliases[mode]
-    
-    // Prepare the navbar
-    prepareNavbar(mode)
   })
+}
+
+function prepareBtns(mode: string): void {
+  const previous = <HTMLButtonElement>document.getElementById('previous')
+
+  switch (mode) {
+    case 'easy':
+      previous.disabled = true
+      previous.classList.add('disabled')
+      break;
+  
+    case 'deluxe':
+    case 'replica':
+      (<HTMLButtonElement>document.getElementById('next')).value = 'Terminar';
+      previous.disabled = false;
+      previous.classList.remove('disabled')
+      break;
+
+    default:
+      previous.disabled = false;
+      previous.classList.remove('disabled')
+      break;
+    }
+}
+
+export function changeMode(old_mode: string, new_mode: string): void {
+  saveMode(old_mode)
+  nextMode(new_mode)
+  prepareBtns(new_mode)
+  prepareNavbar(new_mode)
 }
