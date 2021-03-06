@@ -59,7 +59,7 @@ export class Competitor {
       name: this._name,
       easy: this.easy,
       hard: this.hard,
-      tematicas: this.hard,
+      tematicas: this.tematicas,
       random_mode: this.random_mode,
       random_score: this.random_score,
       min1: this.min1,
@@ -124,6 +124,19 @@ export type GetModes = {
     },
     comp2: {
       mode: number[]
+    }
+  }
+}
+
+export type SaveModes = {
+  data: {
+    saveModes: {
+      comp1: {
+        mode: number[]
+      },
+      comp2: {
+        mode: number[]
+      }
     }
   }
 }
