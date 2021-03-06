@@ -12,10 +12,7 @@ class CreatePoll(graphene.Mutation):
 
   @classmethod
   def mutate(cls, root, info, comp1, comp2):
-    comp_1 = Competitor.objects.create(name=comp1)
-    comp_2 = Competitor.objects.create(name=comp2)
-
-    poll = VotingPoll.objects.create(comp_1=comp_1, comp_2=comp_2)
+    poll = VotingPoll.objects.first()
     
     return CreatePoll(poll=poll)
 

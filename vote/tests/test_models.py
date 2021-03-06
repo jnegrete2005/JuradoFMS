@@ -15,7 +15,6 @@ class VoteTestCase(TestCase):
     self.assertEqual(comp.easy, [1,1,1,1,1,1,1,1,1])
     self.assertEqual(comp.hard, [1,1,1,1,1,1,1,1,1])
     self.assertEqual(comp.tematicas, [1,1,1,1,1,1,1])
-    self.assertEqual(comp.random_mode, 1)
     self.assertEqual(comp.random_score, [1,1,1,1,1,1,1,1,1])
     self.assertEqual(comp.min1, [1,1,1,1,1,1,1,1,1])
     self.assertEqual(comp.min2, [1,1,1,1,1,1,1,1,1])
