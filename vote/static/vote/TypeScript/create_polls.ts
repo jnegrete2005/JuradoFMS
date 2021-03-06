@@ -1,4 +1,4 @@
-import { addInputs, createAlert, getCookie, useModal } from "./util.js";
+import { addInputs, createAlert, createError, getCookie, useModal } from "./util.js";
 import { Competitor, VotingPoll } from "./types.js"
 import { prepareNavbar } from "./navbar.js";
 
@@ -67,7 +67,7 @@ function createPoll(event: Event):void {
     // Save it in local storage
     localStorage.setItem('comp_1', comp_1.serialize())
     localStorage.setItem('comp_2', comp_2.serialize())
-    localStorage.setItem('poll', poll.serialize())
+    localStorage.setItem('poll_id', poll.id.toString())
 
     // Hide and show the views
     document.getElementById('choose-comps').classList.add('visually-hidden')
@@ -95,10 +95,7 @@ function createPoll(event: Event):void {
     createAlert('Recuerda que los últimos 3 cuadritos siempre son para Skills, Flow y Puesta en escena')
   })
   .catch((err: Error) => {
-    if (err.stack === 'TypeError: Failed to fetch') {
-      err.message = 'Hubo un error en el proceso, intenta más tarde.'
-    }
-    useModal('Error', err.message);
+    createError(err)
   })
 }
 
