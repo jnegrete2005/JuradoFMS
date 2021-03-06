@@ -71,8 +71,6 @@ function saveMode(mode: string): Promise<void> {
     comp_1[mode] = data.data.saveModes.comp1.mode
     comp_2[mode] = data.data.saveModes.comp2.mode
 
-    console.log(comp_1, comp_2)
-
     localStorage.setItem('comp_1', comp_1.serialize())
     localStorage.setItem('comp_2', comp_2.serialize())
   })
@@ -82,8 +80,8 @@ function saveMode(mode: string): Promise<void> {
 }
 
 function nextMode(mode: string): void {
-  let comp_1: number[] | undefined = Competitor.unserialize(localStorage.getItem('comp_1'))[mode]
-  let comp_2: number[] | undefined = Competitor.unserialize(localStorage.getItem('comp_2'))[mode]
+  const comp_1: number[] | undefined = Competitor.unserialize(localStorage.getItem('comp_1'))[mode]
+  const comp_2: number[] | undefined = Competitor.unserialize(localStorage.getItem('comp_2'))[mode]
 
   function next(data: GetModes) {
     // Fill the inputs
@@ -126,6 +124,7 @@ function nextMode(mode: string): void {
     }
 
     next(data)
+    return
   }
 
   // Create the query
