@@ -64,7 +64,6 @@ function saveMode(mode) {
         .then((data) => {
         comp_1[mode] = data.data.saveModes.comp1.mode;
         comp_2[mode] = data.data.saveModes.comp2.mode;
-        console.log(comp_1, comp_2);
         localStorage.setItem('comp_1', comp_1.serialize());
         localStorage.setItem('comp_2', comp_2.serialize());
     })
@@ -73,8 +72,8 @@ function saveMode(mode) {
     });
 }
 function nextMode(mode) {
-    let comp_1 = Competitor.unserialize(localStorage.getItem('comp_1'))[mode];
-    let comp_2 = Competitor.unserialize(localStorage.getItem('comp_2'))[mode];
+    const comp_1 = Competitor.unserialize(localStorage.getItem('comp_1'))[mode];
+    const comp_2 = Competitor.unserialize(localStorage.getItem('comp_2'))[mode];
     function next(data) {
         // Fill the inputs
         if (data.data.comp1.mode.length !== 0 && data.data.comp1 !== undefined) {
@@ -111,6 +110,7 @@ function nextMode(mode) {
             }
         };
         next(data);
+        return;
     }
     // Create the query
     const query = `
