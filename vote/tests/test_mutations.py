@@ -37,7 +37,7 @@ class MutationsTestCase(GraphQLTestCase):
     )
 
     self.assertResponseNoErrors(query.response)
-    self.assertEqual(int(query.content['data']['createPoll']['poll']['id']), VotingPoll.objects.last().id)
+    self.assertEqual(int(query.content['data']['createPoll']['poll']['id']), VotingPoll.objects.first().id)
     self.assertEqual(query.content['data']['createPoll']['poll']['comp1']['name'], 'Si')
     self.assertEqual(query.content['data']['createPoll']['poll']['comp2']['name'], 'No')
 
