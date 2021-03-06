@@ -25,10 +25,6 @@ export function useModal(title, body) {
     });
 }
 export function addInputs(lenght, data, first = false) {
-    if (data) {
-        data.data.comp1.mode.reverse();
-        data.data.comp2.mode.reverse();
-    }
     if (!first) {
         Array.from(document.getElementsByClassName('inputs-container')).forEach((container, index) => {
             const comp = container.firstElementChild;
@@ -59,6 +55,10 @@ export function addInputs(lenght, data, first = false) {
                 input.classList.add('form-control', 'comp-2-input');
             }
             input.required = true;
+            input.min = '0';
+            input.max = '4';
+            input.step = '0.5';
+            input.maxLength = 3;
             container.append(input);
             // Populate inputs
             if (data) {
@@ -102,4 +102,24 @@ if (typeof (String.prototype.trim) === "undefined") {
 }
 export function getKeyByValue(object, value) {
     return Object.keys(object).find(key => object[key] === value);
+}
+export function createError(err) {
+    if (err.stack === 'TypeError: Failed to fetch') {
+        err.message = 'Hubo un error en el proceso, intenta más tarde.';
+    }
+    useModal('Error', err.message);
+}
+export function arraysMatch(arr1, arr2) {
+    // Check if the arrays are the same length
+    if (arr1.length !== arr2.length) {
+        return false;
+    }
+    // Check if all items exist and are in the same order
+    for (var i = 0; i < arr1.length; i++) {
+        if (arr1[i] !== arr2[i]) {
+            return false;
+        }
+    }
+    // Otherwise, return true
+    return true;
 }
