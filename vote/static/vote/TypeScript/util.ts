@@ -32,11 +32,6 @@ export function useModal(title: string, body: string):void {
 }
 
 export function addInputs(lenght: number, data?: GetModes, first=false) {
-  if (data) {
-    data.data.comp1.mode.reverse()
-    data.data.comp2.mode.reverse()
-  }
-
   if (!first) {
     Array.from(document.getElementsByClassName('inputs-container')).forEach((container: HTMLDivElement, index) => {
       const comp = container.firstElementChild
@@ -72,6 +67,11 @@ export function addInputs(lenght: number, data?: GetModes, first=false) {
       }
       
       input.required = true
+      input.min = '0'
+      input.max = '4'
+      input.step = '0.5'
+      input.maxLength = 3
+
       container.append(input)
 
       // Populate inputs
@@ -120,4 +120,28 @@ if (typeof(String.prototype.trim) === "undefined") {
 
 export function getKeyByValue(object: object, value: string | number) { 
   return Object.keys(object).find(key => object[key] === value); 
+}
+
+export function createError(err: Error): void {
+  if (err.stack === 'TypeError: Failed to fetch') {
+    err.message = 'Hubo un error en el proceso, intenta más tarde.'
+  }
+  useModal('Error', err.message);
+}
+
+export function arraysMatch(arr1: Array<any>, arr2: Array<any>): boolean {
+  // Check if the arrays are the same length
+	if (arr1.length !== arr2.length) { 
+    return false; 
+  }
+
+	// Check if all items exist and are in the same order
+	for (var i = 0; i < arr1.length; i++) {
+		if (arr1[i] !== arr2[i]) { 
+      return false; 
+    }
+	}
+
+	// Otherwise, return true
+	return true;
 }
