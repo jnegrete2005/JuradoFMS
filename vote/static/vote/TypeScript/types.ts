@@ -5,13 +5,6 @@ export class Competitor {
     public easy?: arr,
     public hard?: arr,
     public tematicas?: arr7,
-    public random_mode?: {
-      0?: 'Personajes contrapuestos'
-      1?: 'Objetos'
-      2?: 'Imágenes vaiadas'
-      3?: 'Terminaciones'
-      4?: 'Temática de actualidad'
-    },
     public random_score?: arr,
     public min1?: arr,
     public min2?: arr,
@@ -28,8 +21,8 @@ export class Competitor {
   }
 
   get_sum(mode: string) {
-    if (mode === 'name' || mode === 'random_mode') {
-      throw new Error('mode can\' be equal to \'name\' not \'random_mode\'');
+    if (mode === 'name') {
+      throw new Error('mode can\'t be equal to \'name\'');
     }
 
     let i = 0;
@@ -60,7 +53,6 @@ export class Competitor {
       easy: this.easy,
       hard: this.hard,
       tematicas: this.tematicas,
-      random_mode: this.random_mode,
       random_score: this.random_score,
       min1: this.min1,
       min2: this.min2,
@@ -71,7 +63,7 @@ export class Competitor {
 
   static unserialize(data: string) {
     const newData = JSON.parse(data)
-    return new Competitor(newData.id, newData.name, newData.easy, newData.hard, newData.tematicas, newData.random_mode, newData.random_score, newData.min1, newData.min2, newData.deluxe, newData.replica)
+    return new Competitor(newData.id, newData.name, newData.easy, newData.hard, newData.tematicas, newData.random_score, newData.min1, newData.min2, newData.deluxe, newData.replica)
   }
 }
 

@@ -6,7 +6,7 @@ from .models import Competitor, VotingPoll
 @admin.register(Competitor)
 class CompetitorAdmin(admin.ModelAdmin):
   list_display = (
-    'id', 'name', 'easy', 'hard', 'tematicas', 'random_mode', 'random_score', 'min1', 'min2', 'deluxe', 'replica'
+    'id', 'name', 'easy', 'hard', 'tematicas', 'random_score', 'min1', 'min2', 'deluxe', 'replica'
   )
 
 

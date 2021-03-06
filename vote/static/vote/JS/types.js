@@ -1,11 +1,10 @@
 export class Competitor {
-    constructor(_id, _name, easy, hard, tematicas, random_mode, random_score, min1, min2, deluxe, replica) {
+    constructor(_id, _name, easy, hard, tematicas, random_score, min1, min2, deluxe, replica) {
         this._id = _id;
         this._name = _name;
         this.easy = easy;
         this.hard = hard;
         this.tematicas = tematicas;
-        this.random_mode = random_mode;
         this.random_score = random_score;
         this.min1 = min1;
         this.min2 = min2;
@@ -19,8 +18,8 @@ export class Competitor {
         return this._name;
     }
     get_sum(mode) {
-        if (mode === 'name' || mode === 'random_mode') {
-            throw new Error('mode can\' be equal to \'name\' not \'random_mode\'');
+        if (mode === 'name') {
+            throw new Error('mode can\'t be equal to \'name\'');
         }
         let i = 0;
         this[mode].forEach((j) => {
@@ -46,7 +45,6 @@ export class Competitor {
             easy: this.easy,
             hard: this.hard,
             tematicas: this.tematicas,
-            random_mode: this.random_mode,
             random_score: this.random_score,
             min1: this.min1,
             min2: this.min2,
@@ -56,7 +54,7 @@ export class Competitor {
     }
     static unserialize(data) {
         const newData = JSON.parse(data);
-        return new Competitor(newData.id, newData.name, newData.easy, newData.hard, newData.tematicas, newData.random_mode, newData.random_score, newData.min1, newData.min2, newData.deluxe, newData.replica);
+        return new Competitor(newData.id, newData.name, newData.easy, newData.hard, newData.tematicas, newData.random_score, newData.min1, newData.min2, newData.deluxe, newData.replica);
     }
 }
 export class VotingPoll {

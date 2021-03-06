@@ -24,7 +24,6 @@ class Competitor(models.Model):
   easy = ArrayField(models.PositiveSmallIntegerField(), size=9, null=True, blank=True)
   hard = ArrayField(models.PositiveSmallIntegerField(), size=9, null=True, blank=True)
   tematicas = ArrayField(models.PositiveSmallIntegerField(), size=7, null=True, blank=True)
-  random_mode = models.IntegerField(choices=CHOICES, default=0, null=True, blank=True)
   random_score = ArrayField(models.PositiveSmallIntegerField(), size=9, null=True, blank=True)
   min1 = ArrayField(models.PositiveSmallIntegerField(), size=9, null=True, blank=True, verbose_name='minuto 1')
   min2 = ArrayField(models.PositiveSmallIntegerField(), size=9, null=True, blank=True, verbose_name='minuto 2')
@@ -32,7 +31,7 @@ class Competitor(models.Model):
   replica = ArrayField(models.PositiveSmallIntegerField(), size=9, null=True, blank=True)
 
   def get_sum(self, mode):
-    if mode == 'name' or mode == 'random_mode':
+    if mode == 'name':
       raise NameError(f'mode can\'t be equal to {mode}')
 
     i = 0 
