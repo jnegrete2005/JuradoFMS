@@ -1,7 +1,17 @@
 import { prepareNavbar } from "./navbar.js";
-import { VotingPoll, modes_aliases } from "./types.js";
-import { addInputs, createAlert, getCookie } from "./util.js";
+import { modes_aliases, Competitor } from "./types.js";
+import { addInputs, arraysMatch, createAlert, createError, getCookie } from "./util.js";
 function saveMode(mode) {
+    let comp_1 = Competitor.unserialize(localStorage.getItem('comp_1'));
+    let comp_2 = Competitor.unserialize(localStorage.getItem('comp_2'));
+    // Get the values
+    const value1 = Array.from(document.getElementsByClassName('comp-1-input')).map(returnValueOr9);
+    const value2 = Array.from(document.getElementsByClassName('comp-2-input')).map(returnValueOr9);
+    if (comp_1[mode] && comp_2[mode]) {
+        if (arraysMatch(comp_1[mode], value1) && arraysMatch(comp_2[mode], value2)) {
+            return;
+        }
+    }
     // Create the mutation
     const mutation = `
     mutation SaveModes($id: ID!, $mode: String!, $value1: [Int]!, $value2: [Int]!) {
@@ -27,9 +37,6 @@ function saveMode(mode) {
         }
         return validInput(parseInt(el.value)) ? parseInt(el.value) : 9;
     }
-    // Get the values
-    const value1 = Array.from(document.getElementsByClassName('comp-1-input')).map(returnValueOr9);
-    const value2 = Array.from(document.getElementsByClassName('comp-2-input')).map(returnValueOr9);
     // Fetch
     fetch('/graphql/', {
         method: 'POST',
@@ -41,15 +48,70 @@ function saveMode(mode) {
         body: JSON.stringify({
             query: mutation,
             variables: {
-                "id": VotingPoll.unserialize(localStorage.getItem('poll')).id,
+                "id": parseInt(localStorage.getItem('poll_id')),
                 "mode": mode,
                 value1,
                 value2,
             }
         })
+    })
+        .then(response => {
+        if (!response.ok) {
+            throw Error(`${response.statusText} - ${response.url}`);
+        }
+        return response.json();
+    })
+        .then((data) => {
+        comp_1[mode] = data.data.saveModes.comp1.mode;
+        comp_2[mode] = data.data.saveModes.comp2.mode;
+        console.log(comp_1, comp_2);
+        localStorage.setItem('comp_1', comp_1.serialize());
+        localStorage.setItem('comp_2', comp_2.serialize());
+    })
+        .catch((err) => {
+        createError(err);
     });
 }
 function nextMode(mode) {
+    let comp_1 = Competitor.unserialize(localStorage.getItem('comp_1'))[mode];
+    let comp_2 = Competitor.unserialize(localStorage.getItem('comp_2'))[mode];
+    function next(data) {
+        // Fill the inputs
+        if (data.data.comp1.mode.length !== 0 && data.data.comp1 !== undefined) {
+            addInputs(data.data.comp1.mode.length, data);
+        }
+        else {
+            switch (mode) {
+                case 'tematicas':
+                    addInputs(7);
+                    break;
+                case 'deluxe':
+                    addInputs(14);
+                    break;
+                default:
+                    addInputs(9);
+                    break;
+            }
+        }
+        // Refresh the alert
+        createAlert('Recuerda que los últimos 3 cuadritos siempre son para Skills, Flow y Puesta en escena');
+        // Fill the heading with the mode
+        document.getElementById('mode').dataset.current_mode = mode;
+        document.getElementById('mode').innerHTML = modes_aliases[mode];
+    }
+    if (comp_1 && comp_2) {
+        const data = {
+            data: {
+                comp1: {
+                    mode: comp_1
+                },
+                comp2: {
+                    mode: comp_2
+                }
+            }
+        };
+        next(data);
+    }
     // Create the query
     const query = `
     query GetModes($id1: ID!, $id2: ID!, $mode: String!) {
@@ -86,46 +148,28 @@ function nextMode(mode) {
         return response.json();
     })
         .then((data) => {
-        // Fill the inputs
-        if (data.data.comp1.mode.length !== 0 && data.data.comp1 !== undefined) {
-            addInputs(data.data.comp1.mode.length, data);
-        }
-        else {
-            switch (mode) {
-                case 'tematicas':
-                    addInputs(7);
-                    break;
-                case 'deluxe':
-                    addInputs(14);
-                    break;
-                default:
-                    addInputs(9);
-                    break;
-            }
-        }
-        // Refresh the alert
-        createAlert('Recuerda que los últimos 3 cuadritos siempre son para Skills, Flow y Puesta en escena');
-        // Fill the heading with the mode
-        document.getElementById('mode').dataset.current_mode = mode;
-        document.getElementById('mode').innerHTML = modes_aliases[mode];
+        next(data);
     });
 }
 function prepareBtns(mode) {
     const previous = document.getElementById('previous');
+    const next = document.getElementById('next');
     switch (mode) {
         case 'easy':
             previous.disabled = true;
             previous.classList.add('disabled');
+            next.value = 'Siguiente';
             break;
         case 'deluxe':
         case 'replica':
-            document.getElementById('next').value = 'Terminar';
+            next.value = 'Terminar';
             previous.disabled = false;
             previous.classList.remove('disabled');
             break;
         default:
             previous.disabled = false;
             previous.classList.remove('disabled');
+            next.value = 'Siguiente';
             break;
     }
 }
