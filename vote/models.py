@@ -21,14 +21,14 @@ class Competitor(models.Model):
   )
 
   name = models.CharField(max_length=20)
-  easy = ArrayField(models.PositiveSmallIntegerField(), size=9, null=True, blank=True)
-  hard = ArrayField(models.PositiveSmallIntegerField(), size=9, null=True, blank=True)
-  tematicas = ArrayField(models.PositiveSmallIntegerField(), size=7, null=True, blank=True)
-  random_score = ArrayField(models.PositiveSmallIntegerField(), size=9, null=True, blank=True)
+  easy = ArrayField(models.PositiveSmallIntegerField(), size=9, null=True, blank=True, verbose_name='Easy Mode')
+  hard = ArrayField(models.PositiveSmallIntegerField(), size=9, null=True, blank=True, verbose_name='Hard Mode')
+  tematicas = ArrayField(models.PositiveSmallIntegerField(), size=7, null=True, blank=True, verbose_name='Tematicas')
+  random_score = ArrayField(models.PositiveSmallIntegerField(), size=9, null=True, blank=True, verbose_name='Random Mode')
   min1 = ArrayField(models.PositiveSmallIntegerField(), size=9, null=True, blank=True, verbose_name='minuto 1')
   min2 = ArrayField(models.PositiveSmallIntegerField(), size=9, null=True, blank=True, verbose_name='minuto 2')
-  deluxe = ArrayField(models.PositiveSmallIntegerField(), size=14, null=True, blank=True)
-  replica = ArrayField(models.PositiveSmallIntegerField(), size=9, null=True, blank=True)
+  deluxe = ArrayField(models.PositiveSmallIntegerField(), size=14, null=True, blank=True, verbose_name='Deluxe')
+  replica = ArrayField(models.PositiveSmallIntegerField(), size=9, null=True, blank=True, verbose_name='Replica')
 
   def get_sum(self, mode):
     if mode == 'name':
