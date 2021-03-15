@@ -122,3 +122,4 @@ export const modes_aliases = {
     deluxe: 'Deluxe',
     replica: 'Réplica'
 };
+//# sourceMappingURL=classes.js.map

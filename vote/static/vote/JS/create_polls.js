@@ -84,3 +84,4 @@ function createPoll(event) {
         createError(err);
     });
 }
+//# sourceMappingURL=create_polls.js.map
