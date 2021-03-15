@@ -29,3 +29,4 @@ export function fillTable() {
     // Fill the winner
     document.getElementById('winner').innerHTML = VotingPoll.unserialize(localStorage.getItem('poll')).get_winner();
 }
+//# sourceMappingURL=end.js.map

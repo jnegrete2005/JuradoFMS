@@ -20,3 +20,4 @@ export function prepareNavbar(mode, replica) {
         });
     }
 }
+//# sourceMappingURL=navbar.js.map
