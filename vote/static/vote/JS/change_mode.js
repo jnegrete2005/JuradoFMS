@@ -1,5 +1,5 @@
 import { prepareNavbar } from "./navbar.js";
-import { VotingPoll, modes_aliases, Competitor } from "./types.js";
+import { VotingPoll, modes_aliases, Competitor } from "./classes.js";
 import { addInputs, arraysMatch, createAlert, createError, getCookie } from "./util.js";
 async function saveMode(mode) {
     let comp_1 = Competitor.unserialize(localStorage.getItem('comp_1'));
