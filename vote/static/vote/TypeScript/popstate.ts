@@ -5,8 +5,7 @@ window.onpopstate = (event: PopStateEvent) => {
   if (event.state) {
     if (event.state.start) {
       prepareNavbar('easy')
-    }
-    if (event.state.new_mode) {
+    } else if (event.state.new_mode) {
       changeMode(event.state.old_mode, event.state.new_mode)
     }
   }
