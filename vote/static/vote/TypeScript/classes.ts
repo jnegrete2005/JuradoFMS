@@ -1,3 +1,5 @@
+import type { arr, arr7, arr14 } from './types'
+
 export class Competitor {
   constructor(
     private _id: number,
@@ -27,7 +29,7 @@ export class Competitor {
 
     let i = 0;
 
-    (<number[]>this[mode]).forEach((j: number) => {
+    this[mode].forEach((j: number) => {
       if (j !== 9) {
         i += j
       }
@@ -86,6 +88,31 @@ export class VotingPoll {
     return this._comp_2;
   }
 
+  get_winner(replica=false): string {
+    const comp_1 = this.comp_1
+    const comp_2 = this.comp_2
+
+    // Case replica
+    if (replica) {
+      if (comp_1.get_sum('replica') === comp_2.get_sum('replica') || Math.abs(comp_1.get_sum('replica') - comp_2.get_sum('replica')) < 6) {
+        return 'Réplica'
+      }
+
+      const max_num = Math.max(comp_1.get_sum('replica'), comp_2.get_sum('replica'))
+
+      return max_num === comp_1.get_sum('replica') ? comp_1.name : comp_2.name
+    }
+
+    // Normal case
+    if (comp_1.get_total() === comp_2.get_total() || Math.abs(comp_1.get_total() - comp_2.get_total()) < 6) {
+      return 'Réplica' 
+    }
+
+    const max_num = Math.max(comp_1.get_total(), comp_2.get_total())
+
+    return max_num === comp_1.get_total() ? comp_1.name : comp_2.name
+  }
+
   serialize() {
     return JSON.stringify({
       id: this._id,
@@ -97,39 +124,6 @@ export class VotingPoll {
   static unserialize(data: string) {
     const newData = JSON.parse(data)
     return new VotingPoll(newData.id, newData.comp_1, newData.comp_2)
-  }
-}
-
-type FixedSizeArray<N extends number, T> = N extends 0 ? never[] : {
-  0: T;
-  length: N;
-} & ReadonlyArray<T>;
-
-type arr = FixedSizeArray<9, number>
-type arr7 = FixedSizeArray<7, number>
-type arr14 = FixedSizeArray<14, number>
-
-export type GetModes = {
-  data: {
-    comp1: {
-      mode: number[]
-    },
-    comp2: {
-      mode: number[]
-    }
-  }
-}
-
-export type SaveModes = {
-  data: {
-    saveModes: {
-      comp1: {
-        mode: number[]
-      },
-      comp2: {
-        mode: number[]
-      }
-    }
   }
 }
 
