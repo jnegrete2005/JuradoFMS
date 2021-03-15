@@ -6,5 +6,5 @@
     "outDir": "../JS/",
     "moduleResolution": "node"
   },
-  "exclude": [""],
+  "exclude": ["types.ts",],
 }
