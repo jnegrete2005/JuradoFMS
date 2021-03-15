@@ -1,7 +1,7 @@
 import { prepareNavbar } from "./navbar.js";
-import { modes_aliases, Competitor } from "./types.js";
+import { VotingPoll, modes_aliases, Competitor } from "./types.js";
 import { addInputs, arraysMatch, createAlert, createError, getCookie } from "./util.js";
-function saveMode(mode) {
+async function saveMode(mode) {
     let comp_1 = Competitor.unserialize(localStorage.getItem('comp_1'));
     let comp_2 = Competitor.unserialize(localStorage.getItem('comp_2'));
     // Get the values
@@ -38,7 +38,7 @@ function saveMode(mode) {
         return validInput(parseInt(el.value)) ? parseInt(el.value) : 9;
     }
     // Fetch
-    fetch('/graphql/', {
+    await fetch('/graphql/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -48,7 +48,7 @@ function saveMode(mode) {
         body: JSON.stringify({
             query: mutation,
             variables: {
-                "id": parseInt(localStorage.getItem('poll_id')),
+                "id": VotingPoll.unserialize(localStorage.getItem('poll')).id,
                 "mode": mode,
                 value1,
                 value2,
@@ -62,13 +62,19 @@ function saveMode(mode) {
         return response.json();
     })
         .then((data) => {
-        comp_1[mode] = data.data.saveModes.comp1.mode;
-        comp_2[mode] = data.data.saveModes.comp2.mode;
+        if (data.errors) {
+            throw Error(data.errors[0].message);
+        }
+        const saveModes = data;
+        comp_1[mode] = saveModes.data.saveModes.comp1.mode;
+        comp_2[mode] = saveModes.data.saveModes.comp2.mode;
         localStorage.setItem('comp_1', comp_1.serialize());
         localStorage.setItem('comp_2', comp_2.serialize());
+        return true;
     })
         .catch((err) => {
         createError(err);
+        return false;
     });
 }
 function nextMode(mode) {
@@ -149,6 +155,9 @@ function nextMode(mode) {
     })
         .then((data) => {
         next(data);
+    })
+        .catch((err) => {
+        createError(err);
     });
 }
 function prepareBtns(mode) {
@@ -173,8 +182,10 @@ function prepareBtns(mode) {
             break;
     }
 }
-export function changeMode(old_mode, new_mode) {
-    saveMode(old_mode);
+export async function changeMode(old_mode, new_mode) {
+    if (!await saveMode(old_mode)) {
+        return;
+    }
     nextMode(new_mode);
     prepareBtns(new_mode);
     prepareNavbar(new_mode);
