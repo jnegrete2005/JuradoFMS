@@ -59,7 +59,7 @@ function createPoll(event) {
         // Save it in local storage
         localStorage.setItem('comp_1', comp_1.serialize());
         localStorage.setItem('comp_2', comp_2.serialize());
-        localStorage.setItem('poll_id', poll.id.toString());
+        localStorage.setItem('poll', poll.serialize());
         // Hide and show the views
         document.getElementById('choose-comps').classList.add('visually-hidden');
         document.getElementById('poll-container').classList.remove('visually-hidden');
