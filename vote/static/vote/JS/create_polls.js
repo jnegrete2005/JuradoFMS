@@ -1,5 +1,5 @@
 import { addInputs, createAlert, createError, getCookie } from "./util.js";
-import { Competitor, VotingPoll } from "./types.js";
+import { Competitor, VotingPoll } from "./classes.js";
 import { prepareNavbar } from "./navbar.js";
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('comps-form').addEventListener('submit', (event) => createPoll(event));
