@@ -10,3 +10,4 @@ window.onpopstate = (event) => {
         }
     }
 };
+//# sourceMappingURL=popstate.js.map

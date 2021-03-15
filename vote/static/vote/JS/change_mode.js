@@ -190,3 +190,4 @@ export async function changeMode(old_mode, new_mode) {
     prepareBtns(new_mode);
     prepareNavbar(new_mode);
 }
+//# sourceMappingURL=change_mode.js.map
