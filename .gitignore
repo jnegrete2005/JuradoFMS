@@ -1,4 +1,5 @@
 **__pycache__
+*.map
 *.pyc
 bfg.jar
 Jurado FMS.html
