@@ -1,8 +1,10 @@
 import { prepareNavbar } from "./navbar.js";
-import { GetModes, VotingPoll, modes_aliases, Competitor, SaveModes } from "./types.js";
+import { VotingPoll, modes_aliases, Competitor } from "./classes.js";
 import { addInputs, arraysMatch, createAlert, createError, getCookie } from "./util.js";
 
-function saveMode(mode: string): Promise<void> {
+import type { GraphqlError, SaveModes, GetModes } from './types';
+
+async function saveMode(mode: string): Promise<boolean> {
   let comp_1 = Competitor.unserialize(localStorage.getItem('comp_1'))
   let comp_2 = Competitor.unserialize(localStorage.getItem('comp_2'))
 
@@ -44,7 +46,7 @@ function saveMode(mode: string): Promise<void> {
   }
 
   // Fetch
-  fetch('/graphql/', {
+  await fetch('/graphql/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -54,7 +56,7 @@ function saveMode(mode: string): Promise<void> {
     body: JSON.stringify({
       query: mutation,
       variables: {
-        "id": parseInt(localStorage.getItem('poll_id')),
+        "id": VotingPoll.unserialize(localStorage.getItem('poll')).id,
         "mode": mode,
         value1,
         value2,
@@ -67,21 +69,30 @@ function saveMode(mode: string): Promise<void> {
     }
     return response.json();
   })
-  .then((data: SaveModes) => {
-    comp_1[mode] = data.data.saveModes.comp1.mode
-    comp_2[mode] = data.data.saveModes.comp2.mode
+  .then((data: GraphqlError) => {
+    if (data.errors) {
+      throw Error(data.errors[0].message)
+    }
+
+    const saveModes = <SaveModes>data
+
+    comp_1[mode] = saveModes.data.saveModes.comp1.mode
+    comp_2[mode] = saveModes.data.saveModes.comp2.mode
 
     localStorage.setItem('comp_1', comp_1.serialize())
     localStorage.setItem('comp_2', comp_2.serialize())
+
+    return true
   })
   .catch((err: Error) => {
     createError(err)
+    return false
   })
 }
 
 function nextMode(mode: string): void {
-  const comp_1: number[] | undefined = Competitor.unserialize(localStorage.getItem('comp_1'))[mode]
-  const comp_2: number[] | undefined = Competitor.unserialize(localStorage.getItem('comp_2'))[mode]
+  const comp_1: Array<number> | undefined = Competitor.unserialize(localStorage.getItem('comp_1'))[mode]
+  const comp_2: Array<number> | undefined = Competitor.unserialize(localStorage.getItem('comp_2'))[mode]
 
   function next(data: GetModes) {
     // Fill the inputs
@@ -166,6 +177,9 @@ function nextMode(mode: string): void {
   .then((data: GetModes) => {
     next(data)
   })
+  .catch((err: Error) => {
+    createError(err)
+  })
 }
 
 function prepareBtns(mode: string): void {
@@ -193,9 +207,9 @@ function prepareBtns(mode: string): void {
     }
 }
 
-export function changeMode(old_mode: string, new_mode: string): void {
-  saveMode(old_mode);
-  nextMode(new_mode);
+export async function changeMode(old_mode: string, new_mode: string): Promise<void> {
+  if (!await saveMode(old_mode)) { return }
+  nextMode(new_mode)
   prepareBtns(new_mode);
   prepareNavbar(new_mode);
 }
