@@ -1,5 +1,5 @@
 import { getKeyByValue } from "./util.js";
-import { modes_to_int } from "./types.js";
+import { modes_to_int } from "./classes.js";
 import { changeMode } from "./change_mode.js";
 import { fillTable } from "./end.js";
 document.addEventListener('DOMContentLoaded', () => addListeners());
