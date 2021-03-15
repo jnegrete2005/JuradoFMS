@@ -1,4 +1,4 @@
-import { GetModes } from "./types.js";
+import type { GetModes } from './types'
 
 export function getCookie(name: string): string {
   let cookieValue: null | string = null;

@@ -1,6 +1,8 @@
-import { addInputs, createAlert, createError, getCookie, useModal } from "./util.js";
-import { Competitor, VotingPoll } from "./types.js"
+import { addInputs, createAlert, createError, getCookie } from "./util.js";
+import { Competitor, VotingPoll } from "./classes.js"
 import { prepareNavbar } from "./navbar.js";
+
+import type { CreatePoll } from './types'
 
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('comps-form').addEventListener('submit', (event) => createPoll(event))
@@ -67,7 +69,7 @@ function createPoll(event: Event):void {
     // Save it in local storage
     localStorage.setItem('comp_1', comp_1.serialize())
     localStorage.setItem('comp_2', comp_2.serialize())
-    localStorage.setItem('poll_id', poll.id.toString())
+    localStorage.setItem('poll', poll.serialize())
 
     // Hide and show the views
     document.getElementById('choose-comps').classList.add('visually-hidden')
@@ -97,22 +99,4 @@ function createPoll(event: Event):void {
   .catch((err: Error) => {
     createError(err)
   })
-}
-
-type CreatePoll = {
-  data: {
-    createPoll: {
-      poll: {
-        id: number
-        comp1: {
-          id: number
-          name: string
-        }
-        comp2: {
-          id: number
-          name: string
-        }
-      }
-    }
-  }
 }
