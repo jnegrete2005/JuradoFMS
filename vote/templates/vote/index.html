@@ -22,8 +22,10 @@
   <script src="{% static 'vote/JS/types.js' %}" type="module"></script>
   <script src="{% static 'vote/JS/add_listeners.js' %}" type="module"></script>
   <script src="{% static 'vote/JS/change_mode.js' %}" type="module"></script>
+  <script src="{% static 'vote/JS/end.js' %}" type="module"></script>
 </head>
 <body>
+  <!-- Error modal -->
   <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -85,6 +87,8 @@
     </div>
   </nav>
 
+
+  <!-- Main -->
   <div class="container-xl">
     <div id="choose-comps" class="mb-5 mt-5">
       <form class="needs-validation" id="comps-form" novalidate>
@@ -115,9 +119,10 @@
         </div>
       </form>
     </div>
-    
+
+
+    <!-- Poll -->
     <div id="poll-container" class="visually-hidden">
-    
       <div class="mb-4 mt-3">
         <h1 class="fw-normal" id="mode" data-current_mode="">Easy Mode</h1>
       </div>
@@ -155,6 +160,52 @@
       <div id="alert-container" class="mt-5">
 
       </div>
+    </div>
+
+    <!-- Results -->
+    <div id="results-container" class="table-responsive visually-hidden">
+      <table class="table table-bordered mt-5">
+        <thead>
+          <tr>
+            <th class="text-center align-middle" scope="col">Gallo</th>
+            <th class="text-center align-middle" scope="col">Easy</th>
+            <th class="text-center align-middle" scope="col">Hard</th>
+            <th class="text-center align-middle" scope="col">Temáticas</th>
+            <th class="text-center align-middle" scope="col">Random</th>
+            <th class="text-center align-middle" scope="col">Minuto 1</th>
+            <th class="text-center align-middle" scope="col">Minuto 2</th>
+            <th class="text-center align-middle" scope="col">Deluxe</th>
+            <th class="text-center align-middle" scope="col">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th class="text-center comp-1-table" scope="row"></th>
+            <td class="text-center comp-1-table"></td>
+            <td class="text-center comp-1-table"></td>
+            <td class="text-center comp-1-table"></td>
+            <td class="text-center comp-1-table"></td>
+            <td class="text-center comp-1-table"></td>
+            <td class="text-center comp-1-table"></td>
+            <td class="text-center comp-1-table"></td>
+            <td class="text-center comp-1-table"></td>
+          </tr>
+          <tr>
+            <th class="text-center comp-2-table" scope="row"></th>
+            <td class="text-center comp-2-table"></td>
+            <td class="text-center comp-2-table"></td>
+            <td class="text-center comp-2-table"></td>
+            <td class="text-center comp-2-table"></td>
+            <td class="text-center comp-2-table"></td>
+            <td class="text-center comp-2-table"></td>
+            <td class="text-center comp-2-table"></td>
+            <td class="text-center comp-2-table"></td>
+          </tr>
+          <tr>
+            <th id="winner" class="text-center" scope="row" colspan="9"></th>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
