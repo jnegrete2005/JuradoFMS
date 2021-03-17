@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => addListeners());
 
 function addListeners(): void {
   Array.from(document.getElementsByClassName('listen')).forEach((el: HTMLAnchorElement | HTMLInputElement) => {
-    el.addEventListener('click', (event: Event) => {
+    el.addEventListener('click', async (event: Event) => {
       event.preventDefault();
 
       const mode_el = document.getElementById('mode');
@@ -21,6 +21,7 @@ function addListeners(): void {
 
       if (new_mode === 'replica') {
         history.pushState({ end: true }, '', '#end');
+        await changeMode(old_mode, null);
         fillTable();
         return;
       }
