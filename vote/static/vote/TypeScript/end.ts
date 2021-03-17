@@ -1,37 +1,39 @@
-import { Competitor, VotingPoll } from "./classes.js";
+import { Competitor, VotingPoll } from './classes.js';
 
 export function fillTable(): void {
   // Make the table visible
-  document.getElementById('results-container').classList.remove('visually-hidden')
+  document.getElementById('results-container').classList.remove('visually-hidden');
 
   // Get the comps
-  const comp_1 = Competitor.unserialize(localStorage.getItem('comp_1'))
-  const comp_2 = Competitor.unserialize(localStorage.getItem('comp_2'))
+  const comp_1 = Competitor.unserialize(localStorage.getItem('comp_1'));
+  const comp_2 = Competitor.unserialize(localStorage.getItem('comp_2'));
 
   let mode: string;
 
   // Fill the table
   for (let i = 0; i < 2; i++) {
-    Array.from(document.getElementsByClassName(`comp-${i + 1}-table`)).forEach((el: HTMLTableHeaderCellElement | HTMLTableDataCellElement, j) => {
-      if (i === 0) {
-        if (j === 0) {
-          el.innerHTML = comp_1.name
-          return
-        }
+    Array.from(document.getElementsByClassName(`comp-${i + 1}-table`)).forEach(
+      (el: HTMLTableHeaderCellElement | HTMLTableDataCellElement, j) => {
+        if (i === 0) {
+          if (j === 0) {
+            el.innerHTML = comp_1.name;
+            return;
+          }
 
-        mode = Object.keys(comp_1)[j]
+          mode = Object.keys(comp_1)[j];
 
-        el.innerHTML = comp_1.get_sum(mode).toString()
-      } else {
-        if (j === 0) {
-          el.innerHTML = comp_2.name
-          return
+          el.innerHTML = comp_1.get_sum(mode).toString();
+        } else {
+          if (j === 0) {
+            el.innerHTML = comp_2.name;
+            return;
+          }
+          el.innerHTML = comp_2.get_sum(Object.keys(comp_2)[j]).toString();
         }
-        el.innerHTML = comp_2.get_sum(Object.keys(comp_2)[j]).toString()
       }
-    })  
+    );
   }
 
   // Fill the winner
-  document.getElementById('winner').innerHTML = VotingPoll.unserialize(localStorage.getItem('poll')).get_winner()
+  document.getElementById('winner').innerHTML = VotingPoll.unserialize(localStorage.getItem('poll')).get_winner();
 }

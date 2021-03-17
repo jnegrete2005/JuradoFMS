@@ -1,23 +1,23 @@
-import { prepareNavbar } from "./navbar.js";
-import { VotingPoll, modes_aliases, Competitor } from "./classes.js";
-import { addInputs, arraysMatch, createAlert, createError, getCookie } from "./util.js";
+import { prepareNavbar } from './navbar.js';
+import { VotingPoll, modes_aliases, Competitor } from './classes.js';
+import { addInputs, arraysMatch, createAlert, createError, getCookie } from './util.js';
 
 import type { GraphqlError, SaveModes, GetModes } from './types';
 
 async function saveMode(mode: string): Promise<boolean> {
-  let comp_1 = Competitor.unserialize(localStorage.getItem('comp_1'))
-  let comp_2 = Competitor.unserialize(localStorage.getItem('comp_2'))
+  let comp_1 = Competitor.unserialize(localStorage.getItem('comp_1'));
+  let comp_2 = Competitor.unserialize(localStorage.getItem('comp_2'));
 
   // Get the values
-  const value1 = Array.from(document.getElementsByClassName('comp-1-input')).map(returnValueOr9)
-  const value2 = Array.from(document.getElementsByClassName('comp-2-input')).map(returnValueOr9)
+  const value1 = Array.from(document.getElementsByClassName('comp-1-input')).map(returnValueOr9);
+  const value2 = Array.from(document.getElementsByClassName('comp-2-input')).map(returnValueOr9);
 
   if (comp_1[mode] && comp_2[mode]) {
     if (arraysMatch(comp_1[mode], value1) && arraysMatch(comp_2[mode], value2)) {
-      return true
+      return true;
     }
   }
-  
+
   // Create the mutation
   const mutation = `
     mutation SaveModes($id: ID!, $mode: String!, $value1: [Int]!, $value2: [Int]!) {
@@ -30,19 +30,19 @@ async function saveMode(mode: string): Promise<boolean> {
         }
       }
     }
-  `
+  `;
 
   // Returns the value of the input. If invalid, returns 9
   function returnValueOr9(el: HTMLInputElement): number {
     function validInput(inp: number | undefined): boolean {
       if (!inp || inp < 0 || inp > 4) {
-        return false
+        return false;
       } else {
-        return true
+        return true;
       }
     }
-    
-    return validInput(parseInt(el.value)) ? parseInt(el.value) : 9
+
+    return validInput(parseInt(el.value)) ? parseInt(el.value) : 9;
   }
 
   // Fetch
@@ -50,94 +50,94 @@ async function saveMode(mode: string): Promise<boolean> {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'X-CSRFToken': getCookie('csrftoken')
+      Accept: 'application/json',
+      'X-CSRFToken': getCookie('csrftoken'),
     },
     body: JSON.stringify({
       query: mutation,
       variables: {
-        "id": VotingPoll.unserialize(localStorage.getItem('poll')).id,
-        "mode": mode,
+        id: VotingPoll.unserialize(localStorage.getItem('poll')).id,
+        mode: mode,
         value1,
         value2,
+      },
+    }),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw Error(`${response.statusText} - ${response.url}`);
       }
+      return response.json();
     })
-  })
-  .then(response => {
-    if (!response.ok) {
-      throw Error(`${response.statusText} - ${response.url}`);
-    }
-    return response.json();
-  })
-  .then((data: GraphqlError) => {
-    if (data.errors) {
-      throw Error(data.errors[0].message)
-    }
+    .then((data: GraphqlError) => {
+      if (data.errors) {
+        throw Error(data.errors[0].message);
+      }
 
-    const saveModes = <SaveModes>data
+      const saveModes = <SaveModes>data;
 
-    comp_1[mode] = saveModes.data.saveModes.comp1.mode
-    comp_2[mode] = saveModes.data.saveModes.comp2.mode
+      comp_1[mode] = saveModes.data.saveModes.comp1.mode;
+      comp_2[mode] = saveModes.data.saveModes.comp2.mode;
 
-    localStorage.setItem('comp_1', comp_1.serialize())
-    localStorage.setItem('comp_2', comp_2.serialize())
+      localStorage.setItem('comp_1', comp_1.serialize());
+      localStorage.setItem('comp_2', comp_2.serialize());
 
-    return true;
-  })
-  .catch((err: Error) => {
-    createError(err)
-    return false;
-  })
+      return true;
+    })
+    .catch((err: Error) => {
+      createError(err);
+      return false;
+    });
 
   return result;
 }
 
 function nextMode(mode: string): void {
-  const comp_1: Array<number> | undefined = Competitor.unserialize(localStorage.getItem('comp_1'))[mode]
-  const comp_2: Array<number> | undefined = Competitor.unserialize(localStorage.getItem('comp_2'))[mode]
+  const comp_1: Array<number> | undefined = Competitor.unserialize(localStorage.getItem('comp_1'))[mode];
+  const comp_2: Array<number> | undefined = Competitor.unserialize(localStorage.getItem('comp_2'))[mode];
 
   function next(data: GetModes) {
     // Fill the inputs
     if (data.data.comp1.mode.length !== 0 && data.data.comp1 !== undefined) {
-      addInputs(data.data.comp1.mode.length, data)
+      addInputs(data.data.comp1.mode.length, data);
     } else {
       switch (mode) {
         case 'tematicas':
-          addInputs(7)
-          break
+          addInputs(7);
+          break;
 
         case 'deluxe':
-          addInputs(14)
-          break
+          addInputs(14);
+          break;
 
         default:
-          addInputs(9)
-          break
+          addInputs(9);
+          break;
       }
     }
 
     // Refresh the alert
-    createAlert('Recuerda que los últimos 3 cuadritos siempre son para Skills, Flow y Puesta en escena')
-    
+    createAlert('Recuerda que los últimos 3 cuadritos siempre son para Skills, Flow y Puesta en escena');
+
     // Fill the heading with the mode
-    document.getElementById('mode').dataset.current_mode = mode
-    document.getElementById('mode').innerHTML = modes_aliases[mode]
+    document.getElementById('mode').dataset.current_mode = mode;
+    document.getElementById('mode').innerHTML = modes_aliases[mode];
   }
 
   if (comp_1 && comp_2) {
     const data: GetModes = {
       data: {
         comp1: {
-          mode: comp_1
+          mode: comp_1,
         },
         comp2: {
-          mode: comp_2
-        }
-      }
-    }
+          mode: comp_2,
+        },
+      },
+    };
 
-    next(data)
-    return
+    next(data);
+    return;
   }
 
   // Create the query
@@ -150,68 +150,70 @@ function nextMode(mode: string): void {
         mode
       }
     }
-  `
+  `;
 
   // Fetch
   fetch('/graphql/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'X-CSRFToken': getCookie('csrftoken')
+      Accept: 'application/json',
+      'X-CSRFToken': getCookie('csrftoken'),
     },
     body: JSON.stringify({
       query,
       variables: {
         id1: JSON.parse(localStorage.getItem('comp_1')).id,
         id2: JSON.parse(localStorage.getItem('comp_2')).id,
-        mode: mode
-      }
+        mode: mode,
+      },
     }),
-    credentials: 'include'
+    credentials: 'include',
   })
-  .then(response => {
-    if (!response.ok) {
-      throw Error(`${response.statusText} - ${response.url}`);
-    }
-    return response.json()
-  })
-  .then((data: GetModes) => {
-    next(data)
-  })
-  .catch((err: Error) => {
-    createError(err)
-  })
+    .then((response) => {
+      if (!response.ok) {
+        throw Error(`${response.statusText} - ${response.url}`);
+      }
+      return response.json();
+    })
+    .then((data: GetModes) => {
+      next(data);
+    })
+    .catch((err: Error) => {
+      createError(err);
+    });
 }
 
 function prepareBtns(mode: string): void {
-  const previous = <HTMLButtonElement>document.getElementById('previous')
-  const next = <HTMLButtonElement>document.getElementById('next')
+  const previous = <HTMLButtonElement>document.getElementById('previous');
+  const next = <HTMLButtonElement>document.getElementById('next');
   switch (mode) {
     case 'easy':
-      previous.disabled = true
-      previous.classList.add('disabled')
-      next.value = 'Siguiente'
+      previous.disabled = true;
+      previous.classList.add('disabled');
+      next.value = 'Siguiente';
       break;
-  
+
     case 'deluxe':
     case 'replica':
       next.value = 'Terminar';
       previous.disabled = false;
-      previous.classList.remove('disabled')
+      previous.classList.remove('disabled');
       break;
 
     default:
       previous.disabled = false;
-      previous.classList.remove('disabled')
-      next.value = 'Siguiente'
+      previous.classList.remove('disabled');
+      next.value = 'Siguiente';
       break;
-    }
+  }
 }
 
 export async function changeMode(old_mode: string, new_mode: string): Promise<void> {
-  if (!await saveMode(old_mode)) { return }
-  nextMode(new_mode)
+  if (!(await saveMode(old_mode))) {
+    return;
+  }
+  nextMode(new_mode);
   prepareBtns(new_mode);
   prepareNavbar(new_mode);
 }

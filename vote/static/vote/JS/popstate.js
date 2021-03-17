@@ -1,5 +1,5 @@
-import { prepareNavbar } from "./navbar.js";
-import { changeMode } from "./change_mode.js";
+import { prepareNavbar } from './navbar.js';
+import { changeMode } from './change_mode.js';
 window.onpopstate = (event) => {
     if (event.state) {
         if (event.state.start) {

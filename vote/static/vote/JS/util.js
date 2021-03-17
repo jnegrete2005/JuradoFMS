@@ -5,7 +5,7 @@ export function getCookie(name) {
         for (let i = 0; i < cookies.length; i++) {
             const cookie = cookies[i].trim();
             // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+            if (cookie.substring(0, name.length + 1) === name + '=') {
                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                 break;
             }
@@ -95,13 +95,13 @@ export function createAlert(text) {
   `;
     document.getElementById('alert-container').innerHTML = alert;
 }
-if (typeof (String.prototype.trim) === "undefined") {
+if (typeof String.prototype.trim === 'undefined') {
     String.prototype.trim = function () {
         return String(this).replace(/^\s+|\s+$/g, '');
     };
 }
 export function getKeyByValue(object, value) {
-    return Object.keys(object).find(key => object[key] === value);
+    return Object.keys(object).find((key) => object[key] === value);
 }
 export function createError(err) {
     if (err.stack === 'TypeError: Failed to fetch') {

@@ -1,4 +1,4 @@
-import { Competitor, VotingPoll } from "./classes.js";
+import { Competitor, VotingPoll } from './classes.js';
 export function fillTable() {
     // Make the table visible
     document.getElementById('results-container').classList.remove('visually-hidden');
