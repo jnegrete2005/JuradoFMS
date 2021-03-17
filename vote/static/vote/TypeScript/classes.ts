@@ -83,18 +83,10 @@ export class Competitor {
 }
 
 export class VotingPoll {
-  constructor(private _id: number, private _comp_1: Competitor, private _comp_2: Competitor) {}
+  constructor(private _id: number, public comp_1: Competitor, public comp_2: Competitor) {}
 
   public get id(): number {
     return this._id;
-  }
-
-  public get comp_1(): Competitor {
-    return this._comp_1;
-  }
-
-  public get comp_2(): Competitor {
-    return this._comp_2;
   }
 
   get_winner(replica = false): string {
@@ -128,8 +120,8 @@ export class VotingPoll {
   serialize() {
     return JSON.stringify({
       id: this._id,
-      comp_1: this._comp_1,
-      comp_2: this._comp_2,
+      comp_1: this.comp_1,
+      comp_2: this.comp_2,
     });
   }
 

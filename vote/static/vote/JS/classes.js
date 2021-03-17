@@ -58,19 +58,13 @@ export class Competitor {
     }
 }
 export class VotingPoll {
-    constructor(_id, _comp_1, _comp_2) {
+    constructor(_id, comp_1, comp_2) {
         this._id = _id;
-        this._comp_1 = _comp_1;
-        this._comp_2 = _comp_2;
+        this.comp_1 = comp_1;
+        this.comp_2 = comp_2;
     }
     get id() {
         return this._id;
-    }
-    get comp_1() {
-        return this._comp_1;
-    }
-    get comp_2() {
-        return this._comp_2;
     }
     get_winner(replica = false) {
         const comp_1 = this.comp_1;
@@ -94,8 +88,8 @@ export class VotingPoll {
     serialize() {
         return JSON.stringify({
             id: this._id,
-            comp_1: this._comp_1,
-            comp_2: this._comp_2,
+            comp_1: this.comp_1,
+            comp_2: this.comp_2,
         });
     }
     static unserialize(data) {
