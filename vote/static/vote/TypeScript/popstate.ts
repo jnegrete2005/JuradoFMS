@@ -1,12 +1,12 @@
-import { prepareNavbar } from "./navbar.js"
-import { changeMode } from "./change_mode.js"
+import { prepareNavbar } from './navbar.js';
+import { changeMode } from './change_mode.js';
 
 window.onpopstate = (event: PopStateEvent) => {
   if (event.state) {
     if (event.state.start) {
-      prepareNavbar('easy')
+      prepareNavbar('easy');
     } else if (event.state.new_mode) {
-      changeMode(event.state.old_mode, event.state.new_mode)
+      changeMode(event.state.old_mode, event.state.new_mode);
     }
   }
-}
+};

@@ -1,6 +1,6 @@
-import { addInputs, createAlert, createError, getCookie } from "./util.js";
-import { Competitor, VotingPoll } from "./classes.js";
-import { prepareNavbar } from "./navbar.js";
+import { addInputs, createAlert, createError, getCookie } from './util.js';
+import { Competitor, VotingPoll } from './classes.js';
+import { prepareNavbar } from './navbar.js';
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('comps-form').addEventListener('submit', (event) => createPoll(event));
 });
@@ -36,16 +36,16 @@ function createPoll(event) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'X-CSRFToken': getCookie('csrftoken')
+            Accept: 'application/json',
+            'X-CSRFToken': getCookie('csrftoken'),
         },
         body: JSON.stringify({
             query: mutation,
-            variables: { comp1, comp2 }
+            variables: { comp1, comp2 },
         }),
         credentials: 'include',
     })
-        .then(response => {
+        .then((response) => {
         if (!response.ok) {
             throw Error(`${response.statusText} - ${response.url}`);
         }

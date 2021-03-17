@@ -19,7 +19,7 @@ export class Competitor {
     }
     get_sum(mode) {
         if (mode === 'name') {
-            throw new Error('mode can\'t be equal to \'name\'');
+            throw new Error("mode can't be equal to 'name'");
         }
         let i = 0;
         this[mode].forEach((j) => {
@@ -49,7 +49,7 @@ export class Competitor {
             min1: this.min1,
             min2: this.min2,
             deluxe: this.deluxe,
-            replica: this.replica
+            replica: this.replica,
         });
     }
     static unserialize(data) {
@@ -77,7 +77,8 @@ export class VotingPoll {
         const comp_2 = this.comp_2;
         // Case replica
         if (replica) {
-            if (comp_1.get_sum('replica') === comp_2.get_sum('replica') || Math.abs(comp_1.get_sum('replica') - comp_2.get_sum('replica')) < 6) {
+            if (comp_1.get_sum('replica') === comp_2.get_sum('replica') ||
+                Math.abs(comp_1.get_sum('replica') - comp_2.get_sum('replica')) < 6) {
                 return 'Réplica';
             }
             const max_num = Math.max(comp_1.get_sum('replica'), comp_2.get_sum('replica'));
@@ -94,7 +95,7 @@ export class VotingPoll {
         return JSON.stringify({
             id: this._id,
             comp_1: this._comp_1,
-            comp_2: this._comp_2
+            comp_2: this._comp_2,
         });
     }
     static unserialize(data) {
@@ -110,7 +111,7 @@ export const modes_to_int = {
     min1: 4,
     min2: 5,
     deluxe: 6,
-    replica: 7
+    replica: 7,
 };
 export const modes_aliases = {
     easy: 'Easy Mode',
@@ -120,6 +121,6 @@ export const modes_aliases = {
     min1: 'Primer Minuto',
     min2: 'Segundo Minuto',
     deluxe: 'Deluxe',
-    replica: 'Réplica'
+    replica: 'Réplica',
 };
 //# sourceMappingURL=classes.js.map

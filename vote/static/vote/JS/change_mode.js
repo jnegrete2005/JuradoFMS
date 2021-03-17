@@ -1,6 +1,6 @@
-import { prepareNavbar } from "./navbar.js";
-import { VotingPoll, modes_aliases, Competitor } from "./classes.js";
-import { addInputs, arraysMatch, createAlert, createError, getCookie } from "./util.js";
+import { prepareNavbar } from './navbar.js';
+import { VotingPoll, modes_aliases, Competitor } from './classes.js';
+import { addInputs, arraysMatch, createAlert, createError, getCookie } from './util.js';
 async function saveMode(mode) {
     let comp_1 = Competitor.unserialize(localStorage.getItem('comp_1'));
     let comp_2 = Competitor.unserialize(localStorage.getItem('comp_2'));
@@ -42,20 +42,20 @@ async function saveMode(mode) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'X-CSRFToken': getCookie('csrftoken')
+            Accept: 'application/json',
+            'X-CSRFToken': getCookie('csrftoken'),
         },
         body: JSON.stringify({
             query: mutation,
             variables: {
-                "id": VotingPoll.unserialize(localStorage.getItem('poll')).id,
-                "mode": mode,
+                id: VotingPoll.unserialize(localStorage.getItem('poll')).id,
+                mode: mode,
                 value1,
                 value2,
-            }
-        })
+            },
+        }),
     })
-        .then(response => {
+        .then((response) => {
         if (!response.ok) {
             throw Error(`${response.statusText} - ${response.url}`);
         }
@@ -109,12 +109,12 @@ function nextMode(mode) {
         const data = {
             data: {
                 comp1: {
-                    mode: comp_1
+                    mode: comp_1,
                 },
                 comp2: {
-                    mode: comp_2
-                }
-            }
+                    mode: comp_2,
+                },
+            },
         };
         next(data);
         return;
@@ -135,20 +135,20 @@ function nextMode(mode) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'X-CSRFToken': getCookie('csrftoken')
+            Accept: 'application/json',
+            'X-CSRFToken': getCookie('csrftoken'),
         },
         body: JSON.stringify({
             query,
             variables: {
                 id1: JSON.parse(localStorage.getItem('comp_1')).id,
                 id2: JSON.parse(localStorage.getItem('comp_2')).id,
-                mode: mode
-            }
+                mode: mode,
+            },
         }),
-        credentials: 'include'
+        credentials: 'include',
     })
-        .then(response => {
+        .then((response) => {
         if (!response.ok) {
             throw Error(`${response.statusText} - ${response.url}`);
         }
@@ -184,7 +184,7 @@ function prepareBtns(mode) {
     }
 }
 export async function changeMode(old_mode, new_mode) {
-    if (!await saveMode(old_mode)) {
+    if (!(await saveMode(old_mode))) {
         return;
     }
     nextMode(new_mode);
