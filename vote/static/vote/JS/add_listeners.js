@@ -5,7 +5,7 @@ import { fillTable } from './end.js';
 document.addEventListener('DOMContentLoaded', () => addListeners());
 function addListeners() {
     Array.from(document.getElementsByClassName('listen')).forEach((el) => {
-        el.addEventListener('click', (event) => {
+        el.addEventListener('click', async (event) => {
             event.preventDefault();
             const mode_el = document.getElementById('mode');
             // Get the modes
@@ -15,6 +15,7 @@ function addListeners() {
                 : getKeyByValue(modes_to_int, modes_to_int[old_mode] + parseInt(el.dataset.op));
             if (new_mode === 'replica') {
                 history.pushState({ end: true }, '', '#end');
+                await changeMode(old_mode, null);
                 fillTable();
                 return;
             }
