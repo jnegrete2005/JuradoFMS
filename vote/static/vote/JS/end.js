@@ -1,32 +1,28 @@
 import { Competitor, VotingPoll } from './classes.js';
 export function fillTable() {
-    // Make the table visible
+    // Hide and show sections
     document.getElementById('results-container').classList.remove('visually-hidden');
-    // Get the comps
-    const comp_1 = Competitor.unserialize(localStorage.getItem('comp_1'));
-    const comp_2 = Competitor.unserialize(localStorage.getItem('comp_2'));
+    document.getElementById('poll-container').classList.add('visually-hidden');
+    document.getElementById('choose-comps').classList.add('visually-hidden');
     let mode;
     // Fill the table
     for (let i = 0; i < 2; i++) {
+        const comp = Competitor.unserialize(localStorage.getItem(`comp_${i + 1}`));
         Array.from(document.getElementsByClassName(`comp-${i + 1}-table`)).forEach((el, j) => {
-            if (i === 0) {
-                if (j === 0) {
-                    el.innerHTML = comp_1.name;
-                    return;
-                }
-                mode = Object.keys(comp_1)[j];
-                el.innerHTML = comp_1.get_sum(mode).toString();
+            j++;
+            if (j === 1) {
+                el.innerHTML = comp.name;
+                return;
             }
-            else {
-                if (j === 0) {
-                    el.innerHTML = comp_2.name;
-                    return;
-                }
-                el.innerHTML = comp_2.get_sum(Object.keys(comp_2)[j]).toString();
+            mode = Object.keys(comp)[j];
+            if (mode === 'replica') {
+                el.innerHTML = comp.get_total().toString();
+                return;
             }
+            el.innerHTML = comp.get_sum(mode).toString();
         });
     }
-    // Fill the winner
+    // Fill the winner TODO
     document.getElementById('winner').innerHTML = VotingPoll.unserialize(localStorage.getItem('poll')).get_winner();
 }
 //# sourceMappingURL=end.js.map
