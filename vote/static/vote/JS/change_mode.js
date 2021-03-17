@@ -9,7 +9,7 @@ async function saveMode(mode) {
     const value2 = Array.from(document.getElementsByClassName('comp-2-input')).map(returnValueOr9);
     if (comp_1[mode] && comp_2[mode]) {
         if (arraysMatch(comp_1[mode], value1) && arraysMatch(comp_2[mode], value2)) {
-            return;
+            return true;
         }
     }
     // Create the mutation
@@ -38,7 +38,7 @@ async function saveMode(mode) {
         return validInput(parseInt(el.value)) ? parseInt(el.value) : 9;
     }
     // Fetch
-    await fetch('/graphql/', {
+    const result = await fetch('/graphql/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -76,6 +76,7 @@ async function saveMode(mode) {
         createError(err);
         return false;
     });
+    return result;
 }
 function nextMode(mode) {
     const comp_1 = Competitor.unserialize(localStorage.getItem('comp_1'))[mode];

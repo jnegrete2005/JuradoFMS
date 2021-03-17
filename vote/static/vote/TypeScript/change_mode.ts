@@ -14,7 +14,7 @@ async function saveMode(mode: string): Promise<boolean> {
 
   if (comp_1[mode] && comp_2[mode]) {
     if (arraysMatch(comp_1[mode], value1) && arraysMatch(comp_2[mode], value2)) {
-      return
+      return true
     }
   }
   
@@ -46,7 +46,7 @@ async function saveMode(mode: string): Promise<boolean> {
   }
 
   // Fetch
-  await fetch('/graphql/', {
+  const result = await fetch('/graphql/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -82,12 +82,14 @@ async function saveMode(mode: string): Promise<boolean> {
     localStorage.setItem('comp_1', comp_1.serialize())
     localStorage.setItem('comp_2', comp_2.serialize())
 
-    return true
+    return true;
   })
   .catch((err: Error) => {
     createError(err)
-    return false
+    return false;
   })
+
+  return result;
 }
 
 function nextMode(mode: string): void {
