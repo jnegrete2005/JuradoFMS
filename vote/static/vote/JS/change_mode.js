@@ -187,8 +187,12 @@ export async function changeMode(old_mode, new_mode) {
     if (!(await saveMode(old_mode))) {
         return;
     }
-    nextMode(new_mode);
-    prepareBtns(new_mode);
-    prepareNavbar(new_mode);
+    if (new_mode) {
+        nextMode(new_mode);
+        prepareBtns(new_mode);
+        prepareNavbar(new_mode);
+        return;
+    }
+    return;
 }
 //# sourceMappingURL=change_mode.js.map
