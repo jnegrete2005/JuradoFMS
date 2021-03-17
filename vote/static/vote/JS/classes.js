@@ -18,8 +18,8 @@ export class Competitor {
         return this._name;
     }
     get_sum(mode) {
-        if (mode === 'name') {
-            throw new Error("mode can't be equal to 'name'");
+        if (mode === '_name' || mode === '_id') {
+            throw new Error("mode can't be equal to 'name' nor 'id'");
         }
         let i = 0;
         this[mode].forEach((j) => {

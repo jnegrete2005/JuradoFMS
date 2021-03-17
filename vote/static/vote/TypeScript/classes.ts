@@ -23,8 +23,8 @@ export class Competitor {
   }
 
   get_sum(mode: string) {
-    if (mode === 'name') {
-      throw new Error("mode can't be equal to 'name'");
+    if (mode === '_name' || mode === '_id') {
+      throw new Error("mode can't be equal to 'name' nor 'id'");
     }
 
     let i = 0;
