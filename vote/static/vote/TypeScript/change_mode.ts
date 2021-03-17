@@ -209,11 +209,15 @@ function prepareBtns(mode: string): void {
   }
 }
 
-export async function changeMode(old_mode: string, new_mode: string): Promise<void> {
+export async function changeMode(old_mode: string, new_mode: string | null): Promise<void> {
   if (!(await saveMode(old_mode))) {
     return;
   }
-  nextMode(new_mode);
-  prepareBtns(new_mode);
-  prepareNavbar(new_mode);
+  if (new_mode) {
+    nextMode(new_mode);
+    prepareBtns(new_mode);
+    prepareNavbar(new_mode);
+    return;
+  }
+  return;
 }
