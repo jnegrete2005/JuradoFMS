@@ -1,4 +1,5 @@
-import { Competitor, VotingPoll } from './classes.js';
+import { Competitor } from './classes.js';
+import { get_winner } from './util.js';
 
 export function fillTable(): void {
   // Hide and show sections
@@ -31,6 +32,9 @@ export function fillTable(): void {
     );
   }
 
-  // Fill the winner TODO
-  document.getElementById('winner').innerHTML = VotingPoll.unserialize(localStorage.getItem('poll')).get_winner();
+  // Fill the table
+  document.getElementById('winner').innerHTML = get_winner(
+    Competitor.unserialize(localStorage.getItem('comp_1')),
+    Competitor.unserialize(localStorage.getItem('comp_2'))
+  );
 }
