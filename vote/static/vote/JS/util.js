@@ -123,4 +123,21 @@ export function arraysMatch(arr1, arr2) {
     // Otherwise, return true
     return true;
 }
+export function get_winner(comp_1, comp_2, replica = false) {
+    // Case replica
+    if (replica) {
+        if (comp_1.get_sum('replica') === comp_2.get_sum('replica') ||
+            Math.abs(comp_1.get_sum('replica') - comp_2.get_sum('replica')) < 6) {
+            return 'Réplica';
+        }
+        const max_num = Math.max(comp_1.get_sum('replica'), comp_2.get_sum('replica'));
+        return max_num === comp_1.get_sum('replica') ? comp_1.name : comp_2.name;
+    }
+    // Normal case
+    if (comp_1.get_total() === comp_2.get_total() || Math.abs(comp_1.get_total() - comp_2.get_total()) < 6) {
+        return 'Réplica';
+    }
+    const max_num = Math.max(comp_1.get_total(), comp_2.get_total());
+    return max_num === comp_1.get_total() ? comp_1.name : comp_2.name;
+}
 //# sourceMappingURL=util.js.map
