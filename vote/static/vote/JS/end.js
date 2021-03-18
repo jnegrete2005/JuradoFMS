@@ -1,4 +1,5 @@
-import { Competitor, VotingPoll } from './classes.js';
+import { Competitor } from './classes.js';
+import { get_winner } from './util.js';
 export function fillTable() {
     // Hide and show sections
     document.getElementById('results-container').classList.remove('visually-hidden');
@@ -22,7 +23,7 @@ export function fillTable() {
             el.innerHTML = comp.get_sum(mode).toString();
         });
     }
-    // Fill the winner TODO
-    document.getElementById('winner').innerHTML = VotingPoll.unserialize(localStorage.getItem('poll')).get_winner();
+    // Fill the table
+    document.getElementById('winner').innerHTML = get_winner(Competitor.unserialize(localStorage.getItem('comp_1')), Competitor.unserialize(localStorage.getItem('comp_2')));
 }
 //# sourceMappingURL=end.js.map
