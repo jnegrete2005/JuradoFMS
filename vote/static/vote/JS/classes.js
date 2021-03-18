@@ -57,46 +57,6 @@ export class Competitor {
         return new Competitor(newData.id, newData.name, newData.easy, newData.hard, newData.tematicas, newData.random_score, newData.min1, newData.min2, newData.deluxe, newData.replica);
     }
 }
-export class VotingPoll {
-    constructor(_id, comp_1, comp_2) {
-        this._id = _id;
-        this.comp_1 = comp_1;
-        this.comp_2 = comp_2;
-    }
-    get id() {
-        return this._id;
-    }
-    get_winner(replica = false) {
-        const comp_1 = this.comp_1;
-        const comp_2 = this.comp_2;
-        // Case replica
-        if (replica) {
-            if (comp_1.get_sum('replica') === comp_2.get_sum('replica') ||
-                Math.abs(comp_1.get_sum('replica') - comp_2.get_sum('replica')) < 6) {
-                return 'Réplica';
-            }
-            const max_num = Math.max(comp_1.get_sum('replica'), comp_2.get_sum('replica'));
-            return max_num === comp_1.get_sum('replica') ? comp_1.name : comp_2.name;
-        }
-        // Normal case
-        if (comp_1.get_total() === comp_2.get_total() || Math.abs(comp_1.get_total() - comp_2.get_total()) < 6) {
-            return 'Réplica';
-        }
-        const max_num = Math.max(comp_1.get_total(), comp_2.get_total());
-        return max_num === comp_1.get_total() ? comp_1.name : comp_2.name;
-    }
-    serialize() {
-        return JSON.stringify({
-            id: this._id,
-            comp_1: this.comp_1,
-            comp_2: this.comp_2,
-        });
-    }
-    static unserialize(data) {
-        const newData = JSON.parse(data);
-        return new VotingPoll(newData.id, newData.comp_1, newData.comp_2);
-    }
-}
 export const modes_to_int = {
     easy: 0,
     hard: 1,
