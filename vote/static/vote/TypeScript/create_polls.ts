@@ -82,7 +82,7 @@ function createPoll(event: Event): void {
       addInputs(9, null, true);
 
       // Mode config
-      history.pushState({ mode: 'easy' }, 'Easy Mode', '#easy');
+      history.pushState({ new_mode: 'easy' }, 'Easy Mode', '#easy');
       prepareNavbar('easy');
       document.getElementById('mode').dataset.current_mode = 'easy';
       document.getElementById('mode').innerHTML = 'Easy Mode';
