@@ -1,5 +1,5 @@
 import { prepareNavbar } from './navbar.js';
-import { VotingPoll, modes_aliases, Competitor } from './classes.js';
+import { modes_aliases, Competitor } from './classes.js';
 import { addInputs, arraysMatch, createAlert, createError, getCookie } from './util.js';
 
 import type { GraphqlError, SaveModes, GetModes } from './types';
@@ -56,7 +56,7 @@ async function saveMode(mode: string): Promise<boolean> {
     body: JSON.stringify({
       query: mutation,
       variables: {
-        id: VotingPoll.unserialize(localStorage.getItem('poll')).id,
+        id: parseInt(localStorage.getItem('poll')),
         mode: mode,
         value1,
         value2,
@@ -76,6 +76,7 @@ async function saveMode(mode: string): Promise<boolean> {
 
       const saveModes = <SaveModes>data;
 
+      // Save the comps in localStorage
       comp_1[mode] = saveModes.data.saveModes.comp1.mode;
       comp_2[mode] = saveModes.data.saveModes.comp2.mode;
 

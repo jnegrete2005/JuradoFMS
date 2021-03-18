@@ -1,5 +1,5 @@
 import { addInputs, createAlert, createError, getCookie } from './util.js';
-import { Competitor, VotingPoll } from './classes.js';
+import { Competitor } from './classes.js';
 import { prepareNavbar } from './navbar.js';
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('comps-form').addEventListener('submit', (event) => createPoll(event));
@@ -55,11 +55,10 @@ function createPoll(event) {
         // Get the data of the competitors
         const comp_1 = new Competitor(data.data.createPoll.poll.comp1.id, data.data.createPoll.poll.comp1.name);
         const comp_2 = new Competitor(data.data.createPoll.poll.comp2.id, data.data.createPoll.poll.comp2.name);
-        const poll = new VotingPoll(data.data.createPoll.poll.id, comp_1, comp_2);
         // Save it in local storage
         localStorage.setItem('comp_1', comp_1.serialize());
         localStorage.setItem('comp_2', comp_2.serialize());
-        localStorage.setItem('poll', poll.serialize());
+        localStorage.setItem('poll', data.data.createPoll.poll.id.toString());
         // Hide and show the views
         document.getElementById('choose-comps').classList.add('visually-hidden');
         document.getElementById('poll-container').classList.remove('visually-hidden');
