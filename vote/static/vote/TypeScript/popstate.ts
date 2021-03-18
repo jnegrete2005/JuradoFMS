@@ -3,10 +3,8 @@ import { changeMode } from './change_mode.js';
 
 window.onpopstate = (event: PopStateEvent) => {
   if (event.state) {
-    if (event.state.start) {
-      prepareNavbar('easy');
-    } else if (event.state.new_mode) {
-      changeMode(event.state.old_mode, event.state.new_mode);
+    if (event.state.new_mode) {
+      changeMode(document.getElementById('mode').dataset.current_mode, event.state.new_mode);
     }
   }
 };
