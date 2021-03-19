@@ -1,7 +1,6 @@
 import { getKeyByValue } from './util.js';
 import { modes_to_int } from './classes.js';
 import { changeMode } from './change_mode.js';
-import { fillTable } from './end.js';
 
 document.addEventListener('DOMContentLoaded', () => addListeners());
 
@@ -20,7 +19,7 @@ function addListeners(): void {
       if (new_mode === 'end') {
         history.pushState({ show_table: true, replica: false }, '', '#end');
         await changeMode(old_mode, new_mode);
-        fillTable();
+        import('./end.js').then((module) => module.fillTable());
         return;
       }
 
