@@ -6,6 +6,7 @@
     "outDir": "../JS/",
     "moduleResolution": "node",
     "sourceMap": true,
+    "module": "esnext",
   },
   "exclude": ["types.ts",],
 }
