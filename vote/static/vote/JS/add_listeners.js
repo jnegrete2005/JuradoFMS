@@ -12,14 +12,14 @@ function addListeners() {
             const new_mode = el.dataset.mode !== undefined
                 ? el.dataset.mode
                 : getKeyByValue(modes_to_int, modes_to_int[old_mode] + parseInt(el.dataset.op));
-            if (new_mode === 'replica') {
-                history.pushState({ end: true, replica: false }, '', '#end');
+            if (new_mode === 'end') {
+                history.pushState({ show_table: true, replica: false }, '', '#end');
                 await changeMode(old_mode, new_mode);
                 fillTable();
                 return;
             }
             // Push State
-            history.pushState({ new_mode }, '', `#${new_mode}`);
+            history.pushState({ new_mode, show_table: false }, '', `#${new_mode}`);
             changeMode(old_mode, new_mode);
         });
     });
