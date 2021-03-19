@@ -211,23 +211,33 @@ function prepareBtns(mode: string): void {
 }
 
 export async function changeMode(old_mode: string, new_mode: string): Promise<void> {
-  if (old_mode !== 'replica') {
+  if (old_mode !== 'end') {
     if (!(await saveMode(old_mode))) {
       return;
     }
-    if (new_mode !== 'replica') {
+    if (new_mode !== 'end') {
       nextMode(new_mode);
       prepareBtns(new_mode);
       prepareNavbar(new_mode);
+      showSections();
       return;
     } else {
       document.getElementById('mode').dataset.current_mode = new_mode;
+      prepareNavbar(new_mode);
+      showSections(true);
+      return;
     }
   } else {
     // For now, just return to whatever the new_mode is
     nextMode(new_mode);
     prepareBtns(new_mode);
     prepareNavbar(new_mode);
+    showSections();
     return;
   }
+}
+
+function showSections(end = false): void {
+  document.getElementById('results-container').classList.toggle('visually-hidden', !end);
+  document.getElementById('poll-container').classList.toggle('visually-hidden', end);
 }
