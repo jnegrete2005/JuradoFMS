@@ -210,15 +210,24 @@ function prepareBtns(mode: string): void {
   }
 }
 
-export async function changeMode(old_mode: string, new_mode: string | null): Promise<void> {
-  if (!(await saveMode(old_mode))) {
-    return;
-  }
-  if (new_mode) {
+export async function changeMode(old_mode: string, new_mode: string): Promise<void> {
+  if (old_mode !== 'replica') {
+    if (!(await saveMode(old_mode))) {
+      return;
+    }
+    if (new_mode !== 'replica') {
+      nextMode(new_mode);
+      prepareBtns(new_mode);
+      prepareNavbar(new_mode);
+      return;
+    } else {
+      document.getElementById('mode').dataset.current_mode = new_mode;
+    }
+  } else {
+    // For now, just return to whatever the new_mode is
     nextMode(new_mode);
     prepareBtns(new_mode);
     prepareNavbar(new_mode);
     return;
   }
-  return;
 }
