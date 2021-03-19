@@ -23,17 +23,25 @@ export class Competitor {
   }
 
   get_sum(mode: string) {
-    if (mode === '_name' || mode === '_id') {
-      throw new Error("mode can't be equal to 'name' nor 'id'");
+    try {
+      if (mode === '_name' || mode === '_id') {
+        throw new Error("mode can't be equal to 'name' nor 'id'");
+      }
+    } catch (err) {
+      console.error(err);
     }
 
     let i = 0;
 
-    this[mode].forEach((j: number) => {
-      if (j !== 9) {
-        i += j;
-      }
-    });
+    try {
+      this[mode].forEach((j: number) => {
+        if (j !== 9) {
+          i += j;
+        }
+      });
+    } catch (err) {
+      i = 0;
+    }
 
     return i;
   }
