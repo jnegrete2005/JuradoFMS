@@ -1,9 +1,7 @@
 import { addInputs, createAlert, createError, getCookie } from './util.js';
 import { Competitor } from './classes.js';
 import { prepareNavbar } from './navbar.js';
-document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('comps-form').addEventListener('submit', (event) => createPoll(event));
-});
+document.getElementById('comps-form').addEventListener('submit', (event) => createPoll(event));
 function createPoll(event) {
     event.preventDefault();
     const comp_form = document.getElementById('comps-form');
