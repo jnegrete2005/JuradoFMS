@@ -10,24 +10,22 @@ function addListeners(): void {
     el.addEventListener('click', async (event: Event) => {
       event.preventDefault();
 
-      const mode_el = document.getElementById('mode');
-
       // Get the modes
-      const old_mode = mode_el.dataset.current_mode;
+      const old_mode = document.getElementById('mode').dataset.current_mode;
       const new_mode =
         el.dataset.mode !== undefined
           ? el.dataset.mode
           : getKeyByValue(modes_to_int, modes_to_int[old_mode] + parseInt(el.dataset.op));
 
       if (new_mode === 'replica') {
-        history.pushState({ end: true }, '', '#end');
-        await changeMode(old_mode, null);
+        history.pushState({ end: true, replica: false }, '', '#end');
+        await changeMode(old_mode, new_mode);
         fillTable();
         return;
       }
 
       // Push State
-      history.pushState({ new_mode, old_mode }, '', `#${new_mode}`);
+      history.pushState({ new_mode }, '', `#${new_mode}`);
       changeMode(old_mode, new_mode);
     });
   });
