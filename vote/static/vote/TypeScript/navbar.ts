@@ -1,6 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
-  prepareNavbar();
-});
+prepareNavbar();
 
 export function prepareNavbar(mode?: string, replica?: boolean) {
   const nav_links = Array.from(document.getElementsByClassName('nav-link'));

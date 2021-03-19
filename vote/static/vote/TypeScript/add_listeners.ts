@@ -2,9 +2,7 @@ import { getKeyByValue } from './util.js';
 import { modes_to_int } from './classes.js';
 import { changeMode } from './change_mode.js';
 
-document.addEventListener('DOMContentLoaded', () => addListeners());
-
-function addListeners(): void {
+(function addListeners(): void {
   Array.from(document.getElementsByClassName('listen')).forEach((el: HTMLAnchorElement | HTMLInputElement) => {
     el.addEventListener('click', async (event: Event) => {
       event.preventDefault();
@@ -28,4 +26,4 @@ function addListeners(): void {
       changeMode(old_mode, new_mode);
     });
   });
-}
+})();

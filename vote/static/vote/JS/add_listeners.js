@@ -1,8 +1,7 @@
 import { getKeyByValue } from './util.js';
 import { modes_to_int } from './classes.js';
 import { changeMode } from './change_mode.js';
-document.addEventListener('DOMContentLoaded', () => addListeners());
-function addListeners() {
+(function addListeners() {
     Array.from(document.getElementsByClassName('listen')).forEach((el) => {
         el.addEventListener('click', async (event) => {
             event.preventDefault();
@@ -22,5 +21,5 @@ function addListeners() {
             changeMode(old_mode, new_mode);
         });
     });
-}
+})();
 //# sourceMappingURL=add_listeners.js.map

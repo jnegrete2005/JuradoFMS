@@ -4,9 +4,7 @@ import { prepareNavbar } from './navbar.js';
 
 import type { CreatePoll } from './types';
 
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('comps-form').addEventListener('submit', (event) => createPoll(event));
-});
+document.getElementById('comps-form').addEventListener('submit', (event) => createPoll(event));
 
 function createPoll(event: Event): void {
   event.preventDefault();
