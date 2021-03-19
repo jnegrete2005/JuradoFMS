@@ -216,10 +216,7 @@ export async function changeMode(old_mode: string, new_mode: string): Promise<vo
       return;
     }
     if (new_mode !== 'end') {
-      nextMode(new_mode);
-      prepareBtns(new_mode);
-      prepareNavbar(new_mode);
-      showSections();
+      wrapper();
       return;
     } else {
       document.getElementById('mode').dataset.current_mode = new_mode;
@@ -229,6 +226,11 @@ export async function changeMode(old_mode: string, new_mode: string): Promise<vo
     }
   } else {
     // For now, just return to whatever the new_mode is
+    wrapper();
+    return;
+  }
+
+  function wrapper() {
     nextMode(new_mode);
     prepareBtns(new_mode);
     prepareNavbar(new_mode);

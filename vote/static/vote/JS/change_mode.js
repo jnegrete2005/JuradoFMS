@@ -190,10 +190,7 @@ export async function changeMode(old_mode, new_mode) {
             return;
         }
         if (new_mode !== 'end') {
-            nextMode(new_mode);
-            prepareBtns(new_mode);
-            prepareNavbar(new_mode);
-            showSections();
+            wrapper();
             return;
         }
         else {
@@ -205,6 +202,10 @@ export async function changeMode(old_mode, new_mode) {
     }
     else {
         // For now, just return to whatever the new_mode is
+        wrapper();
+        return;
+    }
+    function wrapper() {
         nextMode(new_mode);
         prepareBtns(new_mode);
         prepareNavbar(new_mode);
