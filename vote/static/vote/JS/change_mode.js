@@ -213,7 +213,7 @@ export async function changeMode(old_mode, new_mode) {
     }
 }
 function showSections(end = false) {
-    document.getElementById('results-container').classList.toggle('visually-hidden', !end);
+    document.getElementById('table-container').classList.toggle('visually-hidden', !end);
     document.getElementById('poll-container').classList.toggle('visually-hidden', end);
 }
 //# sourceMappingURL=change_mode.js.map

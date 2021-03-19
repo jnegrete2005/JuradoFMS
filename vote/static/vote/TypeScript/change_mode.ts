@@ -238,6 +238,6 @@ export async function changeMode(old_mode: string, new_mode: string): Promise<vo
 }
 
 function showSections(end = false): void {
-  document.getElementById('results-container').classList.toggle('visually-hidden', !end);
+  document.getElementById('table-container').classList.toggle('visually-hidden', !end);
   document.getElementById('poll-container').classList.toggle('visually-hidden', end);
 }
