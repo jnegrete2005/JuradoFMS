@@ -1,10 +1,6 @@
 import { Competitor } from './classes.js';
 import { get_winner } from './util.js';
 export function fillTable() {
-    // Hide and show sections
-    document.getElementById('results-container').classList.remove('visually-hidden');
-    document.getElementById('poll-container').classList.add('visually-hidden');
-    document.getElementById('choose-comps').classList.add('visually-hidden');
     let mode;
     // Fill the table
     for (let i = 0; i < 2; i++) {
