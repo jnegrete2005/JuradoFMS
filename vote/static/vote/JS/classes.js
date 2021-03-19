@@ -65,7 +65,8 @@ export const modes_to_int = {
     min1: 4,
     min2: 5,
     deluxe: 6,
-    replica: 7,
+    end: 7,
+    replica: 8,
 };
 export const modes_aliases = {
     easy: 'Easy Mode',
