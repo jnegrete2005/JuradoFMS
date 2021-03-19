@@ -185,18 +185,22 @@ function prepareBtns(mode) {
     }
 }
 export async function changeMode(old_mode, new_mode) {
-    if (old_mode !== 'replica') {
+    if (old_mode !== 'end') {
         if (!(await saveMode(old_mode))) {
             return;
         }
-        if (new_mode !== 'replica') {
+        if (new_mode !== 'end') {
             nextMode(new_mode);
             prepareBtns(new_mode);
             prepareNavbar(new_mode);
+            showSections();
             return;
         }
         else {
             document.getElementById('mode').dataset.current_mode = new_mode;
+            prepareNavbar(new_mode);
+            showSections(true);
+            return;
         }
     }
     else {
@@ -204,7 +208,12 @@ export async function changeMode(old_mode, new_mode) {
         nextMode(new_mode);
         prepareBtns(new_mode);
         prepareNavbar(new_mode);
+        showSections();
         return;
     }
+}
+function showSections(end = false) {
+    document.getElementById('results-container').classList.toggle('visually-hidden', !end);
+    document.getElementById('poll-container').classList.toggle('visually-hidden', end);
 }
 //# sourceMappingURL=change_mode.js.map
