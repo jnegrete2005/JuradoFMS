@@ -19,7 +19,14 @@ export function fillTable() {
             el.innerHTML = comp.get_sum(mode).toString();
         });
     }
-    // Fill the table
-    document.getElementById('winner').innerHTML = get_winner(Competitor.unserialize(localStorage.getItem('comp_1')), Competitor.unserialize(localStorage.getItem('comp_2')));
+    // Fill the table's winner
+    (function getWinner() {
+        // Get the winner
+        const winner = get_winner(Competitor.unserialize(localStorage.getItem('comp_1')), Competitor.unserialize(localStorage.getItem('comp_2')));
+        document.getElementById('winner').innerHTML = winner;
+        if (winner === 'Réplica') {
+            document.getElementById('end-btn').innerHTML = 'Avanzar a réplica';
+        }
+    })();
 }
 //# sourceMappingURL=end.js.map
