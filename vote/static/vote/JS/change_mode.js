@@ -55,12 +55,7 @@ async function saveMode(mode) {
             },
         }),
     })
-        .then((response) => {
-        if (!response.ok) {
-            throw Error(`${response.statusText} - ${response.url}`);
-        }
-        return response.json();
-    })
+        .then((response) => response.json())
         .then((data) => {
         if (data.errors) {
             throw Error(data.errors[0].message);

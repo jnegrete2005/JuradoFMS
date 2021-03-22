@@ -63,12 +63,7 @@ async function saveMode(mode: string): Promise<boolean> {
       },
     }),
   })
-    .then((response) => {
-      if (!response.ok) {
-        throw Error(`${response.statusText} - ${response.url}`);
-      }
-      return response.json();
-    })
+    .then((response) => response.json())
     .then((data: GraphqlError) => {
       if (data.errors) {
         throw Error(data.errors[0].message);
