@@ -52,12 +52,7 @@ function createPoll(event: Event): void {
     }),
     credentials: 'include',
   })
-    .then((response) => {
-      if (!response.ok) {
-        throw Error(`${response.statusText} - ${response.url}`);
-      }
-      return response.json();
-    })
+    .then((response) => response.json())
     .then((data: CreatePoll) => {
       // Get the data of the competitors
       const comp_1 = new Competitor(data.data.createPoll.poll.comp1.id, data.data.createPoll.poll.comp1.name);
