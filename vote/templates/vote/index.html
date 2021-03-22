@@ -91,135 +91,136 @@
   </nav>
 
 
-  <!-- Main -->
-  <div class="container-xl">
-    <div id="choose-comps" class="mb-5 mt-5">
-      <form class="needs-validation" id="comps-form" novalidate>
-        <div class="mb-5">
-          <h1 class="text-center fw-normal">Escoge a los Gallos para empezar</h1>
-        </div>
-      
-        <div class="row row-cols-1 row-cols-md-2 g-3 justify-content-center">
-          <!-- First competitor -->
-          <div class="col col-md-3">
-            <input class="form-control form-control-lg" placeholder="Primer Gallo" type="text" name="comp-1-input" id="comp-1-input" maxlength="20" required>
-            <div class="invalid-feedback">Llena este campo para continuar</div>
+  <main>
+    <div class="container-xl">
+      <div id="choose-comps" class="mb-5 mt-5">
+        <form class="needs-validation" id="comps-form" novalidate>
+          <div class="mb-5">
+            <h1 class="text-center fw-normal">Escoge a los Gallos para empezar</h1>
           </div>
-      
-          <!-- Second competitor -->
-          <div class="col col-md-3">
-            <input class="form-control form-control-lg" placeholder="Segundo Gallo" type="text" name="comp-2-input" id="comp-2-input" maxlength="20" required>
-            <div class="invalid-feedback">Llena este campo para continuar</div>
+        
+          <div class="row row-cols-1 row-cols-md-2 g-3 justify-content-center">
+            <!-- First competitor -->
+            <div class="col col-md-3">
+              <input class="form-control form-control-lg" placeholder="Primer Gallo" type="text" name="comp-1-input" id="comp-1-input" maxlength="20" required>
+              <div class="invalid-feedback">Llena este campo para continuar</div>
+            </div>
+        
+            <!-- Second competitor -->
+            <div class="col col-md-3">
+              <input class="form-control form-control-lg" placeholder="Segundo Gallo" type="text" name="comp-2-input" id="comp-2-input" maxlength="20" required>
+              <div class="invalid-feedback">Llena este campo para continuar</div>
+            </div>
           </div>
-        </div>
-      
-        <br><br>
-      
-        <div class="row">
-          <div class="col d-flex justify-content-center">
-            <input type="submit" role="button" class="btn btn-primary" value="Empieza!" id="submit-comps">
+        
+          <br><br>
+        
+          <div class="row">
+            <div class="col d-flex justify-content-center">
+              <input type="submit" role="button" class="btn btn-primary" value="Empieza!" id="submit-comps">
+            </div>
           </div>
-        </div>
-      </form>
-    </div>
-
-
-    <!-- Poll -->
-    <div id="poll-container" class="visually-hidden">
-      <div class="mb-4 mt-3">
-        <h1 class="fw-normal" id="mode" data-current_mode="">Easy Mode</h1>
+        </form>
       </div>
-      
-      <form id="poll">
-        <div class="poll">
-          <!-- Competitor 1 -->
-          <div class="row g-4 inputs-container">
-            <div class="col-12 col-md-3 col-lg-2 comp-container" id="comp-1-container">
-              <h2 class="fw-normal mb-0 text-center text-md-start h3" id="comp-1"></h2>
+
+
+      <!-- Poll -->
+      <div id="poll-container" class="visually-hidden">
+        <div class="mb-4 mt-3">
+          <h1 class="fw-normal" id="mode" data-current_mode="">Easy Mode</h1>
+        </div>
+        
+        <form id="poll">
+          <div class="poll">
+            <!-- Competitor 1 -->
+            <div class="row g-4 inputs-container">
+              <div class="col-12 col-md-3 col-lg-2 comp-container" id="comp-1-container">
+                <h2 class="fw-normal mb-0 text-center text-md-start h3" id="comp-1"></h2>
+              </div>
+            </div>
+            
+            <hr>
+    
+            <!-- Competitor 2 -->
+            <div class="row g-4 inputs-container">
+              <div class="col-12 col-md-3 col-lg-2 comp-container" id="comp-2-container">
+                <h2 class="fw-normal mb-0 text-center text-md-start h3" id="comp-2"></h2>
+              </div>
             </div>
           </div>
-          
-          <hr>
-  
-          <!-- Competitor 2 -->
-          <div class="row g-4 inputs-container">
-            <div class="col-12 col-md-3 col-lg-2 comp-container" id="comp-2-container">
-              <h2 class="fw-normal mb-0 text-center text-md-start h3" id="comp-2"></h2>
+
+          <!-- Btns -->
+          <div class="row mt-5">
+            <div class="col d-flex justify-content-center">
+              <div class="btn-group" role="group">
+                <input type="button" role="button" class="btn btn-outline-primary listen" value="Anterior" id="previous" data-op="-1">
+                <input type="button" role="button" class="btn btn-outline-primary listen" value="Siguiente" id="next" data-op="+1">
+              </div>
             </div>
           </div>
+        </form>
+
+        <div id="alert-container" class="mt-5">
+
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div id="table-container" class="visually-hidden">
+        <div class="table-responsive">
+          <table class="table table-bordered mt-5">
+            <thead>
+              <tr>
+                <th class="text-center align-middle" scope="col">Gallo</th>
+                <th class="text-center align-middle" scope="col">Easy</th>
+                <th class="text-center align-middle" scope="col">Hard</th>
+                <th class="text-center align-middle" scope="col">Temáticas</th>
+                <th class="text-center align-middle" scope="col">Random</th>
+                <th class="text-center align-middle" scope="col">Minuto 1</th>
+                <th class="text-center align-middle" scope="col">Minuto 2</th>
+                <th class="text-center align-middle" scope="col">Deluxe</th>
+                <th class="text-center align-middle" scope="col">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th class="text-center comp-1-table" scope="row"></th>
+                <td class="text-center comp-1-table"></td>
+                <td class="text-center comp-1-table"></td>
+                <td class="text-center comp-1-table"></td>
+                <td class="text-center comp-1-table"></td>
+                <td class="text-center comp-1-table"></td>
+                <td class="text-center comp-1-table"></td>
+                <td class="text-center comp-1-table"></td>
+                <td class="text-center comp-1-table"></td>
+              </tr>
+              <tr>
+                <th class="text-center comp-2-table" scope="row"></th>
+                <td class="text-center comp-2-table"></td>
+                <td class="text-center comp-2-table"></td>
+                <td class="text-center comp-2-table"></td>
+                <td class="text-center comp-2-table"></td>
+                <td class="text-center comp-2-table"></td>
+                <td class="text-center comp-2-table"></td>
+                <td class="text-center comp-2-table"></td>
+                <td class="text-center comp-2-table"></td>
+              </tr>
+              <tr>
+                <th id="winner" class="text-center" scope="row" colspan="9"></th>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
-        <!-- Btns -->
+        <!-- Continue btn -->
         <div class="row mt-5">
           <div class="col d-flex justify-content-center">
-            <div class="btn-group" role="group">
-              <input type="button" role="button" class="btn btn-outline-primary listen" value="Anterior" id="previous" data-op="-1">
-              <input type="button" role="button" class="btn btn-outline-primary listen" value="Siguiente" id="next" data-op="+1">
-            </div>
+            <button role="button" class="btn btn-outline-primary" id="end-btn">Terminar</button>
           </div>
         </div>
-      </form>
-
-      <div id="alert-container" class="mt-5">
-
       </div>
     </div>
-
-    <!-- Results -->
-    <div id="table-container" class="visually-hidden">
-      <div class="table-responsive">
-        <table class="table table-bordered mt-5">
-          <thead>
-            <tr>
-              <th class="text-center align-middle" scope="col">Gallo</th>
-              <th class="text-center align-middle" scope="col">Easy</th>
-              <th class="text-center align-middle" scope="col">Hard</th>
-              <th class="text-center align-middle" scope="col">Temáticas</th>
-              <th class="text-center align-middle" scope="col">Random</th>
-              <th class="text-center align-middle" scope="col">Minuto 1</th>
-              <th class="text-center align-middle" scope="col">Minuto 2</th>
-              <th class="text-center align-middle" scope="col">Deluxe</th>
-              <th class="text-center align-middle" scope="col">Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th class="text-center comp-1-table" scope="row"></th>
-              <td class="text-center comp-1-table"></td>
-              <td class="text-center comp-1-table"></td>
-              <td class="text-center comp-1-table"></td>
-              <td class="text-center comp-1-table"></td>
-              <td class="text-center comp-1-table"></td>
-              <td class="text-center comp-1-table"></td>
-              <td class="text-center comp-1-table"></td>
-              <td class="text-center comp-1-table"></td>
-            </tr>
-            <tr>
-              <th class="text-center comp-2-table" scope="row"></th>
-              <td class="text-center comp-2-table"></td>
-              <td class="text-center comp-2-table"></td>
-              <td class="text-center comp-2-table"></td>
-              <td class="text-center comp-2-table"></td>
-              <td class="text-center comp-2-table"></td>
-              <td class="text-center comp-2-table"></td>
-              <td class="text-center comp-2-table"></td>
-              <td class="text-center comp-2-table"></td>
-            </tr>
-            <tr>
-              <th id="winner" class="text-center" scope="row" colspan="9"></th>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Continue btn -->
-      <div class="row mt-5">
-        <div class="col d-flex justify-content-center">
-          <button role="button" class="btn btn-outline-primary" id="end-btn">Terminar</button>
-        </div>
-      </div>
-    </div>
-  </div>
+  </main>
 
   <!-- Bootstrap Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
