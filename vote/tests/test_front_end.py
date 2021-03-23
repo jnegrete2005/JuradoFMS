@@ -73,7 +73,7 @@ class FrontEndTestCase(LiveServerTestCase):
     ''' Check if modes pages are shown properly '''
     next_btn = self.selenium.find_element_by_id('next')
 
-    for i in range(len(self.navs) - 1):
+    for i in range(len(self.navs) - 3):
       # Check the navbar
       self.assertFalse('disabled' in self.navs[i].get_attribute('class'))
       self.assertTrue('active' in self.navs[i].get_attribute('class'))
@@ -82,19 +82,18 @@ class FrontEndTestCase(LiveServerTestCase):
       
       # Check if the mode is ok
       self.assertEqual(mode.get_attribute('data-current_mode'), get_key_by_val(modes_to_int, i))
-      if i != len(self.navs) - 2:
-        self.assertEqual(mode.text, index_dict(mode_aliases, i))
+      self.assertEqual(mode.text, index_dict(mode_aliases, i))
 
-        # Check for the length of the inputs
-        inputs = self.selenium.find_elements_by_class_name('input')
-        
-        if mode.get_attribute('data-current_mode') == 'tematicas':
-          self.assertEqual(len(inputs), 7 * 2)
-        elif mode.get_attribute('data-current_mode') == 'deluxe':
-          self.assertEqual(len(inputs), 14 * 2)
-        else:
-          self.assertEqual(len(inputs), 9 * 2)
+      # Check for the length of the inputs
+      inputs = self.selenium.find_elements_by_class_name('input')
+      
+      if mode.get_attribute('data-current_mode') == 'tematicas':
+        self.assertEqual(len(inputs), 7 * 2)
+      elif mode.get_attribute('data-current_mode') == 'deluxe':
+        self.assertEqual(len(inputs), 14 * 2)
+      else:
+        self.assertEqual(len(inputs), 9 * 2)
 
-        next_btn.click()
+      next_btn.click()
 
-        sleep(1.5)
+      sleep(1.5)
