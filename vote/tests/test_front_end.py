@@ -10,34 +10,37 @@ class FrontEndTestCase(LiveServerTestCase):
     cls.selenium = WebDriver()
     cls.selenium.implicitly_wait(10)
 
-    # Define page sections
-    cls.choose_comps = cls.selenium.find_element_by_id('choose-comps')
-    cls.poll = cls.selenium.find_element_by_id('poll-container')
-    cls.end_table = cls.selenium.find_element_by_id('table-container')
-
     # Get the URL
     cls.selenium.get('http://127.0.0.1:8000/vota/')
 
     # Add CSRFToken 
-    cls.selenium.add_cookie({'name': 'csrftoken', 'value':'1cY4Yb3SljOqj9tUndW1YlIokNOD8tNc2MSU5iKNvsZW8co9WoOOCVGd5RFzxD8P'})
+    cls.selenium.add_cookie({'name': 'csrftoken', 'value': '1cY4Yb3SljOqj9tUndW1YlIokNOD8tNc2MSU5iKNvsZW8co9WoOOCVGd5RFzxD8P'})
+
+    # Define page sections
+    cls.choose_comps = cls.selenium.find_element_by_id('choose-comps')
+    cls.poll = cls.selenium.find_element_by_id('poll-container')
+    cls.end_table = cls.selenium.find_element_by_id('table-container')
+    cls.navs = cls.selenium.find_elements_by_class_name('nav-link')
+
 
   @classmethod
   def tearDownClass(cls):
     cls.selenium.quit()
     super().tearDownClass()
   
-  def test_choose_comps(self):
+  def test_0_choose_comps(self):
+    ''' Check if creating a poll works '''
     selenium = self.selenium
     
-    ''' Before the poll submit '''
-    choose_comps = selenium.find_element_by_id('choose-comps')
+    # Check if the correct sections are hidden and shown
+    self.assertFalse('visually-hidden' in self.choose_comps.get_attribute('class'))
+    self.assertTrue('visually-hidden' in self.poll.get_attribute('class'))
+    self.assertTrue('visually-hidden' in self.end_table.get_attribute('class'))
 
     # Get and check the nav items
-    navs = selenium.find_elements_by_class_name('nav-link')
-
-    for nav in navs:
+    for nav in self.navs:
       self.assertTrue('disabled' in nav.get_attribute('class'))
-        
+
     # Get the submit btn
     submit = selenium.find_element_by_id('submit-comps')
 
@@ -52,20 +55,74 @@ class FrontEndTestCase(LiveServerTestCase):
     submit.click()
     sleep(5)
 
-    ''' After the poll submit '''
     # Get and check the comps
     comp_1 = selenium.find_element_by_id('comp-1')
     comp_2 = selenium.find_element_by_id('comp-2')
 
-    self.assertEqual(comp_1.get_attribute('innerHTML'), 'si')
-    self.assertEqual(comp_2.get_attribute('innerHTML'), 'no')
+    self.assertEqual(comp_1.text, 'si')
+    self.assertEqual(comp_2.text, 'no')
 
-    # Check if the navs don't have disabled (except for replica)
-    for i in range(len(navs)):
-      if i != len(navs) - 1:
-        self.assertFalse('disabled' in navs[i].get_attribute('class'))
-      else:
-        self.assertTrue('disabled' in navs[i].get_attribute('class'))
+    # Check if the correct sections are hidden and shown
+    self.assertTrue('visually-hidden' in self.choose_comps.get_attribute('class'))
+    self.assertFalse('visually-hidden' in self.poll.get_attribute('class'))
+    self.assertTrue('visually-hidden' in self.end_table.get_attribute('class'))
 
-    # Check if easy is active
-    self.assertTrue('active' in navs[0].get_attribute('class'))
+  def test_1_check_easy(self):
+    ''' Check if the modes page is shown properly '''
+    next_btn = self.selenium.find_element_by_id('next')
+
+    for i in range(len(self.navs) - 1):
+      print(self.navs[i].text, self.navs[i].get_attribute('class'))
+
+      # Check the navbar
+      self.assertFalse('disabled' in self.navs[i].get_attribute('class'))
+      self.assertTrue('active' in self.navs[i].get_attribute('class'))
+
+      mode = self.selenium.find_element_by_id('mode')
+      
+      # Check if the mode is ok
+      self.assertEqual(mode.text, index_dict(mode_aliases, i))
+      self.assertEqual(mode.get_attribute('data-current_mode'), get_key_by_val(modes_to_int, i))
+
+      next_btn.click()
+
+      sleep(1)
+
+
+def get_key_by_val(my_dict: dict, val: str or int):
+  for key, value in my_dict.items():
+    if val == value:
+      return key
+
+  raise Exception('Key doesn\'t exist')
+
+def index_dict(dictionary, n=0):
+  if n < 0:
+    n += len(dictionary)
+  for i, key in enumerate(dictionary.keys()):
+    if i == n:
+      return dictionary[key]
+  raise IndexError("dictionary index out of range")
+
+modes_to_int = {
+  'easy': 0,
+  'hard': 1,
+  'tematicas': 2,
+  'random_score': 3,
+  'min1': 4,
+  'min2': 5,
+  'deluxe': 6,
+  'end': 7,
+  'replica': 8,
+}
+
+mode_aliases = {
+  'easy': 'Easy Mode',
+  'hard': 'Hard Mode',
+  'tematicas': 'Temáticas',
+  'random_score': 'Random Mode',
+  'min1': 'Primer Minuto',
+  'min2': 'Segundo Minuto',
+  'deluxe': 'Deluxe',
+  'replica': 'Réplica',
+}
