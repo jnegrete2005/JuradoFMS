@@ -87,11 +87,11 @@ class FrontEndTestCase(LiveServerTestCase):
         inputs = self.selenium.find_elements_by_class_name('input')
         
         if mode.get_attribute('data-current_mode') == 'tematicas':
-          self.assertEqual(len(inputs), 7)
-        elif mode.get_attribute('data-current_mode') == 'random_score':
-          self.assertEqual(len(inputs), 14)
+          self.assertEqual(len(inputs), 7 * 2)
+        elif mode.get_attribute('data-current_mode') == 'deluxe':
+          self.assertEqual(len(inputs), 14 * 2)
         else:
-          self.assertEqual(len(inputs), 9)
+          self.assertEqual(len(inputs), 9 * 2)
 
         next_btn.click()
 
