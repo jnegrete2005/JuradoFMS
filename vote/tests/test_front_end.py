@@ -12,6 +12,10 @@ class FrontEndTestCase(LiveServerTestCase):
     cls.selenium = WebDriver()
     cls.selenium.implicitly_wait(10)
 
+    # Define comps
+    cls.comp_1 = None
+    cls.comp_2 = None
+
     # Get the URL
     cls.selenium.get('http://127.0.0.1:8000/vota/')
 
@@ -58,7 +62,7 @@ class FrontEndTestCase(LiveServerTestCase):
         sleep(0.5)
       return
 
-    btn.click()  
+    btn.click()
     sleep(0.5)
   
   def test_0(self):
@@ -95,6 +99,10 @@ class FrontEndTestCase(LiveServerTestCase):
     self.assertEqual(comp_1.text, 'si')
     self.assertEqual(comp_2.text, 'no')
 
+    # Add value to comps
+    self.comp_1 = comp_1.text
+    self.comp_2 = comp_1.text
+
     # Check if the correct sections are hidden and shown
     self.assertTrue('visually-hidden' in self.choose_comps.get_attribute('class'))
     self.assertFalse('visually-hidden' in self.poll.get_attribute('class'))
@@ -114,4 +122,16 @@ class FrontEndTestCase(LiveServerTestCase):
     for i in reversed(range(7)):
       self.check_inputs(prev_btn, i, True)
 
-  
+  def test_3(self):
+    ''' Check if the end table works '''
+    # Go to the end table
+    self.navs[7].click()
+
+    sleep(0.1)
+
+    # Check if the correct sections are shown
+    self.assertTrue('visually-hidden' in self.choose_comps.get_attribute('class'))
+    self.assertTrue('visually-hidden' in self.poll.get_attribute('class'))
+    self.assertFalse('visually-hidden' in self.end_table.get_attribute('class'))
+
+    
