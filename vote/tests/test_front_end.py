@@ -81,12 +81,12 @@ class FrontEndTestCase(LiveServerTestCase):
       mode = self.selenium.find_element_by_id('mode')
       
       # Check if the mode is ok
-      self.assertEqual(mode.text, index_dict(mode_aliases, i))
       self.assertEqual(mode.get_attribute('data-current_mode'), get_key_by_val(modes_to_int, i))
+      if i != len(self.navs) - 2:
+        self.assertEqual(mode.text, index_dict(mode_aliases, i))
+        next_btn.click()
 
-      next_btn.click()
-
-      sleep(1)
+      sleep(1.5)
 
 
 def get_key_by_val(my_dict: dict, val: str or int):
@@ -124,5 +124,6 @@ mode_aliases = {
   'min1': 'Primer Minuto',
   'min2': 'Segundo Minuto',
   'deluxe': 'Deluxe',
+  'end': 'end',
   'replica': 'Réplica',
 }
