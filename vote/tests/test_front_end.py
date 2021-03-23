@@ -86,7 +86,7 @@ class FrontEndTestCase(LiveServerTestCase):
 
     # Submit and wait
     submit.click()
-    sleep(5)
+    sleep(0.5)
 
     # Get and check the comps
     comp_1 = selenium.find_element_by_id('comp-1')
@@ -104,7 +104,7 @@ class FrontEndTestCase(LiveServerTestCase):
     ''' Check if modes pages are shown properly '''
     next_btn = self.selenium.find_element_by_id('next')
 
-    for i in range(len(self.navs) - 3):
+    for i in range(6):
       self.check_inputs(next_btn, i)
     
   def test_2(self):
@@ -113,3 +113,5 @@ class FrontEndTestCase(LiveServerTestCase):
     
     for i in reversed(range(7)):
       self.check_inputs(prev_btn, i, True)
+
+  
