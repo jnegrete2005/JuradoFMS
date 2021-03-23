@@ -29,6 +29,37 @@ class FrontEndTestCase(LiveServerTestCase):
   def tearDownClass(cls):
     cls.selenium.quit()
     super().tearDownClass()
+
+  def check_inputs(self, btn, i, reverse = False):
+    ''' Checks if the mode pages are shown properly '''
+    # Check the navbar
+    self.assertFalse('disabled' in self.navs[i].get_attribute('class'))
+    self.assertTrue('active' in self.navs[i].get_attribute('class'))
+
+    mode = self.selenium.find_element_by_id('mode')
+    
+    # Check if the mode is ok
+    self.assertEqual(mode.get_attribute('data-current_mode'), get_key_by_val(modes_to_int, i))
+    self.assertEqual(mode.text, index_dict(mode_aliases, i))
+
+    # Check for the length of the inputs
+    inputs = self.selenium.find_elements_by_class_name('input')
+    
+    if mode.get_attribute('data-current_mode') == 'tematicas':
+      self.assertEqual(len(inputs), 7 * 2)
+    elif mode.get_attribute('data-current_mode') == 'deluxe':
+      self.assertEqual(len(inputs), 14 * 2)
+    else:
+      self.assertEqual(len(inputs), 9 * 2)
+
+    if reverse:
+      if i != 0:
+        btn.click()
+        sleep(0.5)
+      return
+
+    btn.click()  
+    sleep(0.5)
   
   def test_0(self):
     ''' Check if creating a poll works '''
@@ -74,26 +105,11 @@ class FrontEndTestCase(LiveServerTestCase):
     next_btn = self.selenium.find_element_by_id('next')
 
     for i in range(len(self.navs) - 3):
-      # Check the navbar
-      self.assertFalse('disabled' in self.navs[i].get_attribute('class'))
-      self.assertTrue('active' in self.navs[i].get_attribute('class'))
-
-      mode = self.selenium.find_element_by_id('mode')
-      
-      # Check if the mode is ok
-      self.assertEqual(mode.get_attribute('data-current_mode'), get_key_by_val(modes_to_int, i))
-      self.assertEqual(mode.text, index_dict(mode_aliases, i))
-
-      # Check for the length of the inputs
-      inputs = self.selenium.find_elements_by_class_name('input')
-      
-      if mode.get_attribute('data-current_mode') == 'tematicas':
-        self.assertEqual(len(inputs), 7 * 2)
-      elif mode.get_attribute('data-current_mode') == 'deluxe':
-        self.assertEqual(len(inputs), 14 * 2)
-      else:
-        self.assertEqual(len(inputs), 9 * 2)
-
-      next_btn.click()
-
-      sleep(1.5)
+      self.check_inputs(next_btn, i)
+    
+  def test_2(self):
+    ''' Check if going back through modes works '''
+    prev_btn = self.selenium.find_element_by_id('previous')    
+    
+    for i in reversed(range(7)):
+      self.check_inputs(prev_btn, i, True)
