@@ -30,7 +30,7 @@ class FrontEndTestCase(LiveServerTestCase):
     cls.selenium.quit()
     super().tearDownClass()
   
-  def test_0_choose_comps(self):
+  def test_0(self):
     ''' Check if creating a poll works '''
     selenium = self.selenium
     
@@ -69,8 +69,8 @@ class FrontEndTestCase(LiveServerTestCase):
     self.assertFalse('visually-hidden' in self.poll.get_attribute('class'))
     self.assertTrue('visually-hidden' in self.end_table.get_attribute('class'))
 
-  def test_1_check_easy(self):
-    ''' Check if the modes page is shown properly '''
+  def test_1(self):
+    ''' Check if modes pages are shown properly '''
     next_btn = self.selenium.find_element_by_id('next')
 
     for i in range(len(self.navs) - 1):
