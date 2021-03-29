@@ -134,6 +134,8 @@ class FrontEndTestCase(LiveServerTestCase):
     for i in 7, 8:
       self.assertEqual(comp_1_table[i].text, '8')
 
+    self.assertEqual(self.selenium.find_element_by_id('winner').text, 'si')
+
   def check_inputs(self, btn, i, reverse = False):
     ''' Checks if the mode pages are shown properly '''
     # Check the navbar
