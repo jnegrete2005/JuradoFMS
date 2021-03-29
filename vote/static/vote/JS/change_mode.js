@@ -79,7 +79,7 @@ function nextMode(mode) {
     const comp_2 = Competitor.unserialize(localStorage.getItem('comp_2'))[mode];
     function next(data) {
         // Fill the inputs
-        if (data.data.comp1.mode.length !== 0 && data.data.comp1 !== undefined) {
+        if (data.data.comp1.mode !== null) {
             addInputs(data.data.comp1.mode.length, data);
         }
         else {
