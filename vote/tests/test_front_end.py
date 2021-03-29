@@ -12,10 +12,6 @@ class FrontEndTestCase(LiveServerTestCase):
     cls.selenium = WebDriver()
     cls.selenium.implicitly_wait(10)
 
-    # Define comps
-    cls.comp_1 = None
-    cls.comp_2 = None
-
     # Get the URL
     cls.selenium.get('http://127.0.0.1:8000/vota/')
 
@@ -59,18 +55,15 @@ class FrontEndTestCase(LiveServerTestCase):
 
     # Submit and wait
     submit.click()
-    sleep(0.5)
 
     # Get and check the comps
     comp_1 = selenium.find_element_by_id('comp-1')
     comp_2 = selenium.find_element_by_id('comp-2')
 
+    sleep(0.2)
+
     self.assertEqual(comp_1.text, 'si')
     self.assertEqual(comp_2.text, 'no')
-
-    # Add value to comps
-    self.comp_1 = comp_1.text
-    self.comp_2 = comp_1.text
 
     # Check if the correct sections are hidden and shown
     self.assertTrue('visually-hidden' in self.choose_comps.get_attribute('class'))
@@ -103,6 +96,29 @@ class FrontEndTestCase(LiveServerTestCase):
     self.assertTrue('visually-hidden' in self.poll.get_attribute('class'))
     self.assertFalse('visually-hidden' in self.end_table.get_attribute('class'))
 
+    rows = [self.selenium.find_elements_by_class_name('comp-1-table'), self.selenium.find_elements_by_class_name('comp-2-table')]
+
+    for i in range(2):
+      for j in range(len(rows[i])):
+        if i == 0:
+          # First row
+          if j == 0:
+            # First row, first col is comp_1
+            self.assertEqual(rows[i][j].text, 'si')
+            return
+            
+        else:
+          # Second row
+          if j == 0:
+            # Second row, first col is comp_2
+            self.assertEqual(rows[i][j].text, 'no')
+            return
+
+        # They all should be equal to 0
+        self.assertEqual(rows[i][j].text, 0)
+    
+    self.assertEqual(self.selenium.find_element_by_id('winner').text, 'Réplica')
+
   def check_inputs(self, btn, i, reverse = False):
     ''' Checks if the mode pages are shown properly '''
     # Check the navbar
@@ -124,6 +140,9 @@ class FrontEndTestCase(LiveServerTestCase):
       self.assertEqual(len(inputs), 14 * 2)
     else:
       self.assertEqual(len(inputs), 9 * 2)
+
+    if i == 6:
+      self.assertEqual(self.selenium.find_element_by_id('next').get_attribute('value'), 'Terminar')
 
     if reverse:
       if i != 0:
