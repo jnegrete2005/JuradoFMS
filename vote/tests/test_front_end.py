@@ -60,7 +60,7 @@ class FrontEndTestCase(LiveServerTestCase):
     comp_1 = selenium.find_element_by_id('comp-1')
     comp_2 = selenium.find_element_by_id('comp-2')
 
-    sleep(0.2)
+    sleep(1)
 
     self.assertEqual(comp_1.text, 'si')
     self.assertEqual(comp_2.text, 'no')
@@ -100,24 +100,39 @@ class FrontEndTestCase(LiveServerTestCase):
 
     for i in range(2):
       for j in range(len(rows[i])):
-        if i == 0:
-          # First row
-          if j == 0:
-            # First row, first col is comp_1
-            self.assertEqual(rows[i][j].text, 'si')
-            return
-            
-        else:
-          # Second row
-          if j == 0:
-            # Second row, first col is comp_2
-            self.assertEqual(rows[i][j].text, 'no')
-            return
+        if i == 0 and j == 0:
+          # First row, first col is comp_1
+          self.assertEqual(rows[i][j].text, 'si')
+          continue
 
+        elif i == 1 and j == 0:
+          # Second row, first col is comp_2
+          self.assertEqual(rows[i][j].text, 'no')
+          continue
+        
         # They all should be equal to 0
-        self.assertEqual(rows[i][j].text, 0)
+        self.assertEqual(rows[i][j].text, '0')
+
     
     self.assertEqual(self.selenium.find_element_by_id('winner').text, 'Réplica')
+  
+  def test_4(self):
+    ''' Will check if the table comp_1 as winner '''
+    # Go to deluxe
+    self.navs[6].click()
+
+    # Give 8 points to comp_1 and go to table
+    inputs = self.selenium.find_elements_by_class_name('comp-1-input')
+    for i in range(2):
+      inputs[i].send_keys(4)
+    self.selenium.find_element_by_id('next').click()
+
+    sleep(1)
+
+    # Check deluxe and total in table
+    comp_1_table = self.selenium.find_elements_by_class_name('comp-1-table')
+    for i in 7, 8:
+      self.assertEqual(comp_1_table[i].text, '8')
 
   def check_inputs(self, btn, i, reverse = False):
     ''' Checks if the mode pages are shown properly '''
