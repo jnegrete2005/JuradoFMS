@@ -94,7 +94,7 @@ function nextMode(mode: string): void {
 
   function next(data: GetModes) {
     // Fill the inputs
-    if (data.data.comp1.mode.length !== 0 && data.data.comp1 !== undefined) {
+    if (data.data.comp1.mode !== null) {
       addInputs(data.data.comp1.mode.length, data);
     } else {
       switch (mode) {
