@@ -117,24 +117,20 @@ class FrontEndTestCase(LiveServerTestCase):
     self.assertEqual(self.selenium.find_element_by_id('winner').text, 'Réplica')
   
   def test_4(self):
-    ''' Will check if the table comp_1 as winner '''
-    # Go to deluxe
-    self.navs[6].click()
+    ''' Will check if the table shows comp_1 as winner '''
+    # Give 8 points to comp_1
+    self.add_points('comp-1-input', 2)
 
-    # Give 8 points to comp_1 and go to table
-    inputs = self.selenium.find_elements_by_class_name('comp-1-input')
-    for i in range(2):
-      inputs[i].send_keys(4)
-    self.selenium.find_element_by_id('next').click()
+    # Check if the table has the correct info
+    self.check_table('comp-1-table', 8, 'si')
 
-    sleep(1)
+  def test_5(self):
+    ''' Will check if the table shows comp_2 as winner '''
+    # Give 16 points to comp_2
+    self.add_points('comp-2-input', 4)
 
-    # Check deluxe and total in table
-    comp_1_table = self.selenium.find_elements_by_class_name('comp-1-table')
-    for i in 7, 8:
-      self.assertEqual(comp_1_table[i].text, '8')
-
-    self.assertEqual(self.selenium.find_element_by_id('winner').text, 'si')
+    # Check if the table has the correct info
+    self.check_table('comp-2-table', 16, 'no')
 
   def check_inputs(self, btn, i, reverse = False):
     ''' Checks if the mode pages are shown properly '''
@@ -169,3 +165,31 @@ class FrontEndTestCase(LiveServerTestCase):
 
     btn.click()
     sleep(0.5)
+
+  def add_points(self, table: str, num: int):
+    ''' Will add `num` * 4 points to the competitor you specify by `table` '''
+    # Go to deluxe
+    self.navs[6].click()
+
+    # Give 8 points to comp_1 and go to table
+    inputs = self.selenium.find_elements_by_class_name(table)
+    for i in range(num):
+      inputs[i].send_keys(4)
+    self.selenium.find_element_by_id('next').click()
+
+    sleep(1)
+
+  def check_table(self, row: str, num: int, win: str):
+    ''' 
+    Will check if the last cels of the row of the table you give it with `row` 
+    is equal to `num`.
+    
+    Will also check if the winner row is equal to `win`
+    '''
+    # Check deluxe and total in table
+    table = self.selenium.find_elements_by_class_name(row)
+    for i in 7, 8:
+      self.assertEqual(table[i].text, str(num))
+
+    # Check winner
+    self.assertEqual(self.selenium.find_element_by_id('winner').text, win)
