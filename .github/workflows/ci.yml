@@ -31,6 +31,11 @@ jobs:
       env:
         # Random key
         SECRET_KEY: '!nj1v)#-y)e21t^u@-6tk+%+#vyzn30dp+)xof4q*y8y&%=h9l'
+    - name: Runserver
+      run: python manage.py runserver
+      env:
+        # Random key
+        SECRET_KEY: '!nj1v)#-y)e21t^u@-6tk+%+#vyzn30dp+)xof4q*y8y&%=h9l'
     - name: Test
       run: python manage.py test
       env:
