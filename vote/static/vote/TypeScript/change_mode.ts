@@ -63,12 +63,7 @@ async function saveMode(mode: string): Promise<boolean> {
       },
     }),
   })
-    .then((response) => {
-      if (!response.ok) {
-        throw Error(`${response.statusText} - ${response.url}`);
-      }
-      return response.json();
-    })
+    .then((response) => response.json())
     .then((data: GraphqlError) => {
       if (data.errors) {
         throw Error(data.errors[0].message);
@@ -99,7 +94,7 @@ function nextMode(mode: string): void {
 
   function next(data: GetModes) {
     // Fill the inputs
-    if (data.data.comp1.mode.length !== 0 && data.data.comp1 !== undefined) {
+    if (data.data.comp1.mode !== null) {
       addInputs(data.data.comp1.mode.length, data);
     } else {
       switch (mode) {
@@ -216,10 +211,7 @@ export async function changeMode(old_mode: string, new_mode: string): Promise<vo
       return;
     }
     if (new_mode !== 'end') {
-      nextMode(new_mode);
-      prepareBtns(new_mode);
-      prepareNavbar(new_mode);
-      showSections();
+      wrapper();
       return;
     } else {
       document.getElementById('mode').dataset.current_mode = new_mode;
@@ -229,6 +221,11 @@ export async function changeMode(old_mode: string, new_mode: string): Promise<vo
     }
   } else {
     // For now, just return to whatever the new_mode is
+    wrapper();
+    return;
+  }
+
+  function wrapper() {
     nextMode(new_mode);
     prepareBtns(new_mode);
     prepareNavbar(new_mode);

@@ -55,12 +55,7 @@ async function saveMode(mode) {
             },
         }),
     })
-        .then((response) => {
-        if (!response.ok) {
-            throw Error(`${response.statusText} - ${response.url}`);
-        }
-        return response.json();
-    })
+        .then((response) => response.json())
         .then((data) => {
         if (data.errors) {
             throw Error(data.errors[0].message);
@@ -84,7 +79,7 @@ function nextMode(mode) {
     const comp_2 = Competitor.unserialize(localStorage.getItem('comp_2'))[mode];
     function next(data) {
         // Fill the inputs
-        if (data.data.comp1.mode.length !== 0 && data.data.comp1 !== undefined) {
+        if (data.data.comp1.mode !== null) {
             addInputs(data.data.comp1.mode.length, data);
         }
         else {
@@ -190,10 +185,7 @@ export async function changeMode(old_mode, new_mode) {
             return;
         }
         if (new_mode !== 'end') {
-            nextMode(new_mode);
-            prepareBtns(new_mode);
-            prepareNavbar(new_mode);
-            showSections();
+            wrapper();
             return;
         }
         else {
@@ -205,6 +197,10 @@ export async function changeMode(old_mode, new_mode) {
     }
     else {
         // For now, just return to whatever the new_mode is
+        wrapper();
+        return;
+    }
+    function wrapper() {
         nextMode(new_mode);
         prepareBtns(new_mode);
         prepareNavbar(new_mode);
