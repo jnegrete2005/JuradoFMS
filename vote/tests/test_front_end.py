@@ -2,7 +2,6 @@ from .util import get_key_by_val, index_dict, modes_to_int, mode_aliases
 
 from django.test import LiveServerTestCase
 from selenium.webdriver.chrome.webdriver import WebDriver
-from selenium.webdriver.chrome.options import Options
 from time import sleep
 
 class FrontEndTestCase(LiveServerTestCase):
