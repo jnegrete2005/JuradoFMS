@@ -17,13 +17,13 @@ jobs:
         # needed because the postgres container does not provide a healthcheck
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
+    - uses: actions/checkout@v2
     - uses: browser-actions/setup-chrome@latest
     - run: chrome --version
     - uses: nanasess/setup-chromedriver@master
     - run: |
         export DISPLAY=:99
         chromedriver --url-base=/wd/hub &
-    - uses: actions/checkout@v2
     - name: Set up Python 3.7
       uses: actions/setup-python@v1
       with:
