@@ -18,11 +18,9 @@ jobs:
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
     - uses: browser-actions/setup-chrome@latest
-    - name: Set up Chrome
-      run: chrome --version
+    - run: chrome --version
     - uses: nanasess/setup-chromedriver@master
-    - name: Set up chromedriver
-      run: |
+    - run: |
         export DISPLAY=:99
         chromedriver --url-base=/wd/hub &
     - uses: actions/checkout@v2
