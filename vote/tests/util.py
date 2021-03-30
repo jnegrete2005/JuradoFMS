@@ -121,3 +121,42 @@ class Query:
   def __init__(self, query: str, variables: dict):
     self.response = graphql_query(query, variables=variables)
     self.content = loads(self.response.content)
+
+def get_key_by_val(my_dict: dict, val: str or int):
+  for key, value in my_dict.items():
+    if val == value:
+      return key
+
+  raise Exception('Key doesn\'t exist')
+
+def index_dict(dictionary, n=0):
+  if n < 0:
+    n += len(dictionary)
+  for i, key in enumerate(dictionary.keys()):
+    if i == n:
+      return dictionary[key]
+  raise IndexError("dictionary index out of range")
+
+modes_to_int = {
+  'easy': 0,
+  'hard': 1,
+  'tematicas': 2,
+  'random_score': 3,
+  'min1': 4,
+  'min2': 5,
+  'deluxe': 6,
+  'end': 7,
+  'replica': 8,
+}
+
+mode_aliases = {
+  'easy': 'Easy Mode',
+  'hard': 'Hard Mode',
+  'tematicas': 'Temáticas',
+  'random_score': 'Random Mode',
+  'min1': 'Primer Minuto',
+  'min2': 'Segundo Minuto',
+  'deluxe': 'Deluxe',
+  'end': 'end',
+  'replica': 'Réplica',
+}

@@ -29,10 +29,8 @@ jobs:
     - name: Run migrations
       run: python manage.py migrate
       env:
-        # Random key
-        SECRET_KEY: '!nj1v)#-y)e21t^u@-6tk+%+#vyzn30dp+)xof4q*y8y&%=h9l'
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
     - name: Test
       run: python manage.py test
       env:
-        # Random key
-        SECRET_KEY: '!nj1v)#-y)e21t^u@-6tk+%+#vyzn30dp+)xof4q*y8y&%=h9l'
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
