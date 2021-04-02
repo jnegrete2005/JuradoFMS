@@ -8,5 +8,4 @@
     "sourceMap": true,
     "module": "esnext",
   },
-  "exclude": ["types.ts",],
 }
