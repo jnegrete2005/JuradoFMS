@@ -1,6 +1,8 @@
 from .types import CompetitorType, VotingPollType, CompMode
 from ..models import Competitor, VotingPoll
 
+from django.conf import settings
+
 from graphql import GraphQLError
 
 import graphene
@@ -15,6 +17,9 @@ class CreatePoll(graphene.Mutation):
 
   @classmethod
   def mutate(cls, root, info, comp1, comp2):
+    if settings.DEBUG:
+      return CreatePoll(poll=VotingPoll.objects.first())
+
     comp_1 = Competitor.objects.create(name=comp1)
     comp_2 = Competitor.objects.create(name=comp2)
 
