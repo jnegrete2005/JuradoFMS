@@ -27,6 +27,9 @@ export function fillTable() {
         if (winner === 'Réplica') {
             document.getElementById('end-btn').innerHTML = 'Avanzar a réplica';
         }
+        else {
+            document.getElementById('end-btn').innerHTML = 'Terminar';
+        }
     })();
 }
 //# sourceMappingURL=end.js.map
