@@ -36,9 +36,14 @@ export function fillTable(): void {
     );
 
     document.getElementById('winner').innerHTML = winner;
+    const end = document.getElementById('end-btn');
 
     if (winner === 'Réplica') {
-      document.getElementById('end-btn').innerHTML = 'Avanzar a réplica';
+      end.innerHTML = 'Avanzar a réplica';
+      end.dataset.isEnd = 'false';
+    } else {
+      end.innerHTML = 'Terminar';
+      end.dataset.isEnd = 'true';
     }
   })();
 }

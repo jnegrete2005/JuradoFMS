@@ -24,8 +24,14 @@ export function fillTable() {
         // Get the winner
         const winner = get_winner(Competitor.unserialize(localStorage.getItem('comp_1')), Competitor.unserialize(localStorage.getItem('comp_2')));
         document.getElementById('winner').innerHTML = winner;
+        const end = document.getElementById('end-btn');
         if (winner === 'Réplica') {
-            document.getElementById('end-btn').innerHTML = 'Avanzar a réplica';
+            end.innerHTML = 'Avanzar a réplica';
+            end.dataset.isEnd = 'false';
+        }
+        else {
+            end.innerHTML = 'Terminar';
+            end.dataset.isEnd = 'true';
         }
     })();
 }
