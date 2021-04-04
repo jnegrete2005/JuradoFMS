@@ -34,9 +34,9 @@ class FrontEndTestCase(LiveServerTestCase):
     selenium = self.selenium
     
     # Check if the correct sections are hidden and shown
-    self.assertFalse('visually-hidden' in self.choose_comps.get_attribute('class'))
-    self.assertTrue('visually-hidden' in self.poll.get_attribute('class'))
-    self.assertTrue('visually-hidden' in self.end_table.get_attribute('class'))
+    self.assertFalse('d-none' in self.choose_comps.get_attribute('class'))
+    self.assertTrue('d-none' in self.poll.get_attribute('class'))
+    self.assertTrue('d-none' in self.end_table.get_attribute('class'))
 
     # Get and check the nav items
     for nav in self.navs:
@@ -65,9 +65,9 @@ class FrontEndTestCase(LiveServerTestCase):
     self.assertEqual(comp_2.text, 'no')
 
     # Check if the correct sections are hidden and shown
-    self.assertTrue('visually-hidden' in self.choose_comps.get_attribute('class'))
-    self.assertFalse('visually-hidden' in self.poll.get_attribute('class'))
-    self.assertTrue('visually-hidden' in self.end_table.get_attribute('class'))
+    self.assertTrue('d-none' in self.choose_comps.get_attribute('class'))
+    self.assertFalse('d-none' in self.poll.get_attribute('class'))
+    self.assertTrue('d-none' in self.end_table.get_attribute('class'))
 
   def test_1(self):
     ''' Check if modes pages are shown properly '''
@@ -91,9 +91,9 @@ class FrontEndTestCase(LiveServerTestCase):
     sleep(0.1)
 
     # Check if the correct sections are shown
-    self.assertTrue('visually-hidden' in self.choose_comps.get_attribute('class'))
-    self.assertTrue('visually-hidden' in self.poll.get_attribute('class'))
-    self.assertFalse('visually-hidden' in self.end_table.get_attribute('class'))
+    self.assertTrue('d-none' in self.choose_comps.get_attribute('class'))
+    self.assertTrue('d-none' in self.poll.get_attribute('class'))
+    self.assertFalse('d-none' in self.end_table.get_attribute('class'))
 
     rows = [self.selenium.find_elements_by_class_name('comp-1-table'), self.selenium.find_elements_by_class_name('comp-2-table')]
 
