@@ -34,7 +34,8 @@ export function useModal(title: string, body: string): void {
 
 export function addInputs(lenght: number, data?: GetModes, first = false) {
   if (!first) {
-    Array.from(document.getElementsByClassName('inputs-container')).forEach((container: HTMLDivElement, index) => {
+    // Empty the inputs
+    Array.from(document.getElementsByClassName('inputs-container')).forEach((container: HTMLDivElement) => {
       const comp = container.firstElementChild;
       container.innerHTML = '';
       container.append(comp);

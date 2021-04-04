@@ -26,7 +26,8 @@ export function useModal(title, body) {
 }
 export function addInputs(lenght, data, first = false) {
     if (!first) {
-        Array.from(document.getElementsByClassName('inputs-container')).forEach((container, index) => {
+        // Empty the inputs
+        Array.from(document.getElementsByClassName('inputs-container')).forEach((container) => {
             const comp = container.firstElementChild;
             container.innerHTML = '';
             container.append(comp);
