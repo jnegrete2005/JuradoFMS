@@ -235,6 +235,6 @@ export async function changeMode(old_mode: string, new_mode: string): Promise<vo
 }
 
 function showSections(end = false): void {
-  document.getElementById('table-container').classList.toggle('d-none', !end);
+  document.getElementById('end-container').classList.toggle('d-none', !end);
   document.getElementById('poll-container').classList.toggle('d-none', end);
 }

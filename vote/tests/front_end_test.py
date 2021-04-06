@@ -20,7 +20,7 @@ class FrontEndTestCase(LiveServerTestCase):
     # Define page sections
     cls.choose_comps = cls.selenium.find_element_by_id('choose-comps')
     cls.poll = cls.selenium.find_element_by_id('poll-container')
-    cls.end_table = cls.selenium.find_element_by_id('table-container')
+    cls.end_table = cls.selenium.find_element_by_id('end-container')
     cls.navs = cls.selenium.find_elements_by_class_name('nav-link')
 
 
