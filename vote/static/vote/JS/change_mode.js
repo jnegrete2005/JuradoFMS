@@ -209,7 +209,7 @@ export async function changeMode(old_mode, new_mode) {
     }
 }
 function showSections(end = false) {
-    document.getElementById('table-container').classList.toggle('d-none', !end);
+    document.getElementById('end-container').classList.toggle('d-none', !end);
     document.getElementById('poll-container').classList.toggle('d-none', end);
 }
 //# sourceMappingURL=change_mode.js.map
