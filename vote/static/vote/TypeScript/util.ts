@@ -113,7 +113,7 @@ function insertAfter(newNode: HTMLElement, referenceNode: HTMLElement) {
 
 export function createAlert(text: string | HTMLElement): void {
   const alert = `
-  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <div class="alert alert-warning alert-dismissible fade show mb-5" role="alert">
     ${text}
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>
