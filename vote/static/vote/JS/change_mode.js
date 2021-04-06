@@ -144,13 +144,11 @@ function nextMode(mode) {
         }),
         credentials: 'include',
     })
-        .then((response) => {
-        if (!response.ok) {
-            throw Error(`${response.statusText} - ${response.url}`);
-        }
-        return response.json();
-    })
+        .then((response) => response.json())
         .then((data) => {
+        if (data.errors) {
+            throw Error(data.errors[0].message);
+        }
         next(data);
     })
         .catch((err) => {
@@ -180,30 +178,33 @@ function prepareBtns(mode) {
     }
 }
 export async function changeMode(old_mode, new_mode) {
-    if (old_mode !== 'end') {
+    if (old_mode === 'end') {
+        wrapper();
+        return;
+    }
+    else {
         if (!(await saveMode(old_mode))) {
             return;
         }
-        if (new_mode !== 'end') {
-            wrapper();
-            return;
-        }
-        else {
+        if (new_mode === 'end') {
             document.getElementById('mode').dataset.current_mode = new_mode;
             prepareNavbar(new_mode);
             showSections(true);
             return;
         }
+        else if (new_mode === 'replica') {
+            wrapper(true);
+            return;
+        }
+        else {
+            wrapper();
+            return;
+        }
     }
-    else {
-        // For now, just return to whatever the new_mode is
-        wrapper();
-        return;
-    }
-    function wrapper() {
+    function wrapper(replica = false) {
         nextMode(new_mode);
         prepareBtns(new_mode);
-        prepareNavbar(new_mode);
+        prepareNavbar(new_mode, replica);
         showSections();
         return;
     }
