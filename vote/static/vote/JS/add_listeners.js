@@ -16,6 +16,11 @@ import { changeMode } from './change_mode.js';
                 import('./end.js').then((module) => module.fillTable());
                 return;
             }
+            else if (new_mode === 'end_replica') {
+                history.pushState({ show_table: true, replica: false }, '', '#end');
+                await changeMode(old_mode, new_mode);
+                return;
+            }
             // Push State
             history.pushState({ new_mode, show_table: false }, '', `#${new_mode}`);
             changeMode(old_mode, new_mode);
