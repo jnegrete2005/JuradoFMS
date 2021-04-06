@@ -1,5 +1,9 @@
+import { changeMode } from './change_mode.js';
 import { Competitor } from './classes.js';
 import { get_winner } from './util.js';
+document.getElementById('prev-end-btn').addEventListener('click', () => {
+    changeMode('end', 'deluxe');
+});
 export function fillTable() {
     let mode;
     // Fill the table
