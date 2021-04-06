@@ -100,6 +100,7 @@ export const modes_to_int = {
   deluxe: 6,
   end: 7,
   replica: 8,
+  end_replica: 9,
 };
 
 export const modes_aliases = {
