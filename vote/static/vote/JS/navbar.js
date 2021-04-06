@@ -9,11 +9,12 @@ export function prepareNavbar(mode, replica) {
     else {
         nav_links.forEach((link) => {
             link.classList.toggle('active', link.dataset.mode === mode);
-            if (!replica) {
-                link.classList.toggle('disabled', link.dataset.mode === 'replica');
+            if ((document.getElementById('end-btn').dataset.isEnd === 'false' && (mode === 'replica' || mode === 'end')) ||
+                replica) {
+                link.classList.remove('disabled');
             }
             else {
-                link.classList.remove('disabled');
+                link.classList.toggle('disabled', link.dataset.mode === 'replica');
             }
         });
     }
