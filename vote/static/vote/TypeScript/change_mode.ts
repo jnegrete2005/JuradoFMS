@@ -166,14 +166,13 @@ function nextMode(mode: string): void {
     }),
     credentials: 'include',
   })
-    .then((response) => {
-      if (!response.ok) {
-        throw Error(`${response.statusText} - ${response.url}`);
+    .then((response) => response.json())
+    .then((data: GraphqlError) => {
+      if (data.errors) {
+        throw Error(data.errors[0].message);
       }
-      return response.json();
-    })
-    .then((data: GetModes) => {
-      next(data);
+
+      next(data as GetModes);
     })
     .catch((err: Error) => {
       createError(err);
@@ -206,29 +205,31 @@ function prepareBtns(mode: string): void {
 }
 
 export async function changeMode(old_mode: string, new_mode: string): Promise<void> {
-  if (old_mode !== 'end') {
+  if (old_mode === 'end') {
+    wrapper();
+    return;
+  } else {
     if (!(await saveMode(old_mode))) {
       return;
     }
-    if (new_mode !== 'end') {
-      wrapper();
-      return;
-    } else {
+    if (new_mode === 'end') {
       document.getElementById('mode').dataset.current_mode = new_mode;
       prepareNavbar(new_mode);
       showSections(true);
       return;
+    } else if (new_mode === 'replica') {
+      wrapper(true);
+      return;
+    } else {
+      wrapper();
+      return;
     }
-  } else {
-    // For now, just return to whatever the new_mode is
-    wrapper();
-    return;
   }
 
-  function wrapper() {
+  function wrapper(replica = false) {
     nextMode(new_mode);
     prepareBtns(new_mode);
-    prepareNavbar(new_mode);
+    prepareNavbar(new_mode, replica);
     showSections();
     return;
   }
