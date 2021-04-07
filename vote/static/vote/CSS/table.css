@@ -1,0 +1,22 @@
+#rep-res-container {
+  width: 100%;
+  margin: auto;
+}
+
+@media (min-width: 576px) {
+  #rep-res-container {
+    width: 70%;
+  }
+}
+
+@media (min-width: 992px) {
+  #rep-res-container {
+    width: 50%;
+  }
+}
+
+#rep-res-container > table > thead > tr > th,
+#rep-res-container > table > tbody > tr > td {
+  width: 50%;
+}
+/*# sourceMappingURL=table.css.map */
