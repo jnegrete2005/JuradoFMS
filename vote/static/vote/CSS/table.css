@@ -1,16 +1,16 @@
-#rep-res-container {
+#rep-res-container > table {
   width: 100%;
   margin: auto;
 }
 
 @media (min-width: 576px) {
-  #rep-res-container {
+  #rep-res-container > table {
     width: 70%;
   }
 }
 
 @media (min-width: 992px) {
-  #rep-res-container {
+  #rep-res-container > table {
     width: 50%;
   }
 }
