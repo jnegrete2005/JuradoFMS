@@ -1,6 +1,6 @@
 @import 'media_queries';
 
-#rep-res-container {
+#rep-res-container > table {
   width: 100%;
 
   @include sm() {
