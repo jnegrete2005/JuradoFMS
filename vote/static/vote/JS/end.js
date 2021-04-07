@@ -7,9 +7,9 @@ document.getElementById('prev-end-btn').addEventListener('click', () => {
 export function fillTable() {
     let mode;
     // Fill the table
-    for (let i = 0; i < 2; i++) {
-        const comp = Competitor.unserialize(localStorage.getItem(`comp_${i + 1}`));
-        Array.from(document.getElementsByClassName(`comp-${i + 1}-table`)).forEach((el, j) => {
+    for (let i = 1; i <= 2; i++) {
+        const comp = Competitor.unserialize(localStorage.getItem(`comp_${i}`));
+        Array.from(document.getElementsByClassName(`comp-${i}-table`)).forEach((el, j) => {
             j++;
             if (j === 1) {
                 el.innerHTML = comp.name;
