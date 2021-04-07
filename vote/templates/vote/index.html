@@ -14,6 +14,7 @@
   <!-- Static Files -->
   <link rel="stylesheet" href="{% static 'vote/CSS/navbar.css' %}">
   <link rel="stylesheet" href="{% static 'vote/CSS/polls.css' %}">
+  <link rel="stylesheet" href="{% static 'vote/CSS/table.css' %}">
 
   <script src="{% static 'vote/JS/navbar.js' %}" type="module" defer></script>
   <script src="{% static 'vote/JS/popstate.js' %}" type="module" defer></script>
@@ -224,21 +225,21 @@
     </div>
 
     <!-- Replica results -->
-    <div id="rep-res-container">
+    <div id="rep-res-container" class="d-none">
       <table class="table table-bordered mt-5">
         <thead>
           <tr>
-            <th class="text-center align-middle comp-1-rep" scope="col">Si</th>
-            <th class="text-center align-middle comp-2-rep" scope="col">No</th>
+            <th class="text-center comp-1-rep" scope="col"></th>
+            <th class="text-center comp-2-rep" scope="col"></th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td class="text-center comp-1-rep">69</td>
-            <td class="text-center comp-2-rep">96</td>
+            <td class="text-center comp-1-rep"></td>
+            <td class="text-center comp-2-rep"></td>
           </tr>
           <tr>
-            <th id="rep-winner" class="text-center" scope="row" colspan="2">No</th>
+            <th id="rep-winner" class="text-center" scope="row" colspan="2"></th>
           </tr>
         </tbody>
       </table>
