@@ -4,7 +4,7 @@
   border-radius: 10px;
 }
 
-input[type=number] {
+input[type='number'] {
   width: 30px;
   height: 30px;
   padding: 0;
@@ -12,13 +12,13 @@ input[type=number] {
 }
 
 @media (min-width: 768px) {
-  input[type=number] {
+  input[type='number'] {
     width: 35px;
     height: 35px;
   }
 }
 
-input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-inner-spin-button {
+input[type='number']::-webkit-inner-spin-button, input[type='number']::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
