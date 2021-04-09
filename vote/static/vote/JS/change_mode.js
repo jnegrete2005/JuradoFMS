@@ -1,6 +1,7 @@
 import { prepareNavbar } from './navbar.js';
 import { modes_aliases, Competitor } from './classes.js';
 import { addInputs, arraysMatch, createAlert, createError, getCookie } from './util.js';
+import { fillRepTable } from './replica.js';
 async function saveMode(mode) {
     let comp_1 = Competitor.unserialize(localStorage.getItem('comp_1'));
     let comp_2 = Competitor.unserialize(localStorage.getItem('comp_2'));
@@ -178,7 +179,7 @@ function prepareBtns(mode) {
     }
 }
 export async function changeMode(old_mode, new_mode) {
-    if (old_mode === 'end') {
+    if (old_mode === 'end' || old_mode === 'end_replica') {
         wrapper();
         return;
     }
@@ -186,19 +187,26 @@ export async function changeMode(old_mode, new_mode) {
         if (!(await saveMode(old_mode))) {
             return;
         }
-        if (new_mode === 'end') {
-            document.getElementById('mode').dataset.current_mode = new_mode;
-            prepareNavbar(new_mode);
-            showSections(true);
-            return;
-        }
-        else if (new_mode === 'replica') {
-            wrapper(true);
-            return;
-        }
-        else {
-            wrapper();
-            return;
+        switch (new_mode) {
+            case 'end':
+                document.getElementById('mode').dataset.current_mode = new_mode;
+                prepareNavbar(new_mode);
+                showSections(true);
+                break;
+            case 'replica':
+                wrapper(true);
+                break;
+            case 'end_replica':
+                if (old_mode !== 'replica') {
+                    throw Error('Esta sección solo puede ser accedida después de Réplica.');
+                }
+                document.getElementById('mode').dataset.current_mode = new_mode;
+                prepareNavbar('end');
+                fillRepTable();
+                break;
+            default:
+                wrapper();
+                return;
         }
     }
     function wrapper(replica = false) {
@@ -212,5 +220,6 @@ export async function changeMode(old_mode, new_mode) {
 function showSections(end = false) {
     document.getElementById('end-container').classList.toggle('d-none', !end);
     document.getElementById('poll-container').classList.toggle('d-none', end);
+    document.getElementById('rep-res-container').classList.add('d-none');
 }
 //# sourceMappingURL=change_mode.js.map

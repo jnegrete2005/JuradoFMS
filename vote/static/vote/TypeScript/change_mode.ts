@@ -1,6 +1,7 @@
 import { prepareNavbar } from './navbar.js';
 import { modes_aliases, Competitor } from './classes.js';
 import { addInputs, arraysMatch, createAlert, createError, getCookie } from './util.js';
+import { fillRepTable } from './replica.js';
 
 import type { GraphqlError, SaveModes, GetModes } from './types';
 
@@ -205,24 +206,36 @@ function prepareBtns(mode: string): void {
 }
 
 export async function changeMode(old_mode: string, new_mode: string): Promise<void> {
-  if (old_mode === 'end') {
+  if (old_mode === 'end' || old_mode === 'end_replica') {
     wrapper();
     return;
   } else {
     if (!(await saveMode(old_mode))) {
       return;
     }
-    if (new_mode === 'end') {
-      document.getElementById('mode').dataset.current_mode = new_mode;
-      prepareNavbar(new_mode);
-      showSections(true);
-      return;
-    } else if (new_mode === 'replica') {
-      wrapper(true);
-      return;
-    } else {
-      wrapper();
-      return;
+    switch (new_mode) {
+      case 'end':
+        document.getElementById('mode').dataset.current_mode = new_mode;
+        prepareNavbar(new_mode);
+        showSections(true);
+        break;
+
+      case 'replica':
+        wrapper(true);
+        break;
+
+      case 'end_replica':
+        if (old_mode !== 'replica') {
+          throw Error('Esta sección solo puede ser accedida después de Réplica.');
+        }
+        document.getElementById('mode').dataset.current_mode = new_mode;
+        prepareNavbar('end');
+        fillRepTable();
+        break;
+
+      default:
+        wrapper();
+        return;
     }
   }
 
@@ -238,4 +251,5 @@ export async function changeMode(old_mode: string, new_mode: string): Promise<vo
 function showSections(end = false): void {
   document.getElementById('end-container').classList.toggle('d-none', !end);
   document.getElementById('poll-container').classList.toggle('d-none', end);
+  document.getElementById('rep-res-container').classList.add('d-none');
 }
