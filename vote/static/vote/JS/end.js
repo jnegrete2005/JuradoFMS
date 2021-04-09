@@ -24,19 +24,31 @@ export function fillTable() {
         });
     }
     // Fill the table's winner
-    (function getWinner() {
-        // Get the winner
-        const winner = get_winner(Competitor.unserialize(localStorage.getItem('comp_1')), Competitor.unserialize(localStorage.getItem('comp_2')));
-        document.getElementById('winner').innerHTML = winner;
-        const end = document.getElementById('end-btn');
-        if (winner === 'Réplica') {
-            end.innerHTML = 'Avanzar a réplica';
-            end.dataset.isEnd = 'false';
-        }
-        else {
-            end.innerHTML = 'Terminar';
-            end.dataset.isEnd = 'true';
-        }
-    })();
+    // Get the winner
+    const winner = get_winner(Competitor.unserialize(localStorage.getItem('comp_1')), Competitor.unserialize(localStorage.getItem('comp_2')));
+    document.getElementById('winner').innerHTML = winner;
+    const end = document.getElementById('end-btn');
+    // Add the state of replica to the page
+    if (winner === 'Réplica') {
+        end.innerHTML = 'Avanzar a réplica';
+        end.dataset.isEnd = 'false';
+    }
+    else {
+        end.innerHTML = 'Terminar';
+        end.dataset.isEnd = 'true';
+    }
 }
+// Check for replica
+document.getElementById('end-btn').addEventListener('click', () => {
+    // If it wasn't a tie, just refresh the browser
+    if (document.getElementById('end-btn').dataset.isEnd === 'true') {
+        location.assign('http://127.0.0.1:8000/vota/');
+        return;
+    }
+    // Else, display replica
+    document.getElementById('poll-container').classList.remove('d-none');
+    document.getElementById('end-container').classList.add('d-none');
+    document.getElementById('rep-res-container').classList.add('d-none');
+    changeMode(document.getElementById('mode').dataset.current_mode, 'replica');
+});
 //# sourceMappingURL=end.js.map
