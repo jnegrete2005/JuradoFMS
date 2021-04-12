@@ -1,5 +1,5 @@
 export class Competitor {
-    constructor(_id, _name, easy, hard, tematicas, random_score, min1, min2, deluxe, replica) {
+    constructor(_id, _name, easy, hard, tematicas, random_score, min1, min2, deluxe, replica, counter = 0) {
         this._id = _id;
         this._name = _name;
         this.easy = easy;
@@ -10,6 +10,7 @@ export class Competitor {
         this.min2 = min2;
         this.deluxe = deluxe;
         this.replica = replica;
+        this.counter = counter;
     }
     get id() {
         return this._id;
