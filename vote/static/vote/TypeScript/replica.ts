@@ -1,3 +1,4 @@
+import { changeMode } from './change_mode.js';
 import { Competitor } from './classes.js';
 import { get_winner } from './util.js';
 
@@ -31,3 +32,8 @@ export function fillRepTable(): void {
   document.getElementById('poll-container').classList.add('d-none');
   document.getElementById('rep-res-container').classList.remove('d-none');
 }
+
+document.getElementById('prev-rep-btn').addEventListener('click', () => {
+  history.pushState({ old_mode: 'end_replica', new_mode: 'replica' }, '', '#replica');
+  changeMode('end_replica', 'replica');
+});
