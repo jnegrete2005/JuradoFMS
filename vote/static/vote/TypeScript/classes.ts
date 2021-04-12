@@ -11,7 +11,8 @@ export class Competitor {
     public min1?: arr,
     public min2?: arr,
     public deluxe?: arr,
-    public replica?: arr14
+    public replica?: arr14,
+    public counter = 0
   ) {}
 
   public get id(): number {
