@@ -65,5 +65,6 @@ document.getElementById('end-btn').addEventListener('click', () => {
   document.getElementById('end-container').classList.add('d-none');
   document.getElementById('rep-res-container').classList.add('d-none');
 
+  history.pushState({ old_mode: 'end', new_mode: 'replica' }, '', '#replica');
   changeMode(document.getElementById('mode').dataset.current_mode, 'replica');
 });
