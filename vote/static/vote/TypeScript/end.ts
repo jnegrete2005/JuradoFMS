@@ -20,6 +20,7 @@ export function fillTable(): void {
           el.innerHTML = comp.name;
           return;
         }
+
         mode = Object.keys(comp)[j];
 
         if (mode === 'replica') {
@@ -46,10 +47,11 @@ export function fillTable(): void {
   if (winner === 'Réplica') {
     end.innerHTML = 'Avanzar a réplica';
     end.dataset.isEnd = 'false';
-  } else {
-    end.innerHTML = 'Terminar';
-    end.dataset.isEnd = 'true';
+    return;
   }
+
+  end.innerHTML = 'Terminar';
+  end.dataset.isEnd = 'true';
 }
 
 // Check for replica

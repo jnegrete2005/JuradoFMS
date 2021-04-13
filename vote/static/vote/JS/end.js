@@ -32,11 +32,10 @@ export function fillTable() {
     if (winner === 'Réplica') {
         end.innerHTML = 'Avanzar a réplica';
         end.dataset.isEnd = 'false';
+        return;
     }
-    else {
-        end.innerHTML = 'Terminar';
-        end.dataset.isEnd = 'true';
-    }
+    end.innerHTML = 'Terminar';
+    end.dataset.isEnd = 'true';
 }
 // Check for replica
 document.getElementById('end-btn').addEventListener('click', () => {
