@@ -1,3 +1,4 @@
+import { Competitor } from './classes';
 export function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -140,5 +141,17 @@ export function get_winner(comp_1, comp_2, replica = false) {
     }
     const max_num = Math.max(comp_1.get_total(), comp_2.get_total());
     return max_num === comp_1.get_total() ? comp_1.name : comp_2.name;
+}
+export function plus_counter() {
+    // Get the comps
+    const comp_1 = Competitor.unserialize(localStorage.getItem('comp_1'));
+    const comp_2 = Competitor.unserialize(localStorage.getItem('comp_2'));
+    // Add the values
+    comp_1.counter++;
+    comp_2.counter++;
+    // Save the comps
+    localStorage.setItem('comp_1', comp_1.serialize());
+    localStorage.setItem('comp_2', comp_2.serialize());
+    return;
 }
 //# sourceMappingURL=util.js.map
