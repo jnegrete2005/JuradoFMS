@@ -283,8 +283,8 @@ function cleanReplicaValues(): void {
       variables: {
         id: parseInt(localStorage.getItem('poll')),
         mode: 'replica',
-        value1: [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        value2: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        value1: [9, 9, 9, 9, 9, 9, 9, 9, 9],
+        value2: [9, 9, 9, 9, 9, 9, 9, 9, 9],
       },
     }),
   });
