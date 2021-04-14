@@ -1,6 +1,6 @@
 import { changeMode } from './change_mode.js';
 import { Competitor } from './classes.js';
-import { get_winner } from './util.js';
+import { get_winner, plus_counter } from './util.js';
 
 export function fillRepTable(): void {
   // Populate fields
@@ -25,7 +25,16 @@ export function fillRepTable(): void {
     true
   );
 
-  document.getElementById('rep-winner').innerHTML = winner;
+  if (winner === 'decide') {
+    document.getElementById('rep-btn').dataset.decide = 'true';
+  } else {
+    document.getElementById('rep-btn').dataset.decide = 'false';
+  }
+
+  document.getElementById('rep-winner').innerHTML = winner === 'decide' ? 'Réplica' : winner;
+
+  // TODO
+  document.getElementById('rep-btn').innerHTML = winner === 'Réplica' || winner === 'decide' ? 'Réplica' : 'Terminar';
 
   // Show and hide sections
   document.getElementById('end-container').classList.add('d-none');
@@ -36,4 +45,20 @@ export function fillRepTable(): void {
 document.getElementById('prev-rep-btn').addEventListener('click', () => {
   history.pushState({ old_mode: 'end_replica', new_mode: 'replica' }, '', '#replica');
   changeMode('end_replica', 'replica');
+});
+
+document.getElementById('rep-btn').addEventListener('click', () => {
+  if (document.getElementById('rep-btn').innerHTML === 'Terminar') {
+    location.assign('http://127.0.0.1:8000/vota/');
+    return;
+  }
+
+  if (document.getElementById('rep-btn').dataset.decide === 'true') {
+    // TODO
+    return;
+  }
+
+  history.pushState({ old_mode: 'end_replica', new_mode: 'replica' }, '', '#replica');
+  changeMode('end_replica', 'replica');
+  plus_counter();
 });
