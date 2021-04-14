@@ -21,6 +21,7 @@ Array.from(document.getElementsByClassName('listen')).forEach((el: HTMLAnchorEle
     } else if (new_mode === 'end_replica') {
       history.pushState({ show_table: true, replica: true }, '', '#end');
       await changeMode(old_mode, new_mode);
+      import('./replica.js').then((module) => module.fillRepTable());
       return;
     }
 
