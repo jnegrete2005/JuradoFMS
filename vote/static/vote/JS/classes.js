@@ -61,11 +61,12 @@ export class Competitor {
             min2: this.min2,
             deluxe: this.deluxe,
             replica: this.replica,
+            counter: this.counter,
         });
     }
     static unserialize(data) {
         const newData = JSON.parse(data);
-        return new Competitor(newData.id, newData.name, newData.easy, newData.hard, newData.tematicas, newData.random_score, newData.min1, newData.min2, newData.deluxe, newData.replica);
+        return new Competitor(newData.id, newData.name, newData.easy, newData.hard, newData.tematicas, newData.random_score, newData.min1, newData.min2, newData.deluxe, newData.replica, newData.counter);
     }
 }
 export const modes_to_int = {
