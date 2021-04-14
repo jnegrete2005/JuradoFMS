@@ -207,6 +207,10 @@ function prepareBtns(mode: string): void {
 
 export async function changeMode(old_mode: string, new_mode: string): Promise<void> {
   if (old_mode === 'end' || old_mode === 'end_replica') {
+    if (new_mode === 'replica') {
+      cleanReplicaValues();
+    }
+
     wrapper();
     return;
   } else {
@@ -220,17 +224,16 @@ export async function changeMode(old_mode: string, new_mode: string): Promise<vo
         showSections(true);
         break;
 
-      case 'replica':
-        wrapper(true);
-        break;
-
       case 'end_replica':
         if (old_mode !== 'replica') {
           throw Error('Esta sección solo puede ser accedida después de Réplica.');
         }
         document.getElementById('mode').dataset.current_mode = new_mode;
         prepareNavbar('end');
-        fillRepTable();
+        break;
+
+      case 'replica':
+        wrapper(true);
         break;
 
       default:
@@ -252,4 +255,37 @@ function showSections(end = false): void {
   document.getElementById('end-container').classList.toggle('d-none', !end);
   document.getElementById('poll-container').classList.toggle('d-none', end);
   document.getElementById('rep-res-container').classList.add('d-none');
+}
+
+function cleanReplicaValues(): void {
+  const mutation = `
+    mutation SaveModes($id: ID!, $mode: String!, $value1: [Int]!, $value2: [Int]!) {
+      saveModes(pollId: $id, mode: $mode, value1: $value1, value2: $value2) {
+        comp1 {
+          mode
+        }
+        comp2 {
+          mode
+        }
+      }
+    }
+  `;
+
+  fetch('/graphql/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      'X-CSRFToken': getCookie('csrftoken'),
+    },
+    body: JSON.stringify({
+      query: mutation,
+      variables: {
+        id: parseInt(localStorage.getItem('poll')),
+        mode: 'replica',
+        value1: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        value2: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      },
+    }),
+  });
 }
