@@ -1,4 +1,4 @@
-import { Competitor } from './classes';
+import { Competitor } from './classes.js';
 import type { GetModes } from './types';
 
 export function getCookie(name: string): string {
@@ -159,6 +159,20 @@ export function arraysMatch(arr1: Array<any>, arr2: Array<any>): boolean {
 export function get_winner(comp_1: Competitor, comp_2: Competitor, replica = false): string {
   // Case replica
   if (replica) {
+    // If it is already in replica #2
+    if (comp_1.counter === 1) {
+      // Check if it is replica again
+      if (
+        comp_1.get_sum('replica') === comp_2.get_sum('replica') ||
+        Math.abs(comp_1.get_sum('replica') - comp_2.get_sum('replica')) < 6
+      ) {
+        return 'decide';
+      }
+
+      // Return the winner
+      const max = Math.max(comp_1.get_sum('replica'), comp_2.get_sum('replica'));
+      return max === comp_1.get_sum('replica') ? comp_1.name : comp_2.name;
+    }
     if (
       comp_1.get_sum('replica') === comp_2.get_sum('replica') ||
       Math.abs(comp_1.get_sum('replica') - comp_2.get_sum('replica')) < 6

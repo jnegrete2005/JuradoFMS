@@ -1,4 +1,4 @@
-import { Competitor } from './classes';
+import { Competitor } from './classes.js';
 export function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -128,6 +128,17 @@ export function arraysMatch(arr1, arr2) {
 export function get_winner(comp_1, comp_2, replica = false) {
     // Case replica
     if (replica) {
+        // If it is already in replica #2
+        if (comp_1.counter === 1) {
+            // Check if it is replica again
+            if (comp_1.get_sum('replica') === comp_2.get_sum('replica') ||
+                Math.abs(comp_1.get_sum('replica') - comp_2.get_sum('replica')) < 6) {
+                return 'decide';
+            }
+            // Return the winner
+            const max = Math.max(comp_1.get_sum('replica'), comp_2.get_sum('replica'));
+            return max === comp_1.get_sum('replica') ? comp_1.name : comp_2.name;
+        }
         if (comp_1.get_sum('replica') === comp_2.get_sum('replica') ||
             Math.abs(comp_1.get_sum('replica') - comp_2.get_sum('replica')) < 6) {
             return 'Réplica';
