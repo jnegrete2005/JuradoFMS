@@ -71,6 +71,7 @@ export class Competitor {
       min2: this.min2,
       deluxe: this.deluxe,
       replica: this.replica,
+      counter: this.counter,
     });
   }
 
@@ -86,7 +87,8 @@ export class Competitor {
       newData.min1,
       newData.min2,
       newData.deluxe,
-      newData.replica
+      newData.replica,
+      newData.counter
     );
   }
 }
