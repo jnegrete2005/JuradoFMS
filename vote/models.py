@@ -13,17 +13,18 @@ class Competitor(Model):
   name = CharField(max_length=20)
   easy = ArrayField(PositiveSmallIntegerField(), size=9, null=True, blank=True, verbose_name='Easy Mode')
   hard = ArrayField(PositiveSmallIntegerField(), size=9, null=True, blank=True, verbose_name='Hard Mode')
-  tematicas = ArrayField(PositiveSmallIntegerField(), size=7, null=True, blank=True, verbose_name='Tematicas')
+  tematicas_1 = ArrayField(PositiveSmallIntegerField(), size=7, null=True, blank=True, verbose_name='Tematicas 1')
+  tematicas_2 = ArrayField(PositiveSmallIntegerField(), size=7, null=True, blank=True, verbose_name='Tematicas 2')
   random_score = ArrayField(PositiveSmallIntegerField(), size=9, null=True, blank=True, verbose_name='Random Mode')
   min1 = ArrayField(PositiveSmallIntegerField(), size=9, null=True, blank=True, verbose_name='minuto 1')
   min2 = ArrayField(PositiveSmallIntegerField(), size=9, null=True, blank=True, verbose_name='minuto 2')
   deluxe = ArrayField(PositiveSmallIntegerField(), size=14, null=True, blank=True, verbose_name='Deluxe')
   replica = ArrayField(PositiveSmallIntegerField(), size=9, null=True, blank=True, verbose_name='Replica')
-  _list = [ 'easy', 'hard', 'tematicas', 'random_score', 'min1', 'min2', 'deluxe', 'replica' ]
+  _list = [ 'easy', 'hard', 'tematicas_1', 'tematicas_2', 'random_score', 'min1', 'min2', 'deluxe', 'replica' ]
 
   def get_sum(self, mode):
     if mode == 'name':
-      raise NameError(f'mode can\'t be equal to {mode}')
+      raise NameError('mode can\'t be equal to name')
 
     i = 0
 
@@ -39,7 +40,8 @@ class Competitor(Model):
     """
     return (self.get_sum('easy') +
             self.get_sum('hard') +
-            self.get_sum('tematicas') +
+            self.get_sum('tematicas_1') +
+            self.get_sum('tematicas_2') +
             self.get_sum('random_score') +
             self.get_sum('min1') +
             self.get_sum('min2') +
