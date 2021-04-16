@@ -161,8 +161,8 @@ modes_to_int = {
 mode_aliases = {
   'easy': 'Easy Mode',
   'hard': 'Hard Mode',
-  'tematicas_1': 'Temáticas',
-  'tematicas_2': 'Temáticas',
+  'tematicas_1': 'Primera Temática',
+  'tematicas_2': 'Segunda Temática',
   'random_score': 'Random Mode',
   'min1': 'Primer Minuto',
   'min2': 'Segundo Minuto',
