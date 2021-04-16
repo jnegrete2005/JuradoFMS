@@ -19,7 +19,7 @@ class CreatePoll(graphene.Mutation):
   def mutate(cls, root, info, comp1, comp2):
     if settings.DEBUG:
       poll = VotingPoll.objects.first()
-      for i in range(8):
+      for i in range(9):
         poll.comp_1[i] = None
         poll.comp_2[i] = None
       return CreatePoll(poll=poll)
