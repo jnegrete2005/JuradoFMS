@@ -52,7 +52,8 @@ export class Competitor {
     return (
       this.get_sum('easy') +
       this.get_sum('hard') +
-      this.get_sum('tematicas') +
+      this.get_sum('tematicas_1') +
+      this.get_sum('tematicas_2') +
       this.get_sum('random_score') +
       this.get_sum('min1') +
       this.get_sum('min2') +

@@ -84,7 +84,8 @@ function nextMode(mode) {
         }
         else {
             switch (mode) {
-                case 'tematicas':
+                case 'tematicas_1':
+                case 'tematicas_2':
                     addInputs(7);
                     break;
                 case 'deluxe':
@@ -179,9 +180,6 @@ function prepareBtns(mode) {
 }
 export async function changeMode(old_mode, new_mode) {
     if (old_mode === 'end' || old_mode === 'end_replica') {
-        if (new_mode === 'replica') {
-            cleanReplicaValues();
-        }
         wrapper();
         return;
     }
