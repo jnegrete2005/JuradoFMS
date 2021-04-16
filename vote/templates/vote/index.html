@@ -27,6 +27,7 @@
   <script src="{% static 'vote/JS/replica.js' %}" type="module"></script>
 </head>
 <body>
+  {% csrf_token %}
   <!-- Error modal -->
   <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -179,7 +180,8 @@
               <th class="text-center align-middle" scope="col">Gallo</th>
               <th class="text-center align-middle" scope="col">Easy</th>
               <th class="text-center align-middle" scope="col">Hard</th>
-              <th class="text-center align-middle" scope="col">Temáticas</th>
+              <th class="text-center align-middle" scope="col">Temáticas 1</th>
+              <th class="text-center align-middle" scope="col">Temáticas 2</th>
               <th class="text-center align-middle" scope="col">Random</th>
               <th class="text-center align-middle" scope="col">Minuto 1</th>
               <th class="text-center align-middle" scope="col">Minuto 2</th>
@@ -190,6 +192,7 @@
           <tbody>
             <tr>
               <th class="text-center comp-1-table" scope="row"></th>
+              <td class="text-center comp-1-table"></td>
               <td class="text-center comp-1-table"></td>
               <td class="text-center comp-1-table"></td>
               <td class="text-center comp-1-table"></td>
@@ -209,9 +212,10 @@
               <td class="text-center comp-2-table"></td>
               <td class="text-center comp-2-table"></td>
               <td class="text-center comp-2-table"></td>
+              <td class="text-center comp-2-table"></td>
             </tr>
             <tr>
-              <th id="winner" class="text-center" scope="row" colspan="9"></th>
+              <th id="winner" class="text-center" scope="row" colspan="10"></th>
             </tr>
           </tbody>
         </table>

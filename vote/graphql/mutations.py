@@ -49,7 +49,7 @@ class SaveModes(graphene.Mutation):
       if len(value_1) != 14 or len(value_2) != 14:
         raise GraphQLError('Deluxe no puede tener más ni menos de 14 elementos')
 
-    elif mode == 'tematicas':
+    elif mode == 'tematicas_1' or mode == 'tematicas_2':
       if len(value_1) != 7 or len(value_2) != 7:
         raise GraphQLError('Tematicas no puede tener más ni menos de 7 elementos')
 

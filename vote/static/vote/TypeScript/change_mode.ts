@@ -99,7 +99,8 @@ function nextMode(mode: string): void {
       addInputs(data.data.comp1.mode.length, data);
     } else {
       switch (mode) {
-        case 'tematicas':
+        case 'tematicas_1':
+        case 'tematicas_2':
           addInputs(7);
           break;
 
@@ -207,10 +208,6 @@ function prepareBtns(mode: string): void {
 
 export async function changeMode(old_mode: string, new_mode: string): Promise<void> {
   if (old_mode === 'end' || old_mode === 'end_replica') {
-    if (new_mode === 'replica') {
-      cleanReplicaValues();
-    }
-
     wrapper();
     return;
   } else {
