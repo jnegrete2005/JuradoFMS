@@ -1,7 +1,6 @@
 import { prepareNavbar } from './navbar.js';
 import { modes_aliases, Competitor } from './classes.js';
 import { addInputs, arraysMatch, createAlert, createError, getCookie } from './util.js';
-import { fillRepTable } from './replica.js';
 
 import type { GraphqlError, SaveModes, GetModes } from './types';
 
