@@ -70,7 +70,31 @@ class SaveModes(graphene.Mutation):
       )
 
 
+class SaveWinner(graphene.Mutation):
+  class Arguments:
+    poll_id = graphene.ID(required=True)
+    winner = graphene.String(required=True)
+
+  poll = graphene.Field(VotingPollType)
+
+  @classmethod
+  def mutate(cls, root, info, poll_id: int, winner: str):
+    poll = VotingPoll.objects.get(pk=poll_id)
+
+    # Check if the winner is valid
+    possible = [poll.comp_1.name, poll.comp_2.name]
+    if winner not in possible:
+      raise GraphQLError(f'"{winner}" no coincide con los competidores de esta batalla.')
+
+    # Set the new winner
+    poll.winner = winner
+    poll.save(update_fields=['winner'])
+
+    return SaveWinner(poll=poll)
+    
+
 class Mutation(graphene.ObjectType):
   create_poll = CreatePoll.Field()
   save_modes = SaveModes.Field()
+  save_winner = SaveWinner.Field()
   
