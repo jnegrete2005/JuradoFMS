@@ -45,7 +45,7 @@ class VoteTestCase(TestCase):
 
   def test_get_winner_win(self):
     """ Checks if the get_winner VotingPoll function works (returns a winner) """
-    self.assertEqual(VotingPoll.objects.first().get_winner(), VotingPoll.objects.first().comp_2)
+    self.assertEqual(VotingPoll.objects.first().get_winner(), 'No')
 
   def test_get_winner_replica(self):
     """ Checks if the get_winner VotingPoll function works (returns a replica) """
@@ -56,4 +56,4 @@ class VoteTestCase(TestCase):
     Checks if the get_winner VotingPoll function works 
     (returns a winner with replica mode on) 
     """
-    self.assertEqual(VotingPoll.objects.last().get_winner(replica=True), Competitor.objects.last())
+    self.assertEqual(VotingPoll.objects.last().get_winner(replica=True), 'Replica 2')
