@@ -181,8 +181,7 @@ export function get_winner(comp_1: Competitor, comp_2: Competitor, replica = fal
     }
 
     const max_num = Math.max(comp_1.get_sum('replica'), comp_2.get_sum('replica'));
-
-    return max_num === comp_1.get_sum('replica') ? comp_1.name : comp_2.name;
+    return SaveWinner(comp_1, comp_2, max_num);
   }
 
   // Normal case
@@ -190,9 +189,38 @@ export function get_winner(comp_1: Competitor, comp_2: Competitor, replica = fal
     return 'Réplica';
   }
 
+  // Return and save the winner if there is one
   const max_num = Math.max(comp_1.get_total(), comp_2.get_total());
+  return SaveWinner(comp_1, comp_2, max_num);
+}
 
-  return max_num === comp_1.get_total() ? comp_1.name : comp_2.name;
+function SaveWinner(comp_1: Competitor, comp_2: Competitor, max_num: number) {
+  const winner = max_num === comp_1.get_total() ? comp_1.name : comp_2.name;
+  const mutation = `
+    mutation SaveWinner($id: ID!, $winner: String!) {
+      saveWinner(pollId: $id, winner: $winner) {
+        poll {
+          winner
+        }
+      }
+    }
+  `;
+
+  fetch('/graphql/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      'X-CSRFToken': getCookie('csrftoken'),
+    },
+    body: JSON.stringify({
+      query: mutation,
+      variables: { id: parseInt(localStorage.getItem('poll')), winner: winner },
+    }),
+    credentials: 'include',
+  });
+
+  return winner;
 }
 
 export function plus_counter(): void {
