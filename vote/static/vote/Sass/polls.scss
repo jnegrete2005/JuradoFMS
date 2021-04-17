@@ -24,3 +24,22 @@ input[type='number'] {
     margin: 0;
   }
 }
+
+.choice-input {
+  width: 7rem;
+  height: 5rem;
+  font-size: larger;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border: 2px solid gainsboro;
+  border-radius: 7px;
+
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    transform: scale(1.05);
+  }
+}
