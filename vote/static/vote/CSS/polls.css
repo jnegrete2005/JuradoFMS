@@ -22,4 +22,29 @@ input[type='number']::-webkit-inner-spin-button, input[type='number']::-webkit-i
   -webkit-appearance: none;
   margin: 0;
 }
+
+.choice-input {
+  width: 7rem;
+  height: 5rem;
+  font-size: larger;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border: 2px solid gainsboro;
+  border-radius: 7px;
+  cursor: pointer;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+
+.choice-input:hover {
+  -webkit-transform: scale(1.05);
+          transform: scale(1.05);
+}
 /*# sourceMappingURL=polls.css.map */
