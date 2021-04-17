@@ -28,9 +28,12 @@ class Competitor(Model):
 
     i = 0
 
-    for j in self.__dict__[mode]:
-      if j != 9:
-        i += j
+    try:
+      for j in self.__dict__[mode]:
+        if j != 9:
+          i += j
+    except TypeError:
+      pass
 
     return i
 
@@ -62,9 +65,9 @@ class VotingPoll(Model):
   """
   VotingPoll model object
   """
-
   comp_1 = ForeignKey(Competitor, on_delete=CASCADE, related_name='comp_1')
   comp_2 = ForeignKey(Competitor, on_delete=CASCADE, related_name='comp_2')
+  winner = CharField(max_length=20, null=True, blank=True)
 
   def __str__(self):
     return f'{self.comp_1} vs {self.comp_2}'
@@ -84,7 +87,10 @@ class VotingPoll(Model):
 
       max_num = max(comp_1.get_sum('replica'), comp_2.get_sum('replica'))
 
-      return comp_1 if max_num == comp_1 else comp_2
+      self.winner = comp_1.name if max_num == comp_1.get_total() else comp_2.name
+      self.save(update_fields=['winner'])
+
+      return self.winner
 
     # Normal case
     if (comp_1.get_total() == comp_2.get_total()
@@ -93,4 +99,7 @@ class VotingPoll(Model):
 
     max_num = max(comp_1.get_total(), comp_2.get_total())
 
-    return comp_1 if max_num == comp_1.get_total() else comp_2
+    self.winner = comp_1.name if max_num == comp_1.get_total() else comp_2.name
+    self.save(update_fields=['winner'])
+
+    return self.winner
