@@ -28,7 +28,9 @@ input[type='number'] {
 .choice-input {
   width: 7rem;
   height: 5rem;
+
   font-size: larger;
+  font-weight: bold;
 
   display: flex;
   justify-content: center;
@@ -41,5 +43,9 @@ input[type='number'] {
   transition: all 0.2s ease-in-out;
   &:hover {
     transform: scale(1.05);
+  }
+
+  &:focus {
+    border-color: black;
   }
 }
