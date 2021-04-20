@@ -252,36 +252,3 @@ function showSections(end = false): void {
   document.getElementById('poll-container').classList.toggle('d-none', end);
   document.getElementById('rep-res-container').classList.add('d-none');
 }
-
-function cleanReplicaValues(): void {
-  const mutation = `
-    mutation SaveModes($id: ID!, $mode: String!, $value1: [Int]!, $value2: [Int]!) {
-      saveModes(pollId: $id, mode: $mode, value1: $value1, value2: $value2) {
-        comp1 {
-          mode
-        }
-        comp2 {
-          mode
-        }
-      }
-    }
-  `;
-
-  fetch('/graphql/', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      'X-CSRFToken': getCookie('csrftoken'),
-    },
-    body: JSON.stringify({
-      query: mutation,
-      variables: {
-        id: parseInt(localStorage.getItem('poll')),
-        mode: 'replica',
-        value1: [9, 9, 9, 9, 9, 9, 9, 9, 9],
-        value2: [9, 9, 9, 9, 9, 9, 9, 9, 9],
-      },
-    }),
-  });
-}
