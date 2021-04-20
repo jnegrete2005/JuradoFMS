@@ -27,6 +27,7 @@ input[type='number']::-webkit-inner-spin-button, input[type='number']::-webkit-i
   width: 7rem;
   height: 5rem;
   font-size: larger;
+  font-weight: bold;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -46,5 +47,9 @@ input[type='number']::-webkit-inner-spin-button, input[type='number']::-webkit-i
 .choice-input:hover {
   -webkit-transform: scale(1.05);
           transform: scale(1.05);
+}
+
+.choice-input:focus {
+  border-color: black;
 }
 /*# sourceMappingURL=polls.css.map */
