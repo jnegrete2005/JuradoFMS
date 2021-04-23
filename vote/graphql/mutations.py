@@ -19,7 +19,7 @@ class CreatePoll(graphene.Mutation):
   def mutate(cls, root, info, comp1, comp2):
     if settings.DEBUG:
       poll = VotingPoll.objects.first()
-      for i in range(8):
+      for i in range(9):
         poll.comp_1[i] = None
         poll.comp_2[i] = None
       return CreatePoll(poll=poll)
@@ -49,7 +49,7 @@ class SaveModes(graphene.Mutation):
       if len(value_1) != 14 or len(value_2) != 14:
         raise GraphQLError('Deluxe no puede tener más ni menos de 14 elementos')
 
-    elif mode == 'tematicas':
+    elif mode == 'tematicas_1' or mode == 'tematicas_2':
       if len(value_1) != 7 or len(value_2) != 7:
         raise GraphQLError('Tematicas no puede tener más ni menos de 7 elementos')
 
@@ -70,7 +70,31 @@ class SaveModes(graphene.Mutation):
       )
 
 
+class SaveWinner(graphene.Mutation):
+  class Arguments:
+    poll_id = graphene.ID(required=True)
+    winner = graphene.String(required=True)
+
+  poll = graphene.Field(VotingPollType)
+
+  @classmethod
+  def mutate(cls, root, info, poll_id: int, winner: str):
+    poll = VotingPoll.objects.get(pk=poll_id)
+
+    # Check if the winner is valid
+    possible = [poll.comp_1.name, poll.comp_2.name]
+    if winner not in possible:
+      raise GraphQLError(f'"{winner}" no coincide con los competidores de esta batalla.')
+
+    # Set the new winner
+    poll.winner = winner
+    poll.save(update_fields=['winner'])
+
+    return SaveWinner(poll=poll)
+    
+
 class Mutation(graphene.ObjectType):
   create_poll = CreatePoll.Field()
   save_modes = SaveModes.Field()
+  save_winner = SaveWinner.Field()
   

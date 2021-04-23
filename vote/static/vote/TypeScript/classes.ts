@@ -6,12 +6,14 @@ export class Competitor {
     private _name: string,
     public easy?: arr,
     public hard?: arr,
-    public tematicas?: arr7,
+    public tematicas_1?: arr7,
+    public tematicas_2?: arr7,
     public random_score?: arr,
     public min1?: arr,
     public min2?: arr,
     public deluxe?: arr,
-    public replica?: arr14
+    public replica?: arr,
+    public counter = 0
   ) {}
 
   public get id(): number {
@@ -50,7 +52,8 @@ export class Competitor {
     return (
       this.get_sum('easy') +
       this.get_sum('hard') +
-      this.get_sum('tematicas') +
+      this.get_sum('tematicas_1') +
+      this.get_sum('tematicas_2') +
       this.get_sum('random_score') +
       this.get_sum('min1') +
       this.get_sum('min2') +
@@ -64,12 +67,14 @@ export class Competitor {
       name: this._name,
       easy: this.easy,
       hard: this.hard,
-      tematicas: this.tematicas,
+      tematicas_1: this.tematicas_1,
+      tematicas_2: this.tematicas_2,
       random_score: this.random_score,
       min1: this.min1,
       min2: this.min2,
       deluxe: this.deluxe,
       replica: this.replica,
+      counter: this.counter,
     });
   }
 
@@ -80,12 +85,14 @@ export class Competitor {
       newData.name,
       newData.easy,
       newData.hard,
-      newData.tematicas,
+      newData.tematicas_1,
+      newData.tematicas_2,
       newData.random_score,
       newData.min1,
       newData.min2,
       newData.deluxe,
-      newData.replica
+      newData.replica,
+      newData.counter
     );
   }
 }
@@ -93,19 +100,22 @@ export class Competitor {
 export const modes_to_int = {
   easy: 0,
   hard: 1,
-  tematicas: 2,
-  random_score: 3,
-  min1: 4,
-  min2: 5,
-  deluxe: 6,
-  end: 7,
-  replica: 8,
+  tematicas_1: 2,
+  tematicas_2: 3,
+  random_score: 4,
+  min1: 5,
+  min2: 6,
+  deluxe: 7,
+  end: 8,
+  replica: 9,
+  end_replica: 10,
 };
 
 export const modes_aliases = {
   easy: 'Easy Mode',
   hard: 'Hard Mode',
-  tematicas: 'Temáticas',
+  tematicas_1: 'Primera Temática',
+  tematicas_2: 'Segunda Temática',
   random_score: 'Random Mode',
   min1: 'Primer Minuto',
   min2: 'Segundo Minuto',

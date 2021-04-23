@@ -1,4 +1,4 @@
-import { Competitor } from './classes';
+import { Competitor } from './classes.js';
 import type { GetModes } from './types';
 
 export function getCookie(name: string): string {
@@ -34,7 +34,8 @@ export function useModal(title: string, body: string): void {
 
 export function addInputs(lenght: number, data?: GetModes, first = false) {
   if (!first) {
-    Array.from(document.getElementsByClassName('inputs-container')).forEach((container: HTMLDivElement, index) => {
+    // Empty the inputs
+    Array.from(document.getElementsByClassName('inputs-container')).forEach((container: HTMLDivElement) => {
       const comp = container.firstElementChild;
       container.innerHTML = '';
       container.append(comp);
@@ -112,7 +113,7 @@ function insertAfter(newNode: HTMLElement, referenceNode: HTMLElement) {
 
 export function createAlert(text: string | HTMLElement): void {
   const alert = `
-  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <div class="alert alert-warning alert-dismissible fade show mb-5" role="alert">
     ${text}
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>
@@ -158,6 +159,20 @@ export function arraysMatch(arr1: Array<any>, arr2: Array<any>): boolean {
 export function get_winner(comp_1: Competitor, comp_2: Competitor, replica = false): string {
   // Case replica
   if (replica) {
+    // If it is already in replica #2
+    if (comp_1.counter === 1) {
+      // Check if it is replica again
+      if (
+        comp_1.get_sum('replica') === comp_2.get_sum('replica') ||
+        Math.abs(comp_1.get_sum('replica') - comp_2.get_sum('replica')) < 6
+      ) {
+        return 'decide';
+      }
+
+      // Return the winner
+      const max = Math.max(comp_1.get_sum('replica'), comp_2.get_sum('replica'));
+      return max === comp_1.get_sum('replica') ? comp_1.name : comp_2.name;
+    }
     if (
       comp_1.get_sum('replica') === comp_2.get_sum('replica') ||
       Math.abs(comp_1.get_sum('replica') - comp_2.get_sum('replica')) < 6
@@ -166,8 +181,7 @@ export function get_winner(comp_1: Competitor, comp_2: Competitor, replica = fal
     }
 
     const max_num = Math.max(comp_1.get_sum('replica'), comp_2.get_sum('replica'));
-
-    return max_num === comp_1.get_sum('replica') ? comp_1.name : comp_2.name;
+    return SaveWinner(comp_1, comp_2, max_num);
   }
 
   // Normal case
@@ -175,7 +189,52 @@ export function get_winner(comp_1: Competitor, comp_2: Competitor, replica = fal
     return 'Réplica';
   }
 
+  // Return and save the winner if there is one
   const max_num = Math.max(comp_1.get_total(), comp_2.get_total());
+  return SaveWinner(comp_1, comp_2, max_num);
+}
 
-  return max_num === comp_1.get_total() ? comp_1.name : comp_2.name;
+function SaveWinner(comp_1: Competitor, comp_2: Competitor, max_num: number) {
+  const winner = max_num === comp_1.get_total() ? comp_1.name : comp_2.name;
+  const mutation = `
+    mutation SaveWinner($id: ID!, $winner: String!) {
+      saveWinner(pollId: $id, winner: $winner) {
+        poll {
+          winner
+        }
+      }
+    }
+  `;
+
+  fetch('/graphql/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      'X-CSRFToken': getCookie('csrftoken'),
+    },
+    body: JSON.stringify({
+      query: mutation,
+      variables: { id: parseInt(localStorage.getItem('poll')), winner: winner },
+    }),
+    credentials: 'include',
+  });
+
+  return winner;
+}
+
+export function plus_counter(): void {
+  // Get the comps
+  const comp_1 = Competitor.unserialize(localStorage.getItem('comp_1'));
+  const comp_2 = Competitor.unserialize(localStorage.getItem('comp_2'));
+
+  // Add the values
+  comp_1.counter++;
+  comp_2.counter++;
+
+  // Save the comps
+  localStorage.setItem('comp_1', comp_1.serialize());
+  localStorage.setItem('comp_2', comp_2.serialize());
+
+  return;
 }
