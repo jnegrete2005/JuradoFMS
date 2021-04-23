@@ -1,7 +1,7 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,6 +14,7 @@
   <!-- Static Files -->
   <link rel="stylesheet" href="{% static 'vote/CSS/navbar.css' %}">
   <link rel="stylesheet" href="{% static 'vote/CSS/polls.css' %}">
+  <link rel="stylesheet" href="{% static 'vote/CSS/table.css' %}">
 
   <script src="{% static 'vote/JS/navbar.js' %}" type="module" defer></script>
   <script src="{% static 'vote/JS/popstate.js' %}" type="module" defer></script>
@@ -23,8 +24,10 @@
   <script src="{% static 'vote/JS/change_mode.js' %}" type="module" defer></script>
   <script src="{% static 'vote/JS/end.js' %}" type="module" defer></script>
   <script src="{% static 'vote/JS/classes.js' %}" type="module" defer></script>
+  <script src="{% static 'vote/JS/replica.js' %}" type="module"></script>
 </head>
 <body>
+  {% csrf_token %}
   <!-- Error modal -->
   <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -65,7 +68,10 @@
             <a class="nav-link listen" href="#" data-mode="hard">Hard</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link listen" href="#" data-mode="tematicas">Temáticas</a>
+            <a class="nav-link listen" href="#" data-mode="tematicas_1">Temáticas 1</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link listen" href="#" data-mode="tematicas_2">Temáticas 2</a>
           </li>
           <li class="nav-item">
             <a class="nav-link listen" href="#" data-mode="random_score">Random</a>
@@ -124,7 +130,7 @@
     </div>
 
     <!-- Poll -->
-    <div id="poll-container" class="visually-hidden">
+    <div id="poll-container" class="d-none">
       <div class="mb-4 mt-3">
         <h1 class="fw-normal" id="mode" data-current_mode="">Easy Mode</h1>
       </div>
@@ -165,7 +171,8 @@
     </div>
 
     <!-- Results -->
-    <div id="table-container" class="visually-hidden">
+    <div id="end-container" class="d-none">
+      <!-- Table -->
       <div class="table-responsive">
         <table class="table table-bordered mt-5">
           <thead>
@@ -173,7 +180,8 @@
               <th class="text-center align-middle" scope="col">Gallo</th>
               <th class="text-center align-middle" scope="col">Easy</th>
               <th class="text-center align-middle" scope="col">Hard</th>
-              <th class="text-center align-middle" scope="col">Temáticas</th>
+              <th class="text-center align-middle" scope="col">Temáticas 1</th>
+              <th class="text-center align-middle" scope="col">Temáticas 2</th>
               <th class="text-center align-middle" scope="col">Random</th>
               <th class="text-center align-middle" scope="col">Minuto 1</th>
               <th class="text-center align-middle" scope="col">Minuto 2</th>
@@ -184,6 +192,7 @@
           <tbody>
             <tr>
               <th class="text-center comp-1-table" scope="row"></th>
+              <td class="text-center comp-1-table"></td>
               <td class="text-center comp-1-table"></td>
               <td class="text-center comp-1-table"></td>
               <td class="text-center comp-1-table"></td>
@@ -203,18 +212,62 @@
               <td class="text-center comp-2-table"></td>
               <td class="text-center comp-2-table"></td>
               <td class="text-center comp-2-table"></td>
+              <td class="text-center comp-2-table"></td>
             </tr>
             <tr>
-              <th id="winner" class="text-center" scope="row" colspan="9"></th>
+              <th id="winner" class="text-center" scope="row" colspan="10"></th>
             </tr>
           </tbody>
         </table>
       </div>
 
       <!-- Continue btn -->
-      <div class="row mt-5">
+      <div class="row mt-5 mb-5">
         <div class="col d-flex justify-content-center">
-          <button role="button" class="btn btn-outline-primary" id="end-btn">Terminar</button>
+          <div class="btn-group" role="group">
+            <button role="button" class="btn btn-outline-primary" id="prev-end-btn">Deluxe</button>
+            <button role="button" class="btn btn-outline-primary" id="end-btn" data-isEnd="true">Terminar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Replica results -->
+    <div id="rep-res-container" class="d-none">
+      <!-- Table -->
+      <table class="table table-bordered mt-5">
+        <thead>
+          <tr>
+            <th class="text-center comp-1-rep" scope="col"></th>
+            <th class="text-center comp-2-rep" scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-center comp-1-rep"></td>
+            <td class="text-center comp-2-rep"></td>
+          </tr>
+          <tr>
+            <th id="rep-winner" class="text-center" scope="row" colspan="2"></th>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Choices -->
+      <div id="choices-form" class="d-none flex-column mt-5">
+        <div class="d-flex flex-row justify-content-center">
+          <div class="choice-input me-3" tabindex="0"></div>
+          <div class="choice-input ms-3" tabindex="0"></div>
+        </div>
+      </div>
+
+      <!-- Btns -->
+      <div id="rep-btns" class="row mt-5 mb-5">
+        <div class="col d-flex justify-content-center">
+          <div class="btn-group" role="group">
+            <button role="button" class="btn btn-outline-primary" id="prev-rep-btn">Volver a réplica</button>
+            <button role="button" class="btn btn-outline-primary" id="rep-btn">Terminar</button>
+          </div>
         </div>
       </div>
     </div>

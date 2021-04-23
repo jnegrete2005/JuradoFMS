@@ -4,7 +4,7 @@
   border-radius: 10px;
 }
 
-input[type=number] {
+input[type='number'] {
   width: 30px;
   height: 30px;
   padding: 0;
@@ -12,14 +12,44 @@ input[type=number] {
 }
 
 @media (min-width: 768px) {
-  input[type=number] {
+  input[type='number'] {
     width: 35px;
     height: 35px;
   }
 }
 
-input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-inner-spin-button {
+input[type='number']::-webkit-inner-spin-button, input[type='number']::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.choice-input {
+  width: 7rem;
+  height: 5rem;
+  font-size: larger;
+  font-weight: bold;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border: 2px solid gainsboro;
+  border-radius: 7px;
+  cursor: pointer;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+
+.choice-input:hover {
+  -webkit-transform: scale(1.05);
+          transform: scale(1.05);
+}
+
+.choice-input:focus {
+  border-color: black;
 }
 /*# sourceMappingURL=polls.css.map */

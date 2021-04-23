@@ -53,8 +53,8 @@ function createPoll(event) {
         localStorage.setItem('comp_2', comp_2.serialize());
         localStorage.setItem('poll', data.data.createPoll.poll.id.toString());
         // Hide and show the views
-        document.getElementById('choose-comps').classList.add('visually-hidden');
-        document.getElementById('poll-container').classList.remove('visually-hidden');
+        document.getElementById('choose-comps').classList.add('d-none');
+        document.getElementById('poll-container').classList.remove('d-none');
         // Add names
         document.getElementById('comp-1').innerHTML = comp_1.name;
         document.getElementById('comp-2').innerHTML = comp_2.name;
