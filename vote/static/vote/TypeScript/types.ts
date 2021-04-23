@@ -1,6 +1,6 @@
 export type { GetModes, SaveModes, CreatePoll, GraphqlError, arr, arr7, arr14 };
 
-type GetModes = {
+type GetModes = GraphqlError & {
   data: {
     comp1: {
       mode: Array<number>;
@@ -11,7 +11,7 @@ type GetModes = {
   };
 };
 
-type SaveModes = {
+type SaveModes = GraphqlError & {
   data: {
     saveModes: {
       comp1: {
@@ -24,7 +24,7 @@ type SaveModes = {
   };
 };
 
-type CreatePoll = {
+type CreatePoll = GraphqlError & {
   data: {
     createPoll: {
       poll: {
@@ -43,7 +43,7 @@ type CreatePoll = {
 };
 
 type GraphqlError = {
-  errors: [
+  errors?: [
     {
       message: string;
       locations: [
@@ -55,7 +55,6 @@ type GraphqlError = {
       path: [string];
     }
   ];
-  data: object;
 };
 
 type FixedSizeArray<N extends number, T> = N extends 0
