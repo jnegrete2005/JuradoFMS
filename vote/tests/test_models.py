@@ -14,7 +14,8 @@ class VoteTestCase(TestCase):
     self.assertEqual(comp.name, 'Si')
     self.assertEqual(comp.easy, [1,1,1,1,1,1,1,1,1])
     self.assertEqual(comp.hard, [1,1,1,1,1,1,1,1,1])
-    self.assertEqual(comp.tematicas, [1,1,1,1,1,1,1])
+    self.assertEqual(comp.tematicas_1, [1,1,1,1,1,1,1])
+    self.assertEqual(comp.tematicas_2, [1,1,1,1,1,1,1])
     self.assertEqual(comp.random_score, [1,1,1,1,1,1,1,1,1])
     self.assertEqual(comp.min1, [1,1,1,1,1,1,1,1,1])
     self.assertEqual(comp.min2, [1,1,1,1,1,1,1,1,1])
@@ -30,11 +31,11 @@ class VoteTestCase(TestCase):
 
   def test_get_total(self):
     """ Checks if the get_total Competitor function works """
-    self.assertEqual(Competitor.objects.get(name='Si').get_total(), 66)
+    self.assertEqual(Competitor.objects.get(name='Si').get_total(), 73)
 
   def test_get_total_9(self):
     """ Checks if the function ignores 9s """
-    self.assertEqual(Competitor.objects.get(name='No').get_total(), 128)
+    self.assertEqual(Competitor.objects.get(name='No').get_total(), 142)
 
   # VotingPoll
   def test_get_poll(self):
@@ -44,7 +45,7 @@ class VoteTestCase(TestCase):
 
   def test_get_winner_win(self):
     """ Checks if the get_winner VotingPoll function works (returns a winner) """
-    self.assertEqual(VotingPoll.objects.first().get_winner(), VotingPoll.objects.first().comp_2)
+    self.assertEqual(VotingPoll.objects.first().get_winner(), 'No')
 
   def test_get_winner_replica(self):
     """ Checks if the get_winner VotingPoll function works (returns a replica) """
@@ -55,4 +56,4 @@ class VoteTestCase(TestCase):
     Checks if the get_winner VotingPoll function works 
     (returns a winner with replica mode on) 
     """
-    self.assertEqual(VotingPoll.objects.last().get_winner(replica=True), Competitor.objects.last())
+    self.assertEqual(VotingPoll.objects.last().get_winner(replica=True), 'Replica 2')
