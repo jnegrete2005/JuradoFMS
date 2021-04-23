@@ -7,7 +7,7 @@ window.onpopstate = (event: PopStateEvent) => {
       if (!event.state.replica) {
         changeMode(old_mode, 'end');
       } else {
-        changeMode(old_mode, 'replica');
+        changeMode(old_mode, 'end_replica');
       }
     } else if (event.state.new_mode) {
       changeMode(old_mode, event.state.new_mode);

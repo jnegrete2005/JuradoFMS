@@ -84,7 +84,8 @@ function nextMode(mode) {
         }
         else {
             switch (mode) {
-                case 'tematicas':
+                case 'tematicas_1':
+                case 'tematicas_2':
                     addInputs(7);
                     break;
                 case 'deluxe':
@@ -144,13 +145,11 @@ function nextMode(mode) {
         }),
         credentials: 'include',
     })
-        .then((response) => {
-        if (!response.ok) {
-            throw Error(`${response.statusText} - ${response.url}`);
-        }
-        return response.json();
-    })
+        .then((response) => response.json())
         .then((data) => {
+        if (data.errors) {
+            throw Error(data.errors[0].message);
+        }
         next(data);
     })
         .catch((err) => {
@@ -180,36 +179,46 @@ function prepareBtns(mode) {
     }
 }
 export async function changeMode(old_mode, new_mode) {
-    if (old_mode !== 'end') {
-        if (!(await saveMode(old_mode))) {
-            return;
-        }
-        if (new_mode !== 'end') {
-            wrapper();
-            return;
-        }
-        else {
-            document.getElementById('mode').dataset.current_mode = new_mode;
-            prepareNavbar(new_mode);
-            showSections(true);
-            return;
-        }
-    }
-    else {
-        // For now, just return to whatever the new_mode is
+    if (old_mode === 'end' || old_mode === 'end_replica') {
         wrapper();
         return;
     }
-    function wrapper() {
+    else {
+        if (!(await saveMode(old_mode))) {
+            return;
+        }
+        switch (new_mode) {
+            case 'end':
+                document.getElementById('mode').dataset.current_mode = new_mode;
+                prepareNavbar(new_mode);
+                showSections(true);
+                break;
+            case 'end_replica':
+                if (old_mode !== 'replica') {
+                    throw Error('Esta sección solo puede ser accedida después de Réplica.');
+                }
+                document.getElementById('mode').dataset.current_mode = new_mode;
+                prepareNavbar('end');
+                break;
+            case 'replica':
+                wrapper(true);
+                break;
+            default:
+                wrapper();
+                return;
+        }
+    }
+    function wrapper(replica = false) {
         nextMode(new_mode);
         prepareBtns(new_mode);
-        prepareNavbar(new_mode);
+        prepareNavbar(new_mode, replica);
         showSections();
         return;
     }
 }
 function showSections(end = false) {
-    document.getElementById('table-container').classList.toggle('visually-hidden', !end);
-    document.getElementById('poll-container').classList.toggle('visually-hidden', end);
+    document.getElementById('end-container').classList.toggle('d-none', !end);
+    document.getElementById('poll-container').classList.toggle('d-none', end);
+    document.getElementById('rep-res-container').classList.add('d-none');
 }
 //# sourceMappingURL=change_mode.js.map
