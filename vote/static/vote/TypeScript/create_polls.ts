@@ -54,6 +54,10 @@ function createPoll(event: Event): void {
   })
     .then((response) => response.json())
     .then((data: CreatePoll) => {
+      if (data.errors) {
+        throw Error(data.errors[0].message);
+      }
+
       // Get the data of the competitors
       const comp_1 = new Competitor(data.data.createPoll.poll.comp1.id, data.data.createPoll.poll.comp1.name);
       const comp_2 = new Competitor(data.data.createPoll.poll.comp2.id, data.data.createPoll.poll.comp2.name);
