@@ -2,7 +2,7 @@ import { prepareNavbar } from './navbar.js';
 import { modes_aliases, Competitor } from './classes.js';
 import { addInputs, arraysMatch, createAlert, createError, getCookie } from './util.js';
 
-import type { GraphqlError, SaveModes, GetModes } from './types';
+import type { SaveModes, GetModes } from './types';
 
 async function saveMode(mode: string): Promise<boolean> {
   let comp_1 = Competitor.unserialize(localStorage.getItem('comp_1'));
@@ -64,16 +64,14 @@ async function saveMode(mode: string): Promise<boolean> {
     }),
   })
     .then((response) => response.json())
-    .then((data: GraphqlError) => {
+    .then((data: SaveModes) => {
       if (data.errors) {
         throw Error(data.errors[0].message);
       }
 
-      const saveModes = <SaveModes>data;
-
       // Save the comps in localStorage
-      comp_1[mode] = saveModes.data.saveModes.comp1.mode;
-      comp_2[mode] = saveModes.data.saveModes.comp2.mode;
+      comp_1[mode] = data.data.saveModes.comp1.mode;
+      comp_2[mode] = data.data.saveModes.comp2.mode;
 
       localStorage.setItem('comp_1', comp_1.serialize());
       localStorage.setItem('comp_2', comp_2.serialize());
@@ -168,12 +166,12 @@ function nextMode(mode: string): void {
     credentials: 'include',
   })
     .then((response) => response.json())
-    .then((data: GraphqlError) => {
+    .then((data: GetModes) => {
       if (data.errors) {
         throw Error(data.errors[0].message);
       }
 
-      next(data as GetModes);
+      next(data);
     })
     .catch((err: Error) => {
       createError(err);
