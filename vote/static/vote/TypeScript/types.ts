@@ -1,4 +1,4 @@
-export type { GetModes, SaveModes, CreatePoll, GraphqlError, arr, arr7, arr14 };
+export type { GetModes, SaveModes, CreatePoll, PlusReplica, SaveWinner, GraphqlError, arr, arr7, arr14 };
 
 type GetModes = {
   data: {
@@ -37,6 +37,26 @@ type CreatePoll = {
           id: number;
           name: string;
         };
+      };
+    };
+  };
+};
+
+type PlusReplica = {
+  data: {
+    plusReplica: {
+      poll: {
+        repCounter: 1;
+      };
+    };
+  };
+};
+
+type SaveWinner = {
+  data: {
+    saveWinner: {
+      poll: {
+        winner: string;
       };
     };
   };
