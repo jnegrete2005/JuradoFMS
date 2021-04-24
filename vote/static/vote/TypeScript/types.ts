@@ -42,7 +42,7 @@ type CreatePoll = GraphqlError & {
   };
 };
 
-type PlusReplica = {
+type PlusReplica = GraphqlError & {
   data: {
     plusReplica: {
       poll: {
@@ -52,7 +52,7 @@ type PlusReplica = {
   };
 };
 
-type SaveWinner = {
+type SaveWinner = GraphqlError & {
   data: {
     saveWinner: {
       poll: {
