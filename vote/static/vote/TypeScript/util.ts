@@ -1,5 +1,5 @@
 import { Competitor } from './classes.js';
-import type { GetModes } from './types';
+import type { GetModes, PlusReplica, SaveWinner } from './types';
 
 export function getCookie(name: string): string {
   let cookieValue: null | string = null;
@@ -173,7 +173,7 @@ export function get_winner(comp_1: Competitor, comp_2: Competitor, replica = fal
       // Return the winner
       const max = Math.max(comp_1_rep, comp_2_rep);
       const winner = max === comp_1_rep ? comp_1.name : comp_2.name;
-      SaveWinner(winner);
+      saveWinner(winner);
       return winner;
     }
 
@@ -183,7 +183,7 @@ export function get_winner(comp_1: Competitor, comp_2: Competitor, replica = fal
 
     const max_num = Math.max(comp_1_rep, comp_2_rep);
     const winner = max_num === comp_1.get_sum('replica') ? comp_1.name : comp_2.name;
-    SaveWinner(winner);
+    saveWinner(winner);
     return winner;
   }
 
@@ -199,11 +199,11 @@ export function get_winner(comp_1: Competitor, comp_2: Competitor, replica = fal
   // Return and save the winner if there is one
   const max_num = Math.max(comp_1_sum, comp_2_sum);
   const winner = max_num === comp_1.get_total() ? comp_1.name : comp_2.name;
-  SaveWinner(winner);
+  saveWinner(winner);
   return winner;
 }
 
-function SaveWinner(winner: string): void {
+function saveWinner(winner: string): void {
   const mutation = `
     mutation SaveWinner($id: ID!, $winner: String!) {
       saveWinner(pollId: $id, winner: $winner) {
@@ -226,7 +226,17 @@ function SaveWinner(winner: string): void {
       variables: { id: parseInt(localStorage.getItem('poll')), winner: winner },
     }),
     credentials: 'include',
-  });
+  })
+    .then((response) => response.json())
+    .then((data: SaveWinner) => {
+      if (data.errors) {
+        throw Error(data.errors[0].message);
+      }
+      return;
+    })
+    .catch((err: Error) => {
+      createError(err);
+    });
 }
 
 export function plus_counter(): void {
@@ -268,8 +278,15 @@ export function plus_counter(): void {
     credentials: 'include',
   })
     .then((response) => response.json())
-    // TODO
-    .then((data) => {});
+    .then((data: PlusReplica) => {
+      if (data.errors) {
+        throw Error(data.errors[0].message);
+      }
+      return;
+    })
+    .catch((err: Error) => {
+      createError(err);
+    });
 
   return;
 }
