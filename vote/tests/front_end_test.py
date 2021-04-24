@@ -274,3 +274,10 @@ class FrontEndTestCase(LiveServerTestCase):
 
     # Check winner
     self.assertEqual(self.selenium.find_element_by_id('winner').text, win)
+
+    # Check btns
+    self.assertEqual(self.selenium.find_element_by_id('prev-end-btn').text, 'Deluxe')
+    if win == 'Réplica':
+      self.assertEqual(self.selenium.find_element_by_id('end-btn').text, 'Avanzar a réplica')
+    else:
+      self.assertEqual(self.selenium.find_element_by_id('end-btn').text, 'Terminar')
