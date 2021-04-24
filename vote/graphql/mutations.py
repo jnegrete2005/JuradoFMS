@@ -24,6 +24,12 @@ class CreatePoll(graphene.Mutation):
         poll.comp_2[i] = None
       return CreatePoll(poll=poll)
 
+    if comp1 == 'replica' or comp2 == 'replica':
+      raise GraphQLError('El competidor no puede llamarse \'replica\'')
+
+    if (len(comp1) > 20 or len(comp1) < 4) or (len(comp2) > 20 or len(comp2) < 4):
+      raise GraphQLError('Los competidores tienen que tener un máximo de 20 caracteres y un mínimo de 4')
+
     comp_1 = Competitor.objects.create(name=comp1)
     comp_2 = Competitor.objects.create(name=comp2)
 
@@ -82,7 +88,7 @@ class SaveWinner(graphene.Mutation):
     poll = VotingPoll.objects.get(pk=poll_id)
 
     # Check if the winner is valid
-    possible = [poll.comp_1.name, poll.comp_2.name]
+    possible = [poll.comp_1.name, poll.comp_2.name, 'replica']
     if winner not in possible:
       raise GraphQLError(f'"{winner}" no coincide con los competidores de esta batalla.')
 
