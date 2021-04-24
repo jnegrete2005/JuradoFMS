@@ -12,4 +12,4 @@ class CompetitorAdmin(admin.ModelAdmin):
 
 @admin.register(VotingPoll)
 class VotingPollAdmin(admin.ModelAdmin):
-  list_display = ('id', 'comp_1', 'comp_2')
+  list_display = ('id', 'comp_1', 'comp_2', 'rep_counter')
