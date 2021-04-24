@@ -140,7 +140,7 @@ export function get_winner(comp_1, comp_2, replica = false) {
             // Return the winner
             const max = Math.max(comp_1_rep, comp_2_rep);
             const winner = max === comp_1_rep ? comp_1.name : comp_2.name;
-            SaveWinner(winner);
+            saveWinner(winner);
             return winner;
         }
         if (comp_1_rep === comp_2_rep || Math.abs(comp_1_rep - comp_2_rep) < 6) {
@@ -148,7 +148,7 @@ export function get_winner(comp_1, comp_2, replica = false) {
         }
         const max_num = Math.max(comp_1_rep, comp_2_rep);
         const winner = max_num === comp_1.get_sum('replica') ? comp_1.name : comp_2.name;
-        SaveWinner(winner);
+        saveWinner(winner);
         return winner;
     }
     // Get the total sum of the comps
@@ -161,10 +161,10 @@ export function get_winner(comp_1, comp_2, replica = false) {
     // Return and save the winner if there is one
     const max_num = Math.max(comp_1_sum, comp_2_sum);
     const winner = max_num === comp_1.get_total() ? comp_1.name : comp_2.name;
-    SaveWinner(winner);
+    saveWinner(winner);
     return winner;
 }
-function SaveWinner(winner) {
+function saveWinner(winner) {
     const mutation = `
     mutation SaveWinner($id: ID!, $winner: String!) {
       saveWinner(pollId: $id, winner: $winner) {
@@ -186,6 +186,16 @@ function SaveWinner(winner) {
             variables: { id: parseInt(localStorage.getItem('poll')), winner: winner },
         }),
         credentials: 'include',
+    })
+        .then((response) => response.json())
+        .then((data) => {
+        if (data.errors) {
+            throw Error(data.errors[0].message);
+        }
+        return;
+    })
+        .catch((err) => {
+        createError(err);
     });
 }
 export function plus_counter() {
@@ -223,8 +233,15 @@ export function plus_counter() {
         credentials: 'include',
     })
         .then((response) => response.json())
-        // TODO
-        .then((data) => { });
+        .then((data) => {
+        if (data.errors) {
+            throw Error(data.errors[0].message);
+        }
+        return;
+    })
+        .catch((err) => {
+        createError(err);
+    });
     return;
 }
 //# sourceMappingURL=util.js.map
