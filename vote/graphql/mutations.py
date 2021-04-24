@@ -22,6 +22,8 @@ class CreatePoll(graphene.Mutation):
       for i in range(9):
         poll.comp_1[i] = None
         poll.comp_2[i] = None
+      poll.rep_counter = 0
+      poll.save(update_fields=['rep_counter'])
       return CreatePoll(poll=poll)
 
     if comp1 == 'replica' or comp2 == 'replica':
@@ -97,10 +99,31 @@ class SaveWinner(graphene.Mutation):
     poll.save(update_fields=['winner'])
 
     return SaveWinner(poll=poll)
+
+
+class PlusReplica(graphene.Mutation):
+  class Arguments:
+    id = graphene.ID(required=True)
+
+  poll = graphene.Field(VotingPollType)
+  
+  @classmethod
+  def mutate(cls, root, info, id: int):
+    poll = VotingPoll.objects.get(pk=id)
+
+    # Validate number
+    if poll.rep_counter > 0:
+      raise GraphQLError('Solo pueden haber 2 replicas en total.')
     
+    poll.rep_counter += 1
+    poll.save(update_fields=['rep_counter'])
+
+    return PlusReplica(poll=poll)
+
 
 class Mutation(graphene.ObjectType):
   create_poll = CreatePoll.Field()
   save_modes = SaveModes.Field()
   save_winner = SaveWinner.Field()
+  plus_replica = PlusReplica.Field()
   
