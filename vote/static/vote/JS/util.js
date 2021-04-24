@@ -128,34 +128,43 @@ export function arraysMatch(arr1, arr2) {
 export function get_winner(comp_1, comp_2, replica = false) {
     // Case replica
     if (replica) {
+        // Get the replica sum of the comps
+        const comp_1_rep = comp_1.get_sum('replica');
+        const comp_2_rep = comp_2.get_sum('replica');
         // If it is already in replica #2
         if (comp_1.counter === 1) {
             // Check if it is replica again
-            if (comp_1.get_sum('replica') === comp_2.get_sum('replica') ||
-                Math.abs(comp_1.get_sum('replica') - comp_2.get_sum('replica')) < 6) {
+            if (comp_1_rep === comp_2_rep || Math.abs(comp_1_rep - comp_2_rep) < 6) {
                 return 'decide';
             }
             // Return the winner
-            const max = Math.max(comp_1.get_sum('replica'), comp_2.get_sum('replica'));
-            return max === comp_1.get_sum('replica') ? comp_1.name : comp_2.name;
+            const max = Math.max(comp_1_rep, comp_2_rep);
+            const winner = max === comp_1_rep ? comp_1.name : comp_2.name;
+            SaveWinner(winner);
+            return winner;
         }
-        if (comp_1.get_sum('replica') === comp_2.get_sum('replica') ||
-            Math.abs(comp_1.get_sum('replica') - comp_2.get_sum('replica')) < 6) {
+        if (comp_1_rep === comp_2_rep || Math.abs(comp_1_rep - comp_2_rep) < 6) {
             return 'Réplica';
         }
-        const max_num = Math.max(comp_1.get_sum('replica'), comp_2.get_sum('replica'));
-        return SaveWinner(comp_1, comp_2, max_num);
+        const max_num = Math.max(comp_1_rep, comp_2_rep);
+        const winner = max_num === comp_1.get_sum('replica') ? comp_1.name : comp_2.name;
+        SaveWinner(winner);
+        return winner;
     }
+    // Get the total sum of the comps
+    const comp_1_sum = comp_1.get_total();
+    const comp_2_sum = comp_2.get_total();
     // Normal case
-    if (comp_1.get_total() === comp_2.get_total() || Math.abs(comp_1.get_total() - comp_2.get_total()) < 6) {
+    if (comp_1_sum === comp_2_sum || Math.abs(comp_1_sum - comp_2_sum) < 6) {
         return 'Réplica';
     }
     // Return and save the winner if there is one
-    const max_num = Math.max(comp_1.get_total(), comp_2.get_total());
-    return SaveWinner(comp_1, comp_2, max_num);
-}
-function SaveWinner(comp_1, comp_2, max_num) {
+    const max_num = Math.max(comp_1_sum, comp_2_sum);
     const winner = max_num === comp_1.get_total() ? comp_1.name : comp_2.name;
+    SaveWinner(winner);
+    return winner;
+}
+function SaveWinner(winner) {
     const mutation = `
     mutation SaveWinner($id: ID!, $winner: String!) {
       saveWinner(pollId: $id, winner: $winner) {
@@ -178,7 +187,6 @@ function SaveWinner(comp_1, comp_2, max_num) {
         }),
         credentials: 'include',
     });
-    return winner;
 }
 export function plus_counter() {
     // Get the comps
