@@ -153,6 +153,23 @@ class FrontEndTestCase(LiveServerTestCase):
     # Make first replica
     self.check_rep_winner(winner='Réplica', replica=True)
 
+  def test_7(self):
+    ''' Checks if replica #2 works in all aspects '''
+    # Click replica btn
+    self.selenium.find_element_by_id('rep-btn').click()
+
+    # Check the page without going to the next mode
+    self.check_mode(None, 9, False, False)
+
+    # Make comp_1 win
+    self.check_rep_winner('si', 8, 0)
+
+    # Make comp_2 win
+    self.check_rep_winner('no', 0, 8)
+
+    # Make second replica
+    self.check_rep_winner(winner='Réplica', replica=True)
+
 
   def check_rep_winner(self, winner: str, comp_1_total = 0, comp_2_total = 0, replica = False):
     '''
