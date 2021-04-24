@@ -67,6 +67,7 @@ class VotingPoll(Model):
   """
   comp_1 = ForeignKey(Competitor, on_delete=CASCADE, related_name='comp_1')
   comp_2 = ForeignKey(Competitor, on_delete=CASCADE, related_name='comp_2')
+  rep_counter = PositiveSmallIntegerField(null=True, blank=True)
   winner = CharField(max_length=20, null=True, blank=True)
 
   def __str__(self):
