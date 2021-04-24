@@ -60,10 +60,9 @@ async function saveMode(mode) {
         if (data.errors) {
             throw Error(data.errors[0].message);
         }
-        const saveModes = data;
         // Save the comps in localStorage
-        comp_1[mode] = saveModes.data.saveModes.comp1.mode;
-        comp_2[mode] = saveModes.data.saveModes.comp2.mode;
+        comp_1[mode] = data.data.saveModes.comp1.mode;
+        comp_2[mode] = data.data.saveModes.comp2.mode;
         localStorage.setItem('comp_1', comp_1.serialize());
         localStorage.setItem('comp_2', comp_2.serialize());
         return true;
