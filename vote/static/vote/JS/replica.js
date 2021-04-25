@@ -1,6 +1,6 @@
 import { changeMode } from './change_mode.js';
 import { Competitor } from './classes.js';
-import { createError, getCookie, get_winner, plus_counter } from './util.js';
+import { createError, getCookie, get_winner, plus_counter, useModal } from './util.js';
 export function fillRepTable() {
     // Populate fields
     for (let i = 1; i <= 2; i++) {
@@ -44,11 +44,12 @@ document.getElementById('prev-rep-btn').addEventListener('click', () => {
     localStorage.removeItem('winner');
 });
 document.getElementById('rep-btn').addEventListener('click', () => {
-    if (document.getElementById('rep-btn').innerHTML === 'Terminar') {
+    const rep_btn = document.getElementById('rep-btn');
+    if (rep_btn.innerHTML === 'Terminar' && rep_btn.dataset.decide === 'false') {
         location.assign('http://127.0.0.1:8000/vota/');
         return;
     }
-    if (document.getElementById('rep-btn').dataset.decide === 'true' && localStorage.getItem('winner')) {
+    else if (rep_btn.dataset.decide === 'true' && localStorage.getItem('winner')) {
         // Define vars
         const winner = localStorage.getItem('winner');
         const mutation = `
@@ -86,10 +87,15 @@ document.getElementById('rep-btn').addEventListener('click', () => {
         });
         return;
     }
-    history.pushState({ old_mode: 'end_replica', new_mode: 'replica' }, '', '#replica');
-    cleanReplicaValues();
-    changeMode('end_replica', 'replica');
-    plus_counter();
+    else if (rep_btn.dataset.decide === 'false' && !localStorage.getItem('winner')) {
+        history.pushState({ old_mode: 'end_replica', new_mode: 'replica' }, '', '#replica');
+        cleanReplicaValues();
+        changeMode('end_replica', 'replica');
+        plus_counter();
+    }
+    else {
+        useModal('No has escogido un ganador!', 'Como no ha habido un ganador, tienes que escoger uno tú mism@, de lo contrario, no habrá uno!\nPara escoger uno, solo hazle click a la cajita con el competidor que opinas que mejor desempeñó durante toda la batalla');
+    }
 });
 function cleanReplicaValues() {
     // Clean the db
