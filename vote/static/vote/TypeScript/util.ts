@@ -243,7 +243,6 @@ export function plus_counter(): void {
   // Get the comps
   const comp_1 = Competitor.unserialize(localStorage.getItem('comp_1'));
   const comp_2 = Competitor.unserialize(localStorage.getItem('comp_2'));
-  console.log(`get_winner was called with a counter of ${comp_1.counter}`);
 
   // Add the values
   comp_1.counter++;
