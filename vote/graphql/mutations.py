@@ -64,7 +64,7 @@ class SaveModes(graphene.Mutation):
     elif len(value_1) != 9 or len(value_2) != 9:
       raise GraphQLError(f'{Competitor._meta.get_field(mode).verbose_name} no puede tener más ni menos de 9 elementos')
 
-    poll = VotingPoll.objects.get(pk=poll_id)
+    poll = VotingPoll.objects.get(pk=int(poll_id))
 
     poll.comp_1.__dict__[mode] = value_1
     poll.comp_2.__dict__[mode] = value_2
@@ -87,7 +87,7 @@ class SaveWinner(graphene.Mutation):
 
   @classmethod
   def mutate(cls, root, info, poll_id: int, winner: str):
-    poll = VotingPoll.objects.get(pk=poll_id)
+    poll = VotingPoll.objects.get(pk=int(poll_id))
 
     # Check if the winner is valid
     possible = [poll.comp_1.name, poll.comp_2.name, 'replica']
@@ -109,7 +109,7 @@ class PlusReplica(graphene.Mutation):
   
   @classmethod
   def mutate(cls, root, info, id: int):
-    poll = VotingPoll.objects.get(pk=id)
+    poll = VotingPoll.objects.get(pk=int(id))
 
     # Validate number
     if poll.rep_counter > 0:
