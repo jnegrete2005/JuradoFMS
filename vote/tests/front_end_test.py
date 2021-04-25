@@ -168,10 +168,10 @@ class FrontEndTestCase(LiveServerTestCase):
     self.check_rep_winner('no', 0, 8)
 
     # Make second replica
-    self.check_rep_winner(winner='Réplica', replica=True)
+    self.check_rep_winner(winner='Réplica', replica=True, rep_counter=1)
 
 
-  def check_rep_winner(self, winner: str, comp_1_total = 0, comp_2_total = 0, replica = False):
+  def check_rep_winner(self, winner: str, comp_1_total = 0, comp_2_total = 0, replica = False, rep_counter = 0):
     '''
     Will make a winner and check it in the rep table
     `comp_num_total` will be divided by 4 to `add_points`
@@ -202,6 +202,27 @@ class FrontEndTestCase(LiveServerTestCase):
     # Check the winner in the table
     self.assertEqual(self.selenium.find_element_by_id('rep-winner').text, winner)
 
+    # Second replica case
+    if rep_counter == 1:
+      # Make sure the boxes are shown
+      self.assertIn('d-flex', self.selenium.find_element_by_id('choices-form').get_attribute('class'))
+      self.assertNotIn('d-none', self.selenium.find_element_by_id('choices-form').get_attribute('class'))
+
+      # Check the content of the boxes
+      inputs = list(map(lambda el : el.text, self.selenium.find_elements_by_class_name('choice-input')))
+      for i in range(2):
+        self.assertEqual(inputs[i], comps[i])
+
+      # Check the btn value
+      self.assertEqual(self.selenium.find_element_by_id('rep-btn').text, 'Terminar')
+      return 
+
+    # Check btns
+    if winner == 'Réplica':
+      self.assertEqual(self.selenium.find_element_by_id('rep-btn').text, 'Réplica')
+    else:
+      self.assertEqual(self.selenium.find_element_by_id('rep-btn').text, 'Terminar')
+      return
 
   def check_mode(self, btn, i, reverse = False, check_next = True):
     '''
