@@ -17,7 +17,7 @@ class CreatePoll(graphene.Mutation):
 
   @classmethod
   def mutate(cls, root, info, comp1, comp2):
-    if settings.DEBUG:
+    if settings.DEBUG == True:
       poll = VotingPoll.objects.first()
       for i in range(9):
         poll.comp_1[i] = None
@@ -29,8 +29,8 @@ class CreatePoll(graphene.Mutation):
     if comp1 == 'replica' or comp2 == 'replica':
       raise GraphQLError('El competidor no puede llamarse \'replica\'')
 
-    if (len(comp1) > 20 or len(comp1) < 4) or (len(comp2) > 20 or len(comp2) < 4):
-      raise GraphQLError('Los competidores tienen que tener un máximo de 20 caracteres y un mínimo de 4')
+    if (len(comp1) > 20 or len(comp1) < 2) or (len(comp2) > 20 or len(comp2) < 2):
+      raise GraphQLError('Los competidores tienen que tener un máximo de 20 caracteres y un mínimo de 2')
 
     comp_1 = Competitor.objects.create(name=comp1)
     comp_2 = Competitor.objects.create(name=comp2)
