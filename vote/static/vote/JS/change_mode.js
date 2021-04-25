@@ -179,6 +179,12 @@ function prepareBtns(mode) {
 }
 export async function changeMode(old_mode, new_mode) {
     if (old_mode === 'end' || old_mode === 'end_replica') {
+        if (new_mode === 'end') {
+            document.getElementById('mode').dataset.current_mode = new_mode;
+            prepareNavbar(new_mode);
+            showSections(true);
+            return;
+        }
         wrapper();
         return;
     }
