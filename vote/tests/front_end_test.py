@@ -169,6 +169,14 @@ class FrontEndTestCase(LiveServerTestCase):
 
     # Make second replica
     self.check_rep_winner(winner='Réplica', replica=True, rep_counter=1)
+    
+    # End the poll
+    self.selenium.find_elements_by_class_name('choice-input')[0].click()
+    self.selenium.find_element_by_id('rep-btn').click()
+
+    sleep(0.1)
+
+    self.assertTrue(self.selenium.current_url, 'http://127.0.0.1:8000/vota/')
 
 
   def check_rep_winner(self, winner: str, comp_1_total = 0, comp_2_total = 0, replica = False, rep_counter = 0):
