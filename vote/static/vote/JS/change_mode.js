@@ -55,7 +55,11 @@ async function saveMode(mode) {
             },
         }),
     })
-        .then((response) => response.json())
+        .then((response) => {
+        if (!response.ok)
+            throw Error(`${response.statusText} - ${response.status}`);
+        return response.json();
+    })
         .then((data) => {
         if (data.errors) {
             throw Error(data.errors[0].message);
@@ -144,7 +148,11 @@ function nextMode(mode) {
         }),
         credentials: 'include',
     })
-        .then((response) => response.json())
+        .then((response) => {
+        if (!response.ok)
+            throw Error(`${response.statusText} - ${response.status}`);
+        return response.json();
+    })
         .then((data) => {
         if (data.errors) {
             throw Error(data.errors[0].message);
