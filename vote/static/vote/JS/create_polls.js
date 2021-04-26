@@ -1,18 +1,17 @@
 import { addInputs, createAlert, createError, getCookie } from './util.js';
 import { Competitor } from './classes.js';
 import { prepareNavbar } from './navbar.js';
-document.getElementById('comps-form').addEventListener('submit', (event) => createPoll(event));
+const comp_form = document.getElementById('comps-form');
+const input_1 = document.getElementById('comp-1-input');
+const input_2 = document.getElementById('comp-2-input');
+comp_form.addEventListener('submit', (event) => createPoll(event));
 function createPoll(event) {
     event.preventDefault();
-    const comp_form = document.getElementById('comps-form');
-    if (comp_form.checkValidity() === false) {
-        event.preventDefault();
-        event.stopPropagation();
-        comp_form.classList.add('was-validated');
-        return;
-    }
-    const comp1 = document.getElementById('comp-1-input').value.trim();
-    const comp2 = document.getElementById('comp-2-input').value.trim();
+    if (!comp_form.checkValidity())
+        return checkInputs(event);
+    comp_form.classList.remove('was-validated');
+    const comp1 = input_1.value.trim();
+    const comp2 = input_2.value.trim();
     const mutation = `
     mutation CreatePoll($comp1: String!, $comp2: String!) {
       createPoll(comp1: $comp1, comp2: $comp2) {
@@ -82,5 +81,29 @@ function createPoll(event) {
         .catch((err) => {
         createError(err);
     });
+}
+function checkInputs(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    // Get the input values
+    const vals = [input_1.value.trim(), input_2.value.trim()];
+    const els = [input_1, input_2];
+    vals.forEach((val, i) => {
+        if (val === '')
+            return setErrorFor(els[i], 'Fill the field');
+        if (val === 'replica' || val === 'Réplica')
+            return setErrorFor(els[i], "Competitor can't be named 'replica'");
+        if (val.length < 2 || val.length > 20)
+            return setErrorFor(els[i], "Competitor's name lenght must be between 2 and 20 characters");
+    });
+    function setErrorFor(input, message) {
+        const col = input.parentElement;
+        const err = col.querySelector('div');
+        // Add err message
+        err.innerText = message;
+        // Add the was-validated class
+        col.parentElement.parentElement.classList.add('was-validated');
+        return;
+    }
 }
 //# sourceMappingURL=create_polls.js.map
