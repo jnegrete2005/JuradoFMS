@@ -61,6 +61,10 @@ class SaveModes(graphene.Mutation):
       if len(value_1) != 7 or len(value_2) != 7:
         raise GraphQLError('Tematicas no puede tener más ni menos de 7 elementos')
 
+    elif mode == 'random_score':
+      if len(value_1) != 11 or len(value_2) != 11:
+        raise GraphQLError('Random mode no puede tener más ni menos de 11 elementos')
+
     elif len(value_1) != 9 or len(value_2) != 9:
       raise GraphQLError(f'{Competitor._meta.get_field(mode).verbose_name} no puede tener más ni menos de 9 elementos')
 

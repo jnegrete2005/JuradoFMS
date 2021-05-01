@@ -10,7 +10,7 @@ def setUp(self):
     hard=[1,1,1,1,1,1,1,1,1],
     tematicas_1=[1,1,1,1,1,1,1],
     tematicas_2=[1,1,1,1,1,1,1],
-    random_score=[1,1,1,1,1,1,1,1,1],
+    random_score=[1,1,1,1,1,1,1,1,1,1,1],
     min1=[1,1,1,1,1,1,1,1,1],
     min2=[1,1,1,1,1,1,1,1,1],
     deluxe=[1,1,1,1,1,1,1,1,1,1,1,1,1,1]
@@ -21,19 +21,18 @@ def setUp(self):
     hard=[2,2,2,2,2,2,2,2,2],
     tematicas_1=[2,2,2,2,2,2,2],
     tematicas_2=[2,2,2,2,2,2,2],
-    random_score=[2,2,2,2,2,2,2,2,2],
+    random_score=[2,2,2,2,2,2,2,2,2,2,2],
     min1=[2,2,2,2,2,2,2,2,2],
     min2=[2,2,2,2,2,2,2,2,2],
     deluxe=[2,2,2,2,2,2,2,2,2,2,2,2,2,2]
   )
-
   c2_a = Competitor.objects.create(
     name='Replica 1',
     easy=[3,3,3,3,3,3,3,3,3],
     hard=[3,3,3,3,3,3,3,3,3],
     tematicas_1=[3,3,3,3,3,3,3],
     tematicas_2=[3,3,3,3,3,3,3],
-    random_score=[3,3,3,3,3,3,3,3,3],
+    random_score=[3,3,3,3,3,3,3,3,3,3,3],
     min1=[3,3,3,3,3,3,3,3,3],
     min2=[3,3,3,3,3,3,3,3,3],
     deluxe=[3,3,3,3,3,3,3,3,3,3,3,3,3,3],
@@ -45,13 +44,12 @@ def setUp(self):
     hard=[3,3,3,3,3,3,3,3,3],
     tematicas_1=[3,3,3,3,3,3,3],
     tematicas_2=[3,3,3,3,3,3,3],
-    random_score=[3,3,3,3,3,3,3,3,3],
+    random_score=[3,3,3,3,3,3,3,3,3,3,3],
     min1=[3,3,3,3,3,3,3,3,3],
     min2=[3,3,3,3,3,3,3,3,3],
     deluxe=[3,3,3,3,3,3,3,3,3,3,3,3,3,3],
     replica=[3,3,3,3,3,3,3,3,3]
   )
-
 
   # Create VotingPolls
   poll1 = VotingPoll.objects.create(
@@ -72,7 +70,7 @@ def setUpTestData(cls):
     hard=[1,1,1,1,1,1,1,1,1],
     tematicas_1=[1,1,1,1,1,1,1],
     tematicas_2=[1,1,1,1,1,1,1],
-    random_score=[1,1,1,1,1,1,1,1,1],
+    random_score=[1,1,1,1,1,1,1,1,1,1,1],
     min1=[1,1,1,1,1,1,1,1,1],
     min2=[1,1,1,1,1,1,1,1,1],
     deluxe=[1,1,1,1,1,1,1,1,1,1,1,1,1,1]
@@ -83,7 +81,7 @@ def setUpTestData(cls):
     hard=[2,2,2,2,2,2,2,2,2],
     tematicas_1=[2,2,2,2,2,2,2],
     tematicas_2=[2,2,2,2,2,2,2],
-    random_score=[2,2,2,2,2,2,2,2,2],
+    random_score=[2,2,2,2,2,2,2,2,2,2,2],
     min1=[2,2,2,2,2,2,2,2,2],
     min2=[2,2,2,2,2,2,2,2,2],
     deluxe=[2,2,2,2,2,2,2,2,2,2,2,2,2,2]
@@ -94,7 +92,7 @@ def setUpTestData(cls):
     hard=[3,3,3,3,3,3,3,3,3],
     tematicas_1=[3,3,3,3,3,3,3],
     tematicas_2=[3,3,3,3,3,3,3],
-    random_score=[3,3,3,3,3,3,3,3,3],
+    random_score=[3,3,3,3,3,3,3,3,3,3,3],
     min1=[3,3,3,3,3,3,3,3,3],
     min2=[3,3,3,3,3,3,3,3,3],
     deluxe=[3,3,3,3,3,3,3,3,3,3,3,3,3,3],
@@ -106,7 +104,7 @@ def setUpTestData(cls):
     hard=[3,3,3,3,3,3,3,3,3],
     tematicas_1=[3,3,3,3,3,3,3],
     tematicas_2=[3,3,3,3,3,3,3],
-    random_score=[3,3,3,3,3,3,3,3,3],
+    random_score=[3,3,3,3,3,3,3,3,3,3,3],
     min1=[3,3,3,3,3,3,3,3,3],
     min2=[3,3,3,3,3,3,3,3,3],
     deluxe=[3,3,3,3,3,3,3,3,3,3,3,3,3,3],
@@ -126,7 +124,7 @@ def setUpTestData(cls):
 
 class Query:
   """ Will query what you pass in, with the variables """
-  def __init__(self, query: str, variables: dict):
+  def __init__(self, query: str, variables = {}):
     self.response = graphql_query(query, variables=variables)
     self.content = loads(self.response.content)
 

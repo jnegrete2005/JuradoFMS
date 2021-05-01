@@ -254,12 +254,16 @@ class FrontEndTestCase(LiveServerTestCase):
 
     # Check for the length of the inputs
     inputs = self.selenium.find_elements_by_class_name('input')
+
+    current_mode = mode.get_attribute('data-current_mode')
     
-    if (mode.get_attribute('data-current_mode') == 'tematicas_1' or 
-        mode.get_attribute('data-current_mode') == 'tematicas_2'):
+    if (current_mode == 'tematicas_1' or 
+        current_mode == 'tematicas_2'):
       self.assertEqual(len(inputs), 7 * 2)
-    elif mode.get_attribute('data-current_mode') == 'deluxe':
+    elif current_mode == 'deluxe':
       self.assertEqual(len(inputs), 14 * 2)
+    elif current_mode == 'random_score':
+      self.assertEqual(len(inputs), 11 * 2)
     else:
       self.assertEqual(len(inputs), 9 * 2)
 

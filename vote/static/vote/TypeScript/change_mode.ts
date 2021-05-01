@@ -104,6 +104,10 @@ function nextMode(mode: string): void {
           addInputs(7);
           break;
 
+        case 'random_score':
+          addInputs(11);
+          break;
+
         case 'deluxe':
           addInputs(14);
           break;
