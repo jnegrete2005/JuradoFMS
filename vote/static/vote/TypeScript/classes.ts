@@ -1,4 +1,4 @@
-import type { arr, arr7, arr14 } from './types';
+import type { arr, arr7, arr11, arr14 } from './types';
 
 export class Competitor {
   constructor(
@@ -8,10 +8,10 @@ export class Competitor {
     public hard?: arr,
     public tematicas_1?: arr7,
     public tematicas_2?: arr7,
-    public random_score?: arr,
+    public random_score?: arr11,
     public min1?: arr,
     public min2?: arr,
-    public deluxe?: arr,
+    public deluxe?: arr14,
     public replica?: arr,
     public counter = 0
   ) {}

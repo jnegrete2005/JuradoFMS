@@ -1,4 +1,4 @@
-export type { GetModes, SaveModes, CreatePoll, PlusReplica, SaveWinner, GraphqlError, arr, arr7, arr14 };
+export type { GetModes, SaveModes, CreatePoll, PlusReplica, SaveWinner, GraphqlError, arr, arr7, arr11, arr14 };
 
 type GetModes = GraphqlError & {
   data: {
@@ -86,4 +86,5 @@ type FixedSizeArray<N extends number, T> = N extends 0
 
 type arr = FixedSizeArray<9, number>;
 type arr7 = FixedSizeArray<7, number>;
+type arr11 = FixedSizeArray<11, number>;
 type arr14 = FixedSizeArray<14, number>;
