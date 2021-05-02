@@ -1,4 +1,4 @@
-import { Competitor } from './classes.js';
+import { Competitor, modes_to_int } from './classes.js';
 export function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -84,6 +84,19 @@ export function addInputs(lenght, data, first = false) {
             }
         }
     });
+    if (first)
+        return;
+    const comp_1_cont = document.getElementById('comp-1').parentElement.parentElement;
+    const comp_2_cont = document.getElementById('comp-2').parentElement.parentElement;
+    const poll = document.querySelector('.poll');
+    const hr = poll.querySelector('hr');
+    if (modes_to_int[document.getElementById('mode').dataset.current_mode] % 2 != 0) {
+        poll.insertBefore(comp_1_cont, comp_2_cont);
+        poll.insertBefore(hr, comp_2_cont);
+        return;
+    }
+    poll.insertBefore(comp_2_cont, comp_1_cont);
+    poll.insertBefore(hr, comp_1_cont);
 }
 function insertAfter(newNode, referenceNode) {
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
