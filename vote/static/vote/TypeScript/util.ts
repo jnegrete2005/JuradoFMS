@@ -42,8 +42,26 @@ export function addInputs(lenght: number, data?: GetModes, first = false) {
     });
   }
 
-  Array.from(document.getElementsByClassName('comp-container')).forEach((comp_container: HTMLElement) => {
-    for (let i = 0; i < lenght; i++) {
+  const mode = document.getElementById('mode').dataset.current_mode;
+  const comp_1_cont = document.getElementById('comp-1').parentElement.parentElement;
+  const comp_2_cont = document.getElementById('comp-2').parentElement.parentElement;
+
+  // Alternate comps
+  if (!first) {
+    const poll = document.querySelector('.poll');
+    const hr = poll.querySelector('hr');
+
+    if (modes_to_int[mode] % 2 == 0) {
+      poll.insertBefore(comp_1_cont, comp_2_cont);
+      poll.insertBefore(hr, comp_2_cont);
+    } else {
+      poll.insertBefore(comp_2_cont, comp_1_cont);
+      poll.insertBefore(hr, comp_1_cont);
+    }
+  }
+
+  Array.from(document.getElementsByClassName('comp-container')).forEach((comp_container: HTMLElement, i) => {
+    for (let j = 0; j < lenght; j++) {
       // Create the container and add the classes
       const container = document.createElement('div');
       container.classList.add(
@@ -55,10 +73,10 @@ export function addInputs(lenght: number, data?: GetModes, first = false) {
         'input'
       );
 
-      if (i > lenght - 3 && lenght % 3 !== 0) {
+      if (j > lenght - 3 && lenght % 3 !== 0) {
         if (Math.round(lenght % 3) === 2) {
           container.classList.replace('col-4', 'col-6');
-        } else if (Math.round(lenght % 3) === 1 && i > lenght - 2) {
+        } else if (Math.round(lenght % 3) === 1 && j > lenght - 2) {
           container.classList.replace('col-4', 'col');
         }
       }
@@ -79,23 +97,29 @@ export function addInputs(lenght: number, data?: GetModes, first = false) {
       input.step = '0.5';
       input.maxLength = 3;
 
+      // Tabindex edit
+      if (mode === 'random_score' || mode === 'deluxe' || mode === 'replica') {
+        const tab = tabindex[mode][i][j];
+        input.tabIndex = tab;
+      }
+
       container.append(input);
 
       // Populate inputs
       if (data) {
         if (comp_container.id === 'comp-1-container') {
-          if (data.data.comp1.mode.length !== 0 && data.data.comp1.mode[i] !== 9) {
-            input.value = data.data.comp1.mode[i].toString();
+          if (data.data.comp1.mode.length !== 0 && data.data.comp1.mode[j] !== 9) {
+            input.value = data.data.comp1.mode[j].toString();
           }
         } else if (comp_container.id === 'comp-2-container') {
-          if (data.data.comp2.mode.length !== 0 && data.data.comp2.mode[i] !== 9) {
-            input.value = data.data.comp2.mode[i].toString();
+          if (data.data.comp2.mode.length !== 0 && data.data.comp2.mode[j] !== 9) {
+            input.value = data.data.comp2.mode[j].toString();
           }
         }
       }
 
       // Insert the container after the competitor
-      if (i === 0) {
+      if (j === 0) {
         insertAfter(container, comp_container);
       } else {
         insertAfter(
@@ -106,22 +130,28 @@ export function addInputs(lenght: number, data?: GetModes, first = false) {
     }
   });
 
-  if (first) return;
-
-  const comp_1_cont = document.getElementById('comp-1').parentElement.parentElement;
-  const comp_2_cont = document.getElementById('comp-2').parentElement.parentElement;
-  const poll = document.querySelector('.poll');
-  const hr = poll.querySelector('hr');
-
-  if (modes_to_int[document.getElementById('mode').dataset.current_mode] % 2 != 0) {
-    poll.insertBefore(comp_1_cont, comp_2_cont);
-    poll.insertBefore(hr, comp_2_cont);
+  if (first || modes_to_int[mode] % 2 == 0) {
+    (<HTMLInputElement>comp_1_cont.getElementsByTagName('div')[1].firstElementChild).focus();
     return;
   }
 
-  poll.insertBefore(comp_2_cont, comp_1_cont);
-  poll.insertBefore(hr, comp_1_cont);
+  (<HTMLInputElement>comp_2_cont.getElementsByTagName('div')[1].firstElementChild).focus();
 }
+
+const tabindex = {
+  random_score: [
+    [1, 2, 5, 6, 9, 10, 13, 14, 17, 18, 19],
+    [3, 4, 7, 8, 11, 12, 15, 16, 20, 21, 22],
+  ],
+  deluxe: [
+    [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 26, 27, 28],
+    [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 24, 25],
+  ],
+  replica: [
+    [1, 3, 5, 7, 9, 11, 13, 14, 15],
+    [2, 4, 6, 8, 10, 12, 16, 17, 18],
+  ],
+};
 
 function insertAfter(newNode: HTMLElement, referenceNode: HTMLElement) {
   referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
