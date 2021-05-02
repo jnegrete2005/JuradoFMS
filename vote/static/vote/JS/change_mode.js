@@ -81,6 +81,9 @@ function nextMode(mode) {
     const comp_1 = Competitor.unserialize(localStorage.getItem('comp_1'))[mode];
     const comp_2 = Competitor.unserialize(localStorage.getItem('comp_2'))[mode];
     function next(data) {
+        // Fill the heading with the mode
+        document.getElementById('mode').dataset.current_mode = mode;
+        document.getElementById('mode').innerHTML = modes_aliases[mode];
         // Fill the inputs
         if (data.data.comp1.mode !== null) {
             addInputs(data.data.comp1.mode.length, data);
@@ -104,9 +107,6 @@ function nextMode(mode) {
         }
         // Refresh the alert
         createAlert('Recuerda que los últimos 3 cuadritos siempre son para Skills, Flow y Puesta en escena');
-        // Fill the heading with the mode
-        document.getElementById('mode').dataset.current_mode = mode;
-        document.getElementById('mode').innerHTML = modes_aliases[mode];
     }
     if (comp_1 && comp_2) {
         const data = {
