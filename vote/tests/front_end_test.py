@@ -260,10 +260,14 @@ class FrontEndTestCase(LiveServerTestCase):
     if (current_mode == 'tematicas_1' or 
         current_mode == 'tematicas_2'):
       self.assertEqual(len(inputs), 7 * 2)
-    elif current_mode == 'deluxe':
-      self.assertEqual(len(inputs), 14 * 2)
     elif current_mode == 'random_score':
       self.assertEqual(len(inputs), 11 * 2)
+      self.check_tabindex(current_mode)
+    elif current_mode == 'deluxe':
+      self.assertEqual(len(inputs), 14 * 2)
+      self.check_tabindex(current_mode)
+    elif current_mode == 'replica':
+      self.check_tabindex(current_mode)
     else:
       self.assertEqual(len(inputs), 9 * 2)
 
@@ -331,3 +335,31 @@ class FrontEndTestCase(LiveServerTestCase):
       self.assertEqual(self.selenium.find_element_by_id('end-btn').text, 'Avanzar a réplica')
     else:
       self.assertEqual(self.selenium.find_element_by_id('end-btn').text, 'Terminar')
+
+  def check_tabindex(self, mode: str):
+    inputs = [
+      self.selenium.find_elements_by_class_name('comp-1-input'), 
+      self.selenium.find_elements_by_class_name('comp-2-input')
+    ]
+
+    tabindex = {
+      'random_score': [
+        [1, 2, 5, 6, 9, 10, 13, 14, 17, 18, 19],
+        [3, 4, 7, 8, 11, 12, 15, 16, 20, 21, 22],
+      ],
+      'deluxe': [
+        [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 24, 25],
+        [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 26, 27, 28],
+      ],
+      'replica': [
+        [1, 3, 5, 7, 9, 11, 13, 14, 15],
+        [2, 4, 6, 8, 10, 12, 16, 17, 18],
+      ],
+    }
+
+    for i in range(2):
+      for j in range(len(inputs[i])):
+        if (tabindex[mode][i][j] != int(inputs[i][j].get_attribute('value'))):
+          return False
+        continue
+
