@@ -44,7 +44,7 @@ class MutationsTestCase(GraphQLTestCase):
   def test_save_mode(self):
     query = Query(
       """  
-      mutation SaveModes($id: ID!, $mode: String!, $value1: [Int]!, $value2: [Int]!) {
+      mutation SaveModes($id: ID!, $mode: String!, $value1: [Float]!, $value2: [Float]!) {
         saveModes(pollId: $id, mode: $mode, value1:$value1, value2: $value2) {
           comp1 {
             mode
