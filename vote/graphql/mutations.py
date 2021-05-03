@@ -4,7 +4,6 @@ from ..models import Competitor, VotingPoll
 from django.conf import settings
 
 from graphql import GraphQLError
-
 import graphene
 
 
@@ -68,6 +67,9 @@ class SaveModes(graphene.Mutation):
     elif len(value_1) != 9 or len(value_2) != 9:
       raise GraphQLError(f'{Competitor._meta.get_field(mode).verbose_name} no puede tener más ni menos de 9 elementos')
 
+    validate_input(value_1)
+    validate_input(value_2)
+
     poll = VotingPoll.objects.get(pk=int(poll_id))
 
     poll.comp_1.__dict__[mode] = value_1
@@ -130,4 +132,12 @@ class Mutation(graphene.ObjectType):
   save_modes = SaveModes.Field()
   save_winner = SaveWinner.Field()
   plus_replica = PlusReplica.Field()
+
+
+def validate_input(val: list):
+  for num in val:
+    if (num >= 0 and num <= 4 and num % 0.5 == 0) or num == 9:
+      continue
+    raise GraphQLError('Los valores deben ser entre 0 y 4 y el único decimal que pueden tener es .5')
+  return
   
