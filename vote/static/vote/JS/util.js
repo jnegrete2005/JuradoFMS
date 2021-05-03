@@ -79,10 +79,8 @@ export function addInputs(lenght, data, first = false) {
             input.step = '0.5';
             input.maxLength = 3;
             // Tabindex edit
-            if (mode === 'random_score' || mode === 'deluxe' || mode === 'replica') {
-                const tab = tabindex[mode][i][j];
-                input.tabIndex = tab;
-            }
+            if (mode === 'random_score' || mode === 'deluxe' || mode === 'replica')
+                input.tabIndex = tabindex[mode][i][j];
             container.append(input);
             // Populate inputs
             if (data) {
