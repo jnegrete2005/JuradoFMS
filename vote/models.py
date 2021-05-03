@@ -1,6 +1,7 @@
 from django.db.models import (
-  Model, CharField, ForeignKey, PositiveSmallIntegerField, CASCADE
+  Model, CharField, ForeignKey, PositiveSmallIntegerField, CASCADE, FloatField
 )
+from django.db import models
 from django.contrib.postgres.fields import ArrayField
 
 # Create your models here.
@@ -9,15 +10,15 @@ class Competitor(Model):
   Competitor model object
   """
   name = CharField(max_length=20)
-  easy = ArrayField(PositiveSmallIntegerField(), size=9, null=True, blank=True, verbose_name='Easy Mode')
-  hard = ArrayField(PositiveSmallIntegerField(), size=9, null=True, blank=True, verbose_name='Hard Mode')
-  tematicas_1 = ArrayField(PositiveSmallIntegerField(), size=7, null=True, blank=True, verbose_name='Tematicas 1')
-  tematicas_2 = ArrayField(PositiveSmallIntegerField(), size=7, null=True, blank=True, verbose_name='Tematicas 2')
-  random_score = ArrayField(PositiveSmallIntegerField(), size=11, null=True, blank=True, verbose_name='Random Mode')
-  min1 = ArrayField(PositiveSmallIntegerField(), size=9, null=True, blank=True, verbose_name='minuto 1')
-  min2 = ArrayField(PositiveSmallIntegerField(), size=9, null=True, blank=True, verbose_name='minuto 2')
-  deluxe = ArrayField(PositiveSmallIntegerField(), size=14, null=True, blank=True, verbose_name='Deluxe')
-  replica = ArrayField(PositiveSmallIntegerField(), size=9, null=True, blank=True, verbose_name='Replica')
+  easy = ArrayField(FloatField(), size=9, null=True, blank=True, verbose_name='Easy Mode')
+  hard = ArrayField(FloatField(), size=9, null=True, blank=True, verbose_name='Hard Mode')
+  tematicas_1 = ArrayField(FloatField(), size=7, null=True, blank=True, verbose_name='Tematicas 1')
+  tematicas_2 = ArrayField(FloatField(), size=7, null=True, blank=True, verbose_name='Tematicas 2')
+  random_score = ArrayField(FloatField(), size=11, null=True, blank=True, verbose_name='Random Mode')
+  min1 = ArrayField(FloatField(), size=9, null=True, blank=True, verbose_name='minuto 1')
+  min2 = ArrayField(FloatField(), size=9, null=True, blank=True, verbose_name='minuto 2')
+  deluxe = ArrayField(FloatField(), size=14, null=True, blank=True, verbose_name='Deluxe')
+  replica = ArrayField(FloatField(), size=9, null=True, blank=True, verbose_name='Replica')
   _list = [ 'easy', 'hard', 'tematicas_1', 'tematicas_2', 'random_score', 'min1', 'min2', 'deluxe', 'replica' ]
 
   def __str__(self):
