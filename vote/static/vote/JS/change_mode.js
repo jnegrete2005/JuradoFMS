@@ -14,7 +14,7 @@ async function saveMode(mode) {
     }
     // Create the mutation
     const mutation = `
-    mutation SaveModes($id: ID!, $mode: String!, $value1: [Int]!, $value2: [Int]!) {
+    mutation SaveModes($id: ID!, $mode: String!, $value1: [Float]!, $value2: [Float]!) {
       saveModes(pollId: $id, mode: $mode, value1: $value1, value2: $value2) {
         comp1 {
           mode
@@ -27,15 +27,8 @@ async function saveMode(mode) {
   `;
     // Returns the value of the input. If invalid, returns 9
     function returnValueOr9(el) {
-        function validInput(inp) {
-            if (!inp || inp < 0 || inp > 4) {
-                return false;
-            }
-            else {
-                return true;
-            }
-        }
-        return validInput(parseInt(el.value)) ? parseInt(el.value) : 9;
+        const validInput = (number) => number >= 0 && number <= 4 && number % 0.5 === 0;
+        return validInput(parseFloat(el.value)) ? parseFloat(el.value) : 9;
     }
     // Fetch
     const result = await fetch('/graphql/', {

@@ -44,8 +44,8 @@ class SaveModes(graphene.Mutation):
   class Arguments:
     poll_id = graphene.ID(required=True)
     mode = graphene.String(required=True)
-    value_1 = graphene.List(graphene.Int, required=True)
-    value_2 = graphene.List(graphene.Int, required=True)
+    value_1 = graphene.List(graphene.Float, required=True)
+    value_2 = graphene.List(graphene.Float, required=True)
 
   comp_1 = graphene.Field(CompMode)
   comp_2 = graphene.Field(CompMode)
