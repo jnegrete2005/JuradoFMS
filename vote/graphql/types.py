@@ -16,4 +16,4 @@ class VotingPollType(DjangoObjectType):
 
 
 class CompMode(graphene.ObjectType):
-  mode = graphene.List(graphene.Int)
+  mode = graphene.List(graphene.Float)

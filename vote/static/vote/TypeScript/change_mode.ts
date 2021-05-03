@@ -20,7 +20,7 @@ async function saveMode(mode: string): Promise<boolean> {
 
   // Create the mutation
   const mutation = `
-    mutation SaveModes($id: ID!, $mode: String!, $value1: [Int]!, $value2: [Int]!) {
+    mutation SaveModes($id: ID!, $mode: String!, $value1: [Float]!, $value2: [Float]!) {
       saveModes(pollId: $id, mode: $mode, value1: $value1, value2: $value2) {
         comp1 {
           mode
@@ -34,15 +34,9 @@ async function saveMode(mode: string): Promise<boolean> {
 
   // Returns the value of the input. If invalid, returns 9
   function returnValueOr9(el: HTMLInputElement): number {
-    function validInput(inp: number | undefined): boolean {
-      if (!inp || inp < 0 || inp > 4) {
-        return false;
-      } else {
-        return true;
-      }
-    }
+    const validInput = (number: number | undefined): boolean => number >= 0 && number <= 4 && number % 0.5 === 0;
 
-    return validInput(parseInt(el.value)) ? parseInt(el.value) : 9;
+    return validInput(parseFloat(el.value)) ? parseFloat(el.value) : 9;
   }
 
   // Fetch

@@ -1,5 +1,6 @@
 import { Competitor, modes_to_int } from './classes.js';
 import type { GetModes, PlusReplica, SaveWinner } from './types';
+import { validate_inputs } from './validation.js';
 
 export function getCookie(name: string): string {
   let cookieValue: null | string = null;
@@ -130,6 +131,8 @@ export function addInputs(lenght: number, data?: GetModes, first = false) {
     }
   });
 
+  validate_inputs();
+
   if (first || modes_to_int[mode] % 2 == 0) {
     (<HTMLInputElement>comp_1_cont.getElementsByTagName('div')[1].firstElementChild).focus();
     return;
@@ -144,8 +147,8 @@ const tabindex = {
     [3, 4, 7, 8, 11, 12, 15, 16, 20, 21, 22],
   ],
   deluxe: [
-    [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 26, 27, 28],
     [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 24, 25],
+    [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 26, 27, 28],
   ],
   replica: [
     [1, 3, 5, 7, 9, 11, 13, 14, 15],
