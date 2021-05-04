@@ -1,8 +1,12 @@
 from .util import get_key_by_val, index_dict, modes_to_int, mode_aliases
+from time import sleep
+from typing import List
 
 from django.test import LiveServerTestCase
+
 from selenium.webdriver.chrome.webdriver import WebDriver
-from time import sleep
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.remote.webelement import WebElement
 
 class FrontEndTestCase(LiveServerTestCase):
   @classmethod
@@ -49,6 +53,8 @@ class FrontEndTestCase(LiveServerTestCase):
     comp_1 = selenium.find_element_by_id('comp-1-input')
     comp_2 = selenium.find_element_by_id('comp-2-input')
 
+    self.make_invalid_comps(comp_1, comp_2, submit)
+
     comp_1.send_keys('si')
     comp_2.send_keys('no')
 
@@ -83,6 +89,8 @@ class FrontEndTestCase(LiveServerTestCase):
     for i in reversed(range(8)):
       self.check_mode(prev_btn, i, True)
 
+    self.check_input_vals()
+
   def test_3(self):
     ''' Check if the end table works '''
     # Go to the end table
@@ -108,7 +116,7 @@ class FrontEndTestCase(LiveServerTestCase):
           # Second row, first col is comp_2
           self.assertEqual(rows[i][j].text, 'no')
           continue
-        
+
         # They all should be equal to 0
         self.assertEqual(rows[i][j].text, '0')
 
@@ -155,6 +163,8 @@ class FrontEndTestCase(LiveServerTestCase):
 
   def test_7(self):
     ''' Checks if replica #2 works in all aspects '''
+    sleep(0.5)
+
     # Click replica btn
     self.selenium.find_element_by_id('rep-btn').click()
 
@@ -240,23 +250,24 @@ class FrontEndTestCase(LiveServerTestCase):
     goes to the next mode by clicking the `btn`
     that was passed.
     '''
+    sleep(0.5)
+
     # Check the navbar
     self.assertFalse('disabled' in self.navs[i].get_attribute('class'))
     self.assertTrue('active' in self.navs[i].get_attribute('class'))
 
     mode = self.selenium.find_element_by_id('mode')
+    current_mode = mode.get_attribute('data-current_mode')
 
-    sleep(0.5)
+    sleep(1)
     
     # Check if the mode is ok
-    self.assertEqual(mode.get_attribute('data-current_mode'), get_key_by_val(modes_to_int, i))
+    self.assertEqual(current_mode, get_key_by_val(modes_to_int, i))
     self.assertEqual(mode.text, index_dict(mode_aliases, i))
 
     # Check for the length of the inputs
     inputs = self.selenium.find_elements_by_class_name('input')
 
-    current_mode = mode.get_attribute('data-current_mode')
-    
     if (current_mode == 'tematicas_1' or 
         current_mode == 'tematicas_2'):
       self.assertEqual(len(inputs), 7 * 2)
@@ -273,6 +284,10 @@ class FrontEndTestCase(LiveServerTestCase):
 
     if i == 7 or i == 9:
       self.assertEqual(self.selenium.find_element_by_id('next').get_attribute('value'), 'Terminar')
+    elif i % 2 == 0:
+      self.assertEqual(self.selenium.find_element_by_css_selector('.fw-normal.mb-0.text-center.text-md-start.h3').text, 'si')
+    else:
+      self.assertEqual(self.selenium.find_element_by_css_selector('.fw-normal.mb-0.text-center.text-md-start.h3').text, 'no')
 
     if not check_next:
       return sleep(0.5)
@@ -359,7 +374,62 @@ class FrontEndTestCase(LiveServerTestCase):
 
     for i in range(2):
       for j in range(len(inputs[i])):
-        if (tabindex[mode][i][j] != int(inputs[i][j].get_attribute('value'))):
+        if (tabindex[mode][i][j] != int(inputs[i][j].get_attribute('tabindex'))):
           return False
         continue
 
+  def check_input_vals(self):
+    inputs: List[List[WebElement]] = [
+      self.selenium.find_elements_by_class_name('comp-1-input'),
+      self.selenium.find_elements_by_class_name('comp-2-input')  
+    ]
+
+    keys = [Keys.SPACE, '.']
+
+    for i in 0, 1:
+      # Use the comp-1-input to check with space bar
+      # and the comp-2-input to check with '.'
+      for j in range(6):
+        current = inputs[i][j]
+
+        if j == 0:
+          current.send_keys(keys[i])
+          self.assertEqual(current.get_attribute('value'), '0.5')
+          current.send_keys(Keys.BACKSPACE)
+          continue
+        
+        current.send_keys(str(j - 1))
+        self.assertEqual(current.get_attribute('value'), str(j - 1))
+
+        if j != 5:
+          current.send_keys(keys[i])
+          self.assertEqual(current.get_attribute('value'), f'{j - 1}.5')
+          current.send_keys(Keys.BACKSPACE)
+
+        current.send_keys(Keys.BACKSPACE)
+    
+  def make_invalid_comps(self, comp_1: WebElement, comp_2: WebElement, btn: WebElement):
+    '''
+    This will send invalid comps to the page and check if the page responds correctly.
+    There are 3 type of invalid comps:
+    1. Empty comp
+    2. Lower than 2 chars of length
+    3. Higher than 20 chars of length (untestable, browser won't let you put more chars)
+    '''
+
+    # Element where the feedback will be held
+    feeds: List[WebElement] = self.selenium.find_elements_by_class_name('invalid-feedback')
+
+    comps = [comp_1, comp_2]
+
+    # First scenario (Empty comp)
+    btn.click()
+    for feed in feeds:
+      self.assertEqual(feed.text, 'Por favor, llene el campo para continuar')
+    
+    # Second scenario (lower than 2 chars)
+    for comp in comps:
+      comp.send_keys('p')
+    btn.click()
+    for feed in feeds:
+      self.assertEqual(feed.text, 'El competidor tiene que tener entre 2 y 20 caracteres')
