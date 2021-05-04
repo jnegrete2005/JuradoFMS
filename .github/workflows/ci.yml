@@ -31,12 +31,5 @@ jobs:
           pip install -r requirements.txt
       - name: Run migrations
         run: python manage.py migrate
-      - name: Prepare Selenium
-        uses: nanasess/setup-chromedriver@v1.0.5
-      - name: Start XVFB
-        run: |
-          Xvfb :99 &
       - name: Test
-        run: python manage.py runserver & python manage.py test
-        env:
-          DISPLAY: :99
+        run: python manage.py test
