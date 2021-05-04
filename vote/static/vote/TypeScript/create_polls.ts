@@ -108,10 +108,9 @@ function checkInputs(event: Event) {
   const els = [input_1, input_2];
 
   vals.forEach((val: string, i) => {
-    if (val === '') return setErrorFor(els[i], 'Fill the field');
-    if (val === 'replica' || val === 'Réplica') return setErrorFor(els[i], "Competitor can't be named 'replica'");
+    if (val === '') return setErrorFor(els[i], 'Por favor, llene el campo para continuar');
     if (val.length < 2 || val.length > 20)
-      return setErrorFor(els[i], "Competitor's name lenght must be between 2 and 20 characters");
+      return setErrorFor(els[i], 'El competidor tiene que tener entre 2 y 20 caracteres');
   });
 
   function setErrorFor(input: HTMLInputElement, message: string) {

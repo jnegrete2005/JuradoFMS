@@ -25,9 +25,6 @@ class CreatePoll(graphene.Mutation):
       poll.save(update_fields=['rep_counter'])
       return CreatePoll(poll=poll)
 
-    if comp1 == 'replica' or comp2 == 'replica':
-      raise GraphQLError('El competidor no puede llamarse \'replica\'')
-
     if (len(comp1) > 20 or len(comp1) < 2) or (len(comp2) > 20 or len(comp2) < 2):
       raise GraphQLError('Los competidores tienen que tener un máximo de 20 caracteres y un mínimo de 2')
 
