@@ -87,7 +87,7 @@ DATABASES = {
     }
 }
 
-GRAPHENE = { 'SCHEMA': 'vote.schema.schema' }
+GRAPHENE = { 'SCHEMA': 'schema.schema' }
 
 
 # Password validation
