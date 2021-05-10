@@ -6,7 +6,6 @@ from django.conf import settings
 from graphql import GraphQLError
 import graphene
 
-
 class CreatePoll(graphene.Mutation):
   class Arguments:
     comp1 = graphene.String(required=True)
@@ -53,13 +52,17 @@ class SaveModes(graphene.Mutation):
       if len(value_1) != 14 or len(value_2) != 14:
         raise GraphQLError('Deluxe no puede tener más ni menos de 14 elementos')
 
-    elif mode == 'tematicas_1' or mode == 'tematicas_2':
+    elif mode.startswith('tematicas'):
       if len(value_1) != 7 or len(value_2) != 7:
         raise GraphQLError('Tematicas no puede tener más ni menos de 7 elementos')
 
     elif mode == 'random_score':
       if len(value_1) != 11 or len(value_2) != 11:
         raise GraphQLError('Random mode no puede tener más ni menos de 11 elementos')
+    
+    elif mode.startswith('min'):
+      if len(value_1) != 18 or len(value_2) != 18:
+        raise GraphQLError('Los minutos tienen que tener 18 elementos (los checks cuentan)')
 
     elif len(value_1) != 9 or len(value_2) != 9:
       raise GraphQLError(f'{Competitor._meta.get_field(mode).verbose_name} no puede tener más ni menos de 9 elementos')
