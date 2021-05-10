@@ -2,7 +2,7 @@ import { prepareNavbar } from './navbar.js';
 import { modes_aliases, Competitor } from './classes.js';
 import { addInputs, arraysMatch, createAlert, createError, getCookie } from './util.js';
 
-import type { SaveModes, GetModes } from './types';
+import type { SaveModes, GetModes, ModeOptions } from './types';
 
 async function saveMode(mode: string): Promise<boolean> {
   let comp_1 = Competitor.unserialize(localStorage.getItem('comp_1'));
@@ -17,6 +17,13 @@ async function saveMode(mode: string): Promise<boolean> {
 
     value1.push(...Array.from(document.getElementsByClassName('check-1')).map(convertChecked));
     value2.push(...Array.from(document.getElementsByClassName('check-2')).map(convertChecked));
+  }
+
+  try {
+    validateLength(value1, value2, <keyof ModeOptions>mode);
+  } catch (e) {
+    createError(e);
+    return false;
   }
 
   const allEqualTo9 = (arr: Array<number>) => arr.every((v) => v === 9);
@@ -274,4 +281,39 @@ function showSections(end = false): void {
   document.getElementById('end-container').classList.toggle('d-none', !end);
   document.getElementById('poll-container').classList.toggle('d-none', end);
   document.getElementById('rep-res-container').classList.add('d-none');
+}
+
+function validateLength(val1: Array<number>, val2: Array<number>, mode: keyof ModeOptions) {
+  switch (mode) {
+    case 'deluxe':
+      if (val1.length !== 14 || val2.length !== 14) {
+        throw new Error('Deluxe no puede tener ni más ni menos de 14 elementos');
+      }
+      break;
+
+    case 'tematicas_1':
+    case 'tematicas_2':
+      if (val1.length !== 7 || val2.length !== 7) {
+        throw new Error('Tematicas no puede tener más ni menos de 7 elementos');
+      }
+      break;
+
+    case 'min1':
+    case 'min2':
+      if (val1.length !== 18 || val2.length !== 18) {
+        throw new Error('Los minutos tienen que tener 18 elementos (los checks cuentan)');
+      }
+      break;
+
+    case 'random_score':
+      if (val1.length !== 11 || val2.length !== 11) {
+        throw new Error('Random mode no puede tener más ni menos de 11 elementos');
+      }
+      break;
+
+    default:
+      if (val1.length !== 9 || val2.length !== 9) {
+        throw new Error(`${modes_aliases[mode]} no puede tener más ni menos de 9 elementos`);
+      }
+  }
 }

@@ -12,6 +12,13 @@ async function saveMode(mode) {
         value1.push(...Array.from(document.getElementsByClassName('check-1')).map(convertChecked));
         value2.push(...Array.from(document.getElementsByClassName('check-2')).map(convertChecked));
     }
+    try {
+        validateLength(value1, value2, mode);
+    }
+    catch (e) {
+        createError(e);
+        return false;
+    }
     const allEqualTo9 = (arr) => arr.every((v) => v === 9);
     if ((allEqualTo9(value1), allEqualTo9(value2)))
         return true;
@@ -242,5 +249,35 @@ function showSections(end = false) {
     document.getElementById('end-container').classList.toggle('d-none', !end);
     document.getElementById('poll-container').classList.toggle('d-none', end);
     document.getElementById('rep-res-container').classList.add('d-none');
+}
+function validateLength(val1, val2, mode) {
+    switch (mode) {
+        case 'deluxe':
+            if (val1.length !== 14 || val2.length !== 14) {
+                throw new Error('Deluxe no puede tener ni más ni menos de 14 elementos');
+            }
+            break;
+        case 'tematicas_1':
+        case 'tematicas_2':
+            if (val1.length !== 7 || val2.length !== 7) {
+                throw new Error('Tematicas no puede tener más ni menos de 7 elementos');
+            }
+            break;
+        case 'min1':
+        case 'min2':
+            if (val1.length !== 18 || val2.length !== 18) {
+                throw new Error('Los minutos tienen que tener 18 elementos (los checks cuentan)');
+            }
+            break;
+        case 'random_score':
+            if (val1.length !== 11 || val2.length !== 11) {
+                throw new Error('Random mode no puede tener más ni menos de 11 elementos');
+            }
+            break;
+        default:
+            if (val1.length !== 9 || val2.length !== 9) {
+                throw new Error(`${modes_aliases[mode]} no puede tener más ni menos de 9 elementos`);
+            }
+    }
 }
 //# sourceMappingURL=change_mode.js.map
