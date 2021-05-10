@@ -41,7 +41,7 @@ class MutationsTestCase(GraphQLTestCase):
     self.assertEqual(query.content['data']['createPoll']['poll']['comp1']['name'], 'Si')
     self.assertEqual(query.content['data']['createPoll']['poll']['comp2']['name'], 'No')
 
-  def test_save_mode(self):
+  def test_save_modes(self):
     query = Query(
       """  
       mutation SaveModes($id: ID!, $mode: String!, $value1: [Float]!, $value2: [Float]!) {
@@ -65,3 +65,57 @@ class MutationsTestCase(GraphQLTestCase):
 
     self.assertResponseNoErrors(query.response)
     self.assertEqual(query.content['data']['saveModes']['comp1']['mode'], [1,2,2,1,1,1,1,1,1])
+
+  def test_save_winner(self):
+    query = Query(
+      """
+      mutation SaveWinner($id: ID!, $winner: String!) {
+        saveWinner(pollId: $id, winner: $winner) {
+          poll {
+            winner
+          }
+        }
+      }
+      """,
+      {
+        'id': VotingPoll.objects.first().id,
+        'winner': 'Si'
+      }
+    )
+
+    self.assertResponseNoErrors(query.response)
+
+  def test_plus_replica(self):
+    query = Query(
+      """
+      mutation PlusReplica($id: ID!) {
+        plusReplica(id: $id) {
+          poll {
+            repCounter
+          }
+        }
+      }
+      """,
+      {
+        'id': VotingPoll.objects.first().id
+      }
+    )
+
+    self.assertResponseNoErrors(query.response)
+
+    query = Query(
+      """
+      mutation SaveWinner($id: ID!, $winner: String!) {
+        saveWinner(pollId: $id, winner: $winner) {
+          poll {
+            winner
+          }
+        }
+      }
+      """,
+      {
+        'id': VotingPoll.objects.first().id
+      }
+    )
+
+    self.assertResponseHasErrors(query.response)
