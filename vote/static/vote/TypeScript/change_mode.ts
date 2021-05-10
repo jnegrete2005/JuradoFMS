@@ -19,6 +19,10 @@ async function saveMode(mode: string): Promise<boolean> {
     value2.push(...Array.from(document.getElementsByClassName('check-2')).map(convertChecked));
   }
 
+  const allEqualTo9 = (arr: Array<number>) => arr.every((v) => v === 9);
+
+  if ((allEqualTo9(value1), allEqualTo9(value2))) return true;
+
   if (comp_1[mode] && comp_2[mode]) {
     if (arraysMatch(comp_1[mode], value1) && arraysMatch(comp_2[mode], value2)) {
       return true;
