@@ -1,7 +1,96 @@
-.poll {
-  padding: 17px;
-  border: 3px solid gainsboro;
-  border-radius: 10px;
+#comp-1,
+#comp-2 {
+  text-align: center;
+  font-size: calc(1.3rem + 0.6vw);
+  margin-bottom: 0;
+  font-weight: normal;
+}
+
+@media (min-width: 768px) {
+  #comp-1,
+  #comp-2 {
+    text-align: start;
+  }
+}
+
+.comp-container {
+  grid-column: span 3 / auto;
+}
+
+@media (min-width: 768px) {
+  .comp-container {
+    grid-column: span 2 / auto;
+  }
+}
+
+.input-right {
+  margin: auto auto auto 0 !important;
+  grid-row: auto;
+  -ms-grid-column: 3;
+  grid-column: 3;
+}
+
+@media (min-width: 768px) {
+  .input-right {
+    margin: inherit !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .input-right {
+    grid-row: auto;
+    grid-column: auto;
+  }
+}
+
+.input-left {
+  margin: auto 0 auto auto !important;
+}
+
+@media (min-width: 768px) {
+  .input-left {
+    margin: inherit !important;
+  }
+}
+
+.input-middle {
+  grid-row: auto;
+  -ms-grid-column: 2;
+  grid-column: 2;
+}
+
+@media (min-width: 768px) {
+  .input-middle {
+    grid-row: auto;
+    grid-column: auto;
+  }
+}
+
+.grid {
+  display: -ms-grid;
+  display: grid;
+  grid-gap: 1.5rem;
+  -ms-grid-column-span: 2 / auto;
+      grid-column-end: span 2 / auto;
+  -ms-grid-columns: (minmax(1.5rem, 1fr))[3];
+      grid-template-columns: repeat(3, minmax(1.5rem, 1fr));
+}
+
+@media (min-width: 768px) {
+  .grid {
+    -ms-grid-columns: (minmax(1rem, 1fr))[auto-fit];
+        grid-template-columns: repeat(auto-fit, minmax(1rem, 1fr));
+  }
+}
+
+.input {
+  margin: auto;
+  display: -ms-grid;
+  display: grid;
+  justify-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 input[type='number'] {
@@ -9,6 +98,7 @@ input[type='number'] {
   height: 30px;
   padding: 0;
   text-align: center !important;
+  -moz-appearance: textfield;
 }
 
 @media (min-width: 768px) {
@@ -18,7 +108,7 @@ input[type='number'] {
   }
 }
 
-input[type='number']::-webkit-inner-spin-button, input[type='number']::-webkit-inner-spin-button {
+input[type='number']::-webkit-outer-spin-button, input[type='number']::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
@@ -51,5 +141,11 @@ input[type='number']::-webkit-inner-spin-button, input[type='number']::-webkit-i
 
 .choice-input:focus {
   border-color: black;
+}
+
+.poll {
+  padding: 17px;
+  border: 3px solid gainsboro;
+  border-radius: 10px;
 }
 /*# sourceMappingURL=polls.css.map */

@@ -1,9 +1,75 @@
 @import 'media_queries';
 
-.poll {
-  padding: 17px;
-  border: 3px solid gainsboro;
-  border-radius: 10px;
+#comp-1,
+#comp-2 {
+  text-align: center;
+  font-size: calc(1.3rem + 0.6vw);
+  margin-bottom: 0;
+  font-weight: normal;
+
+  @include md() {
+    text-align: start;
+  }
+}
+
+.comp-container {
+  grid-column: span 3 / auto;
+
+  @include md() {
+    grid-column: span 2 / auto;
+  }
+}
+
+@mixin change-grid($col) {
+  grid-row: auto;
+  grid-column: $col;
+
+  @include md() {
+    grid-row: auto;
+    grid-column: auto;
+  }
+}
+
+@mixin align($left, $right) {
+  margin: auto $right auto $left !important;
+
+  @include md() {
+    margin: inherit !important;
+  }
+}
+
+.input-right {
+  @include align(0, auto);
+  @include change-grid(3);
+}
+
+.input-left {
+  @include align(auto, 0);
+}
+
+.input-middle {
+  @include change-grid(2);
+}
+
+.grid {
+  display: grid;
+  grid-gap: 1.5rem;
+
+  grid-column-end: span 2 / auto;
+
+  grid-template-columns: repeat(3, minmax(1.5rem, 1fr));
+
+  @include md() {
+    grid-template-columns: repeat(auto-fit, minmax(1rem, 1fr));
+  }
+}
+
+.input {
+  margin: auto;
+
+  display: grid;
+  justify-items: center;
+  align-items: center;
 }
 
 input[type='number'] {
@@ -18,7 +84,8 @@ input[type='number'] {
     height: 35px;
   }
 
-  &::-webkit-inner-spin-button,
+  -moz-appearance: textfield;
+  &::-webkit-outer-spin-button,
   &::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
@@ -48,4 +115,10 @@ input[type='number'] {
   &:focus {
     border-color: black;
   }
+}
+
+.poll {
+  padding: 17px;
+  border: 3px solid gainsboro;
+  border-radius: 10px;
 }

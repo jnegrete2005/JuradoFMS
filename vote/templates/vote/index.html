@@ -103,19 +103,19 @@
     <div id="choose-comps" class="mb-5 mt-5">
       <form class="needs-validation" id="comps-form" novalidate>
         <div class="mb-5">
-          <h1 class="text-center fw-normal">Escoge a los Gallos para empezar</h1>
+          <h1 class="text-center fw-normal">Escoge a los competidores para empezar</h1>
         </div>
       
         <div class="row row-cols-1 row-cols-md-2 g-3 justify-content-center">
           <!-- First competitor -->
           <div class="col col-md-3">
-            <input class="form-control form-control-lg" placeholder="Primer Gallo" type="text" id="comp-1-input" maxlength="20" minlength="2" required>
+            <input class="form-control form-control-lg" placeholder="Primer Competitor" type="text" id="comp-1-input" maxlength="20" minlength="2" required>
             <div class="invalid-feedback"></div>
           </div>
       
           <!-- Second competitor -->
           <div class="col col-md-3">
-            <input class="form-control form-control-lg" placeholder="Segundo Gallo" type="text" id="comp-2-input" maxlength="20" minlength="2" required>
+            <input class="form-control form-control-lg" placeholder="Segundo Competitor" type="text" id="comp-2-input" maxlength="20" minlength="2" required>
             <div class="invalid-feedback"></div>
           </div>
         </div>
@@ -138,19 +138,19 @@
       
       <form id="poll">
         <div class="poll">
-          <!-- Competitor 1 -->
-          <div class="row g-4 inputs-container">
-            <div class="col-12 col-md-3 col-lg-2 comp-container" id="comp-1-container">
-              <h2 class="fw-normal mb-0 text-center text-md-start h3" id="comp-1"></h2>
+          <div class="grid inputs-container">
+            <!-- Competitor 1 -->
+            <div class="comp-container" id="comp-1-container">
+              <h2 id="comp-1"></h2>
             </div>
           </div>
           
           <hr>
   
-          <!-- Competitor 2 -->
-          <div class="row g-4 inputs-container">
-            <div class="col-12 col-md-3 col-lg-2 comp-container" id="comp-2-container">
-              <h2 class="fw-normal mb-0 text-center text-md-start h3" id="comp-2"></h2>
+          <div class="grid inputs-container">
+            <!-- Competitor 2 -->
+            <div class="comp-container" id="comp-2-container">
+              <h2 id="comp-2"></h2>
             </div>
           </div>
         </div>

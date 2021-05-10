@@ -285,9 +285,9 @@ class FrontEndTestCase(LiveServerTestCase):
     if i == 7 or i == 9:
       self.assertEqual(self.selenium.find_element_by_id('next').get_attribute('value'), 'Terminar')
     elif i % 2 == 0:
-      self.assertEqual(self.selenium.find_element_by_css_selector('.fw-normal.mb-0.text-center.text-md-start.h3').text, 'si')
+      self.assertEqual(self.selenium.find_element_by_class_name('comp-container').text, 'si')
     else:
-      self.assertEqual(self.selenium.find_element_by_css_selector('.fw-normal.mb-0.text-center.text-md-start.h3').text, 'no')
+      self.assertEqual(self.selenium.find_element_by_class_name('comp-container').text, 'no')
 
     if not check_next:
       return sleep(0.5)
@@ -433,3 +433,6 @@ class FrontEndTestCase(LiveServerTestCase):
     btn.click()
     for feed in feeds:
       self.assertEqual(feed.text, 'El competidor tiene que tener entre 2 y 20 caracteres')
+
+    for comp in comps:
+      comp.clear()
