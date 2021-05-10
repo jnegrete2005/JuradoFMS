@@ -8,10 +8,7 @@ Array.from(document.getElementsByClassName('listen')).forEach((el: HTMLAnchorEle
 
     // Get the modes
     const old_mode = document.getElementById('mode').dataset.current_mode;
-    const new_mode =
-      el.dataset.mode !== undefined
-        ? el.dataset.mode
-        : getKeyByValue(modes_to_int, modes_to_int[old_mode] + parseInt(el.dataset.op));
+    const new_mode = el.dataset.mode !== undefined ? el.dataset.mode : getKeyByValue(modes_to_int, modes_to_int[old_mode] + parseInt(el.dataset.op));
 
     if (new_mode === 'end') {
       history.pushState({ show_table: true, replica: false }, '', '#end');
