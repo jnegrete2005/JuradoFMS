@@ -55,13 +55,18 @@ export function addInputs(lenght, data, first = false) {
         for (let j = 0; j < lenght; j++) {
             // Create the container and add the classes
             const container = document.createElement('div');
-            container.classList.add('col-4', 'col-md', 'd-flex', 'justify-content-center', 'justify-content-lg-left', 'input');
+            container.classList.add('input');
             if (j > lenght - 3 && lenght % 3 !== 0) {
                 if (Math.round(lenght % 3) === 2) {
-                    container.classList.replace('col-4', 'col-6');
+                    if (j === lenght - 2) {
+                        container.classList.add('input-left');
+                    }
+                    else if (j === lenght - 1) {
+                        container.classList.add('input-right');
+                    }
                 }
                 else if (Math.round(lenght % 3) === 1 && j > lenght - 2) {
-                    container.classList.replace('col-4', 'col');
+                    container.classList.add('input-middle');
                 }
             }
             // Create the inputs
@@ -70,7 +75,7 @@ export function addInputs(lenght, data, first = false) {
             if (comp_container.id === 'comp-1-container') {
                 input.classList.add('form-control', 'comp-1-input');
             }
-            else if (comp_container.id === 'comp-2-container') {
+            else {
                 input.classList.add('form-control', 'comp-2-input');
             }
             input.required = true;
@@ -82,14 +87,28 @@ export function addInputs(lenght, data, first = false) {
             if (mode === 'random_score' || mode === 'deluxe' || mode === 'replica')
                 input.tabIndex = tabindex[mode][i][j];
             container.append(input);
+            if (mode.startsWith('min')) {
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                if (comp_container.id === 'comp-1-container') {
+                    checkbox.classList.add('form-check-input', 'check-1');
+                }
+                else {
+                    checkbox.classList.add('form-check-input', 'check-2');
+                }
+                container.append(checkbox);
+            }
             // Populate inputs
             if (data) {
+                if (mode.startsWith('min')) {
+                    input.nextElementSibling.checked = data.data[`comp${i + 1}`].mode[j + 9] === 1 ? true : false;
+                }
                 if (comp_container.id === 'comp-1-container') {
                     if (data.data.comp1.mode.length !== 0 && data.data.comp1.mode[j] !== 9) {
                         input.value = data.data.comp1.mode[j].toString();
                     }
                 }
-                else if (comp_container.id === 'comp-2-container') {
+                else {
                     if (data.data.comp2.mode.length !== 0 && data.data.comp2.mode[j] !== 9) {
                         input.value = data.data.comp2.mode[j].toString();
                     }
