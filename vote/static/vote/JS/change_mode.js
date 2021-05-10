@@ -7,6 +7,11 @@ async function saveMode(mode) {
     // Get the values
     const value1 = Array.from(document.getElementsByClassName('comp-1-input')).map(returnValueOr9);
     const value2 = Array.from(document.getElementsByClassName('comp-2-input')).map(returnValueOr9);
+    if (mode.startsWith('min')) {
+        const convertChecked = (el) => (el.checked ? 1 : 9);
+        value1.push(...Array.from(document.getElementsByClassName('check-1')).map(convertChecked));
+        value2.push(...Array.from(document.getElementsByClassName('check-2')).map(convertChecked));
+    }
     if (comp_1[mode] && comp_2[mode]) {
         if (arraysMatch(comp_1[mode], value1) && arraysMatch(comp_2[mode], value2)) {
             return true;
@@ -79,7 +84,12 @@ function nextMode(mode) {
         document.getElementById('mode').innerHTML = modes_aliases[mode];
         // Fill the inputs
         if (data.data.comp1.mode !== null) {
-            addInputs(data.data.comp1.mode.length, data);
+            if (mode.startsWith('min')) {
+                addInputs(9, data);
+            }
+            else {
+                addInputs(data.data.comp1.mode.length, data);
+            }
         }
         else {
             switch (mode) {
