@@ -25,10 +25,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(environ.get('DJANGO_DEBUG'))
+DEBUG = (environ.get('DJANGO_DEBUG') == 'True')
+CSRF_COOKIE_SECURE = not DEBUG
+SECURE_SSL_REDIRECT = not DEBUG
+SECURE_HSTS_INCLUDE_SUBDOMAINS = not DEBUG
+SECURE_HSTS_PRELOAD = not DEBUG
 
 ALLOWED_HOSTS = ['juradofms.herokuapp.com']
+SECURE_HSTS_SECONDS = ['juradofms.herokuapp.com']
 
+SESION_COOKIE_SECURE = True
 
 # Application definition
 
