@@ -30,11 +30,10 @@ CSRF_COOKIE_SECURE = not DEBUG
 SECURE_SSL_REDIRECT = not DEBUG
 SECURE_HSTS_INCLUDE_SUBDOMAINS = not DEBUG
 SECURE_HSTS_PRELOAD = not DEBUG
+SESION_COOKIE_SECURE = not DEBUG
 
 ALLOWED_HOSTS = ['juradofms.herokuapp.com']
 SECURE_HSTS_SECONDS = ['juradofms.herokuapp.com']
-
-SESION_COOKIE_SECURE = True
 
 # Application definition
 
