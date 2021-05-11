@@ -15,8 +15,8 @@ class Competitor(Model):
   tematicas_1 = ArrayField(FloatField(), size=7, null=True, blank=True, verbose_name='Tematicas 1')
   tematicas_2 = ArrayField(FloatField(), size=7, null=True, blank=True, verbose_name='Tematicas 2')
   random_score = ArrayField(FloatField(), size=11, null=True, blank=True, verbose_name='Random Mode')
-  min1 = ArrayField(FloatField(), size=9, null=True, blank=True, verbose_name='minuto 1')
-  min2 = ArrayField(FloatField(), size=9, null=True, blank=True, verbose_name='minuto 2')
+  min1 = ArrayField(FloatField(), size=18, null=True, blank=True, verbose_name='minuto 1')
+  min2 = ArrayField(FloatField(), size=18, null=True, blank=True, verbose_name='minuto 2')
   deluxe = ArrayField(FloatField(), size=14, null=True, blank=True, verbose_name='Deluxe')
   replica = ArrayField(FloatField(), size=9, null=True, blank=True, verbose_name='Replica')
   _list = [ 'easy', 'hard', 'tematicas_1', 'tematicas_2', 'random_score', 'min1', 'min2', 'deluxe', 'replica' ]
