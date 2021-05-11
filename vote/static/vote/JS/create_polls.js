@@ -63,6 +63,8 @@ function createPoll(event) {
         localStorage.setItem('comp_1', comp_1.serialize());
         localStorage.setItem('comp_2', comp_2.serialize());
         localStorage.setItem('poll', data.data.createPoll.poll.id.toString());
+        // Delete winner
+        localStorage.removeItem('winner');
         // Hide and show the views
         document.getElementById('choose-comps').classList.add('d-none');
         document.getElementById('poll-container').classList.remove('d-none');
