@@ -22,7 +22,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = environ.get('SECRET_KEY')
-# SECRET_KEY = '0r*6o(rg#v8hi#d8xs2f4^*=)3u91)k(!!171f$g_!lq^s+ty$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(environ.get('DJANGO_DEBUG'))
