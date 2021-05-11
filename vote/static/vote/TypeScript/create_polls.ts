@@ -121,19 +121,23 @@ function checkInput(event: Event, el?: HTMLInputElement) {
 }
 
 function checkInputs(event: Event) {
+  event.preventDefault();
+  event.stopPropagation();
+
   const vals = [input_1.value.trim(), input_2.value.trim()];
   const els = [input_1, input_2];
 
-  let continue_func = false;
+  let continue_func = 0;
 
   vals.forEach((val: string, i) => {
-    if (val === '') return;
-    if (val.length < 2 || val.length > 20) return;
-    if (val === 'replica' || val === 'Réplica') return;
-    continue_func = true;
+    if (val === '') return setErrorFor(els[i], 'Por favor, llene el campo para continuar');
+    if (val.length < 2 || val.length > 20) return setErrorFor(els[i], 'El competidor tiene que tener entre 2 y 20 caracteres');
+    if (val === 'replica' || val === 'Réplica') return setErrorFor(els[i], "El competidor no se puede llamar 'replica'");
+    setSuccessFor(els[i]);
+    continue_func++;
   });
 
-  return continue_func;
+  return continue_func === 2;
 }
 
 function setErrorFor(input: HTMLInputElement, message: string): false {
