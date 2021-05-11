@@ -1,6 +1,6 @@
 import { prepareNavbar } from './navbar.js';
-import { modes_aliases, Competitor } from './classes.js';
-import { addInputs, arraysMatch, createAlert, createError, getCookie } from './util.js';
+import { modes_aliases, Competitor, mode_length } from './classes.js';
+import { addInputs, arraysMatch, createAlert, createError, getCookie, setCookie } from './util.js';
 async function saveMode(mode) {
     let comp_1 = Competitor.unserialize(localStorage.getItem('comp_1'));
     let comp_2 = Competitor.unserialize(localStorage.getItem('comp_2'));
@@ -20,8 +20,13 @@ async function saveMode(mode) {
         return false;
     }
     const allEqualTo9 = (arr) => arr.every((v) => v === 9);
-    if ((allEqualTo9(value1), allEqualTo9(value2)))
+    if ((allEqualTo9(value1), allEqualTo9(value2))) {
+        comp_1[mode] = value1;
+        comp_2[mode] = value2;
+        localStorage.setItem('comp_1', comp_1.serialize());
+        localStorage.setItem('comp_2', comp_2.serialize());
         return true;
+    }
     if (comp_1[mode] && comp_2[mode]) {
         if (arraysMatch(comp_1[mode], value1) && arraysMatch(comp_2[mode], value2)) {
             return true;
@@ -121,19 +126,37 @@ function nextMode(mode) {
         // Refresh the alert
         createAlert('Recuerda que los últimos 3 cuadritos siempre son para Skills, Flow y Puesta en escena');
     }
-    if (comp_1 && comp_2) {
-        const data = {
-            data: {
-                comp1: {
-                    mode: comp_1,
+    if (getCookie('isActive') === 'true') {
+        let data;
+        if (comp_1 && comp_2) {
+            data = {
+                data: {
+                    comp1: {
+                        mode: comp_1,
+                    },
+                    comp2: {
+                        mode: comp_2,
+                    },
                 },
-                comp2: {
-                    mode: comp_2,
+            };
+        }
+        else {
+            data = {
+                data: {
+                    comp1: {
+                        mode: new Array(mode_length[mode]).fill(9),
+                    },
+                    comp2: {
+                        mode: new Array(mode_length[mode]).fill(9),
+                    },
                 },
-            },
-        };
+            };
+        }
         next(data);
         return;
+    }
+    else {
+        setCookie('isActive', 'true', 0.3);
     }
     // Create the query
     const query = `
