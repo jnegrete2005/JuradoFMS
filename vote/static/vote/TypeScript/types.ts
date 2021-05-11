@@ -1,4 +1,4 @@
-export type { GetModes, SaveModes, CreatePoll, PlusReplica, SaveWinner, GraphqlError, arr, arr7, arr11, arr14 };
+export type { GetModes, SaveModes, CreatePoll, PlusReplica, SaveWinner, GraphqlError, arr, arr7, arr11, arr14, ModeOptions };
 
 type GetModes = GraphqlError & {
   data: {
@@ -88,3 +88,15 @@ type arr = FixedSizeArray<9, number>;
 type arr7 = FixedSizeArray<7, number>;
 type arr11 = FixedSizeArray<11, number>;
 type arr14 = FixedSizeArray<14, number>;
+
+interface ModeOptions {
+  easy: 'easy';
+  hard: 'hard';
+  tematicas_1: 'tematicas_1';
+  tematicas_2: 'tematicas_2';
+  random_score: 'random_score';
+  min1: 'min1';
+  min2: 'min2';
+  deluxe: 'deluxe';
+  replica: 'replica';
+}

@@ -52,6 +52,9 @@ document.getElementById('rep-btn').addEventListener('click', () => {
     else if (rep_btn.dataset.decide === 'true' && localStorage.getItem('winner')) {
         // Define vars
         const winner = localStorage.getItem('winner');
+        if (!validWinner(winner)) {
+            return useModal('Has tocado algo que no debiste.', 'El competidor que has escogido no existe.');
+        }
         const mutation = `
       mutation SaveWinner($id: ID!, $winner: String!) {
         saveWinner(pollId: $id, winner: $winner) {
@@ -135,5 +138,12 @@ function cleanReplicaValues() {
     comp_2.replica = [9, 9, 9, 9, 9, 9, 9, 9, 9];
     localStorage.setItem('comp_1', comp_1.serialize());
     localStorage.setItem('comp_2', comp_2.serialize());
+}
+function validWinner(winner) {
+    const poss_win = [
+        Competitor.unserialize(localStorage.getItem('comp_1')).name,
+        Competitor.unserialize(localStorage.getItem('comp_2')).name,
+    ];
+    return poss_win.includes(winner);
 }
 //# sourceMappingURL=replica.js.map

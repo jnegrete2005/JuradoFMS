@@ -96,4 +96,15 @@ export const modes_aliases = {
     deluxe: 'Deluxe',
     replica: 'Réplica',
 };
+export const mode_length = {
+    easy: 9,
+    hard: 9,
+    tematicas_1: 7,
+    tematicas_2: 7,
+    random_score: 11,
+    min1: 18,
+    min2: 18,
+    deluxe: 14,
+    replica: 9,
+};
 //# sourceMappingURL=classes.js.map

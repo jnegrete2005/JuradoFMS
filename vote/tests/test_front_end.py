@@ -250,8 +250,6 @@ class FrontEndTestCase(LiveServerTestCase):
     goes to the next mode by clicking the `btn`
     that was passed.
     '''
-    sleep(0.5)
-
     # Check the navbar
     self.assertFalse('disabled' in self.navs[i].get_attribute('class'))
     self.assertTrue('active' in self.navs[i].get_attribute('class'))
@@ -259,7 +257,7 @@ class FrontEndTestCase(LiveServerTestCase):
     mode = self.selenium.find_element_by_id('mode')
     current_mode = mode.get_attribute('data-current_mode')
 
-    sleep(1)
+    sleep(0.5)
     
     # Check if the mode is ok
     self.assertEqual(current_mode, get_key_by_val(modes_to_int, i))
