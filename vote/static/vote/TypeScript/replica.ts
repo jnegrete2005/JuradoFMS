@@ -52,13 +52,25 @@ document.getElementById('prev-rep-btn').addEventListener('click', () => {
   localStorage.removeItem('winner');
 });
 
-document.getElementById('rep-btn').addEventListener('click', () => {
-  const rep_btn = document.getElementById('rep-btn');
-
+// Replica table btn
+const rep_btn = document.getElementById('rep-btn');
+rep_btn.addEventListener('click', () => {
+  // If the winner is done without second replica, reload
   if (rep_btn.innerHTML === 'Terminar' && rep_btn.dataset.decide === 'false') {
     reload();
     return;
-  } else if (rep_btn.dataset.decide === 'true' && localStorage.getItem('winner')) {
+  }
+
+  // If I don't have to decide, go to replica again
+  else if (rep_btn.dataset.decide === 'false' && !localStorage.getItem('winner')) {
+    history.pushState({ old_mode: 'end_replica', new_mode: 'replica' }, '', '#replica');
+    cleanReplicaValues();
+    changeMode('end_replica', 'replica');
+    plus_counter();
+  }
+
+  // If I have to decide, decide
+  else if (rep_btn.dataset.decide === 'true' && localStorage.getItem('winner')) {
     // Define vars
     const winner = localStorage.getItem('winner');
 
@@ -103,12 +115,10 @@ document.getElementById('rep-btn').addEventListener('click', () => {
       });
 
     return;
-  } else if (rep_btn.dataset.decide === 'false' && !localStorage.getItem('winner')) {
-    history.pushState({ old_mode: 'end_replica', new_mode: 'replica' }, '', '#replica');
-    cleanReplicaValues();
-    changeMode('end_replica', 'replica');
-    plus_counter();
-  } else {
+  }
+
+  // If I don't have a winner, then go send this modal
+  else {
     useModal(
       'No has escogido un ganador!',
       'Como no ha habido un ganador, tienes que escoger uno tú mism@, de lo contrario, no habrá uno!\nPara escoger uno, solo hazle click a la cajita con el competidor que opinas que mejor desempeñó durante toda la batalla'
@@ -119,7 +129,7 @@ document.getElementById('rep-btn').addEventListener('click', () => {
 function cleanReplicaValues(): void {
   // Clean the db
   const mutation = `
-    mutation SaveModes($id: ID!, $mode: String!, $value1: [Int]!, $value2: [Int]!) {
+    mutation SaveModes($id: ID!, $mode: String!, $value1: [Float]!, $value2: [Float]!) {
       saveModes(pollId: $id, mode: $mode, value1: $value1, value2: $value2) {
         comp1 {
           mode
