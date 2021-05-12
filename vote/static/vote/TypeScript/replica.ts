@@ -7,23 +7,17 @@ export function fillRepTable(): void {
   for (let i = 1; i <= 2; i++) {
     const comp = Competitor.unserialize(localStorage.getItem(`comp_${i}`));
 
-    Array.from(document.getElementsByClassName(`comp-${i}-rep`)).forEach(
-      (el: HTMLTableHeaderCellElement | HTMLTableDataCellElement, j) => {
-        if (j === 0) {
-          el.innerHTML = comp.name;
-        } else {
-          el.innerHTML = comp.get_sum('replica').toString();
-        }
+    Array.from(document.getElementsByClassName(`comp-${i}-rep`)).forEach((el: HTMLTableHeaderCellElement | HTMLTableDataCellElement, j) => {
+      if (j === 0) {
+        el.innerHTML = comp.name;
+      } else {
+        el.innerHTML = comp.get_sum('replica').toString();
       }
-    );
+    });
   }
 
   // Get winner
-  const winner = get_winner(
-    Competitor.unserialize(localStorage.getItem('comp_1')),
-    Competitor.unserialize(localStorage.getItem('comp_2')),
-    true
-  );
+  const winner = get_winner(Competitor.unserialize(localStorage.getItem('comp_1')), Competitor.unserialize(localStorage.getItem('comp_2')), true);
 
   if (winner === 'decide') {
     document.getElementById('rep-btn').dataset.decide = 'true';
@@ -62,7 +56,7 @@ document.getElementById('rep-btn').addEventListener('click', () => {
   const rep_btn = document.getElementById('rep-btn');
 
   if (rep_btn.innerHTML === 'Terminar' && rep_btn.dataset.decide === 'false') {
-    location.assign('http://127.0.0.1:8000/vota/');
+    reload();
     return;
   } else if (rep_btn.dataset.decide === 'true' && localStorage.getItem('winner')) {
     // Define vars
@@ -101,7 +95,7 @@ document.getElementById('rep-btn').addEventListener('click', () => {
           throw Error('No se pudo guardar el ganador');
         }
 
-        location.assign('http://127.0.0.1:8000/vota/');
+        reload();
         return;
       })
       .catch((err: Error) => {
@@ -167,10 +161,11 @@ function cleanReplicaValues(): void {
 }
 
 function validWinner(winner: string): boolean {
-  const poss_win = [
-    Competitor.unserialize(localStorage.getItem('comp_1')).name,
-    Competitor.unserialize(localStorage.getItem('comp_2')).name,
-  ];
+  const poss_win = [Competitor.unserialize(localStorage.getItem('comp_1')).name, Competitor.unserialize(localStorage.getItem('comp_2')).name];
 
   return poss_win.includes(winner);
+}
+
+function reload() {
+  location.assign(location.href.split('/').slice(0, 3).join('/'));
 }

@@ -46,7 +46,7 @@ document.getElementById('prev-rep-btn').addEventListener('click', () => {
 document.getElementById('rep-btn').addEventListener('click', () => {
     const rep_btn = document.getElementById('rep-btn');
     if (rep_btn.innerHTML === 'Terminar' && rep_btn.dataset.decide === 'false') {
-        location.assign('http://127.0.0.1:8000/vota/');
+        reload();
         return;
     }
     else if (rep_btn.dataset.decide === 'true' && localStorage.getItem('winner')) {
@@ -82,7 +82,7 @@ document.getElementById('rep-btn').addEventListener('click', () => {
             if (data.errors) {
                 throw Error('No se pudo guardar el ganador');
             }
-            location.assign('http://127.0.0.1:8000/vota/');
+            reload();
             return;
         })
             .catch((err) => {
@@ -140,10 +140,10 @@ function cleanReplicaValues() {
     localStorage.setItem('comp_2', comp_2.serialize());
 }
 function validWinner(winner) {
-    const poss_win = [
-        Competitor.unserialize(localStorage.getItem('comp_1')).name,
-        Competitor.unserialize(localStorage.getItem('comp_2')).name,
-    ];
+    const poss_win = [Competitor.unserialize(localStorage.getItem('comp_1')).name, Competitor.unserialize(localStorage.getItem('comp_2')).name];
     return poss_win.includes(winner);
+}
+function reload() {
+    location.assign(location.href.split('/').slice(0, 3).join('/'));
 }
 //# sourceMappingURL=replica.js.map
