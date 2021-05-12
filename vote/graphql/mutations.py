@@ -118,7 +118,7 @@ class PlusReplica(graphene.Mutation):
     poll = VotingPoll.objects.get(pk=int(id))
 
     # Validate number
-    if poll.rep_counter > 0:
+    if poll.rep_counter > 1:
       raise GraphQLError('Solo pueden haber 2 replicas en total.')
     
     poll.rep_counter += 1
