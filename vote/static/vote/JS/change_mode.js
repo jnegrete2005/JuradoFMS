@@ -1,6 +1,6 @@
 import { prepareNavbar } from './navbar.js';
-import { modes_aliases, Competitor } from './classes.js';
-import { addInputs, arraysMatch, createAlert, createError, getCookie } from './util.js';
+import { modes_aliases, Competitor, mode_length } from './classes.js';
+import { addInputs, arraysMatch, createAlert, createError, getCookie, setCookie } from './util.js';
 async function saveMode(mode) {
     let comp_1 = Competitor.unserialize(localStorage.getItem('comp_1'));
     let comp_2 = Competitor.unserialize(localStorage.getItem('comp_2'));
@@ -11,6 +11,21 @@ async function saveMode(mode) {
         const convertChecked = (el) => (el.checked ? 1 : 9);
         value1.push(...Array.from(document.getElementsByClassName('check-1')).map(convertChecked));
         value2.push(...Array.from(document.getElementsByClassName('check-2')).map(convertChecked));
+    }
+    try {
+        validateLength(value1, value2, mode);
+    }
+    catch (e) {
+        createError(e);
+        return false;
+    }
+    const allEqualTo9 = (arr) => arr.every((v) => v === 9);
+    if ((allEqualTo9(value1), allEqualTo9(value2))) {
+        comp_1[mode] = value1;
+        comp_2[mode] = value2;
+        localStorage.setItem('comp_1', comp_1.serialize());
+        localStorage.setItem('comp_2', comp_2.serialize());
+        return true;
     }
     if (comp_1[mode] && comp_2[mode]) {
         if (arraysMatch(comp_1[mode], value1) && arraysMatch(comp_2[mode], value2)) {
@@ -111,19 +126,37 @@ function nextMode(mode) {
         // Refresh the alert
         createAlert('Recuerda que los últimos 3 cuadritos siempre son para Skills, Flow y Puesta en escena');
     }
-    if (comp_1 && comp_2) {
-        const data = {
-            data: {
-                comp1: {
-                    mode: comp_1,
+    if (getCookie('isActive') === 'true') {
+        let data;
+        if (comp_1 && comp_2) {
+            data = {
+                data: {
+                    comp1: {
+                        mode: comp_1,
+                    },
+                    comp2: {
+                        mode: comp_2,
+                    },
                 },
-                comp2: {
-                    mode: comp_2,
+            };
+        }
+        else {
+            data = {
+                data: {
+                    comp1: {
+                        mode: new Array(mode_length[mode]).fill(9),
+                    },
+                    comp2: {
+                        mode: new Array(mode_length[mode]).fill(9),
+                    },
                 },
-            },
-        };
+            };
+        }
         next(data);
         return;
+    }
+    else {
+        setCookie('isActive', 'true', 0.3);
     }
     // Create the query
     const query = `
@@ -239,5 +272,35 @@ function showSections(end = false) {
     document.getElementById('end-container').classList.toggle('d-none', !end);
     document.getElementById('poll-container').classList.toggle('d-none', end);
     document.getElementById('rep-res-container').classList.add('d-none');
+}
+function validateLength(val1, val2, mode) {
+    switch (mode) {
+        case 'deluxe':
+            if (val1.length !== 14 || val2.length !== 14) {
+                throw new Error('Deluxe no puede tener ni más ni menos de 14 elementos');
+            }
+            break;
+        case 'tematicas_1':
+        case 'tematicas_2':
+            if (val1.length !== 7 || val2.length !== 7) {
+                throw new Error('Tematicas no puede tener más ni menos de 7 elementos');
+            }
+            break;
+        case 'min1':
+        case 'min2':
+            if (val1.length !== 18 || val2.length !== 18) {
+                throw new Error('Los minutos tienen que tener 18 elementos (los checks cuentan)');
+            }
+            break;
+        case 'random_score':
+            if (val1.length !== 11 || val2.length !== 11) {
+                throw new Error('Random mode no puede tener más ni menos de 11 elementos');
+            }
+            break;
+        default:
+            if (val1.length !== 9 || val2.length !== 9) {
+                throw new Error(`${modes_aliases[mode]} no puede tener más ni menos de 9 elementos`);
+            }
+    }
 }
 //# sourceMappingURL=change_mode.js.map

@@ -4,3 +4,4 @@ bfg.jar
 .timetracker
 .vscode
 cmd
+db.sqlite3
