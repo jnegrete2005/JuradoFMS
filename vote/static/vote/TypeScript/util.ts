@@ -220,7 +220,7 @@ export function get_winner(comp_1: Competitor, comp_2: Competitor, replica = fal
     // If it is already in replica #2
     if (comp_1.counter === 1) {
       // Check if it is replica again
-      if (comp_1_rep === comp_2_rep || Math.abs(comp_1_rep - comp_2_rep) < 6) {
+      if (comp_1_rep === comp_2_rep || Math.abs(comp_1_rep - comp_2_rep) < 1) {
         return 'decide';
       }
 
@@ -231,7 +231,7 @@ export function get_winner(comp_1: Competitor, comp_2: Competitor, replica = fal
       return winner;
     }
 
-    if (comp_1_rep === comp_2_rep || Math.abs(comp_1_rep - comp_2_rep) < 6) {
+    if (comp_1_rep === comp_2_rep || Math.abs(comp_1_rep - comp_2_rep) <= 1) {
       return 'Réplica';
     }
 
@@ -246,7 +246,7 @@ export function get_winner(comp_1: Competitor, comp_2: Competitor, replica = fal
   const comp_2_sum = comp_2.get_total();
 
   // Normal case
-  if (comp_1_sum === comp_2_sum || Math.abs(comp_1_sum - comp_2_sum) < 6) {
+  if (comp_1_sum === comp_2_sum || Math.abs(comp_1_sum - comp_2_sum) < 5.5) {
     return 'Réplica';
   }
 
