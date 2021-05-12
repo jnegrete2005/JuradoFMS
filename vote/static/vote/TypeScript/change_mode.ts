@@ -15,8 +15,13 @@ async function saveMode(mode: string): Promise<boolean> {
   if (mode.startsWith('min')) {
     const convertChecked = (el: HTMLInputElement) => (el.checked ? 1 : 9);
 
-    value1.push(...Array.from(document.getElementsByClassName('check-1')).map(convertChecked));
-    value2.push(...Array.from(document.getElementsByClassName('check-2')).map(convertChecked));
+    if (mode.charAt(mode.length - 1) === '1') {
+      value1.push(...Array.from(document.getElementsByClassName('check-1')).map(convertChecked));
+      value2.push(...new Array(9).fill(9));
+    } else {
+      value2.push(...Array.from(document.getElementsByClassName('check-2')).map(convertChecked));
+      value1.push(...new Array(9).fill(9));
+    }
   }
 
   try {

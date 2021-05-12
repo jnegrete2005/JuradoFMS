@@ -9,8 +9,14 @@ async function saveMode(mode) {
     const value2 = Array.from(document.getElementsByClassName('comp-2-input')).map(returnValueOr9);
     if (mode.startsWith('min')) {
         const convertChecked = (el) => (el.checked ? 1 : 9);
-        value1.push(...Array.from(document.getElementsByClassName('check-1')).map(convertChecked));
-        value2.push(...Array.from(document.getElementsByClassName('check-2')).map(convertChecked));
+        if (mode.charAt(mode.length - 1) === '1') {
+            value1.push(...Array.from(document.getElementsByClassName('check-1')).map(convertChecked));
+            value2.push(...new Array(9).fill(9));
+        }
+        else {
+            value2.push(...Array.from(document.getElementsByClassName('check-2')).map(convertChecked));
+            value1.push(...new Array(9).fill(9));
+        }
     }
     try {
         validateLength(value1, value2, mode);
