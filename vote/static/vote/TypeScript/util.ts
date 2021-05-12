@@ -100,7 +100,7 @@ export function addInputs(lenght: number, data?: GetModes, first = false) {
 
       container.append(input);
 
-      if (mode.startsWith('min')) {
+      if (mode.startsWith('min') && i === 1) {
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
         if (comp_container.id === 'comp-1-container') {
@@ -113,8 +113,8 @@ export function addInputs(lenght: number, data?: GetModes, first = false) {
 
       // Populate inputs
       if (data) {
-        if (mode.startsWith('min')) {
-          (<HTMLInputElement>input.nextElementSibling).checked = data.data[`comp${i + 1}`].mode[j + 9] === 1 ? true : false;
+        if (mode.startsWith('min') && i === 1) {
+          (<HTMLInputElement>input.nextElementSibling).checked = data.data.comp2.mode[j + 9] === 1 ? true : false;
         }
         if (comp_container.id === 'comp-1-container') {
           if (data.data.comp1.mode.length !== 0 && data.data.comp1.mode[j] !== 9) {
