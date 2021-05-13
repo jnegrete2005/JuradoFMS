@@ -6,6 +6,7 @@ jobs:
     env:
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
       DJANGO_DEBUG: False
+      WORKFLOW_RUN: True
 
     services:
       postgres:
