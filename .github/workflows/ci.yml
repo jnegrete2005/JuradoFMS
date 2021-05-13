@@ -5,7 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
-      DJANGO_DEBUG: False
+      DJANGO_DEBUG: 'True'
       WORKFLOW_RUN: True
 
     services:
