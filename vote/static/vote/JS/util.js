@@ -1,4 +1,4 @@
-import { Competitor, modes_to_int } from './classes.js';
+import { modes_to_int } from './classes.js';
 import { validate_inputs } from './validation.js';
 export function getCookie(name) {
     let cookieValue = null;
@@ -260,55 +260,6 @@ function saveWinner(winner) {
         .catch((err) => {
         createError(err);
     });
-}
-export function plus_counter() {
-    // Get the comps
-    const comp_1 = Competitor.unserialize(localStorage.getItem('comp_1'));
-    const comp_2 = Competitor.unserialize(localStorage.getItem('comp_2'));
-    // Add the values
-    comp_1.counter++;
-    comp_2.counter++;
-    // Save the comps
-    localStorage.setItem('comp_1', comp_1.serialize());
-    localStorage.setItem('comp_2', comp_2.serialize());
-    // Modify the counter in the server
-    const mutation = `
-    mutation PlusReplica($id: ID!) {
-      plusReplica(id: $id) {
-        poll {
-          repCounter
-        }
-      }
-    }
-  `;
-    fetch('/graphql/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            'X-CSRFToken': getCookie('csrftoken'),
-        },
-        body: JSON.stringify({
-            query: mutation,
-            variables: { id: parseInt(localStorage.getItem('poll')) },
-        }),
-        credentials: 'include',
-    })
-        .then((response) => {
-        if (!response.ok)
-            throw Error(`${response.statusText} - ${response.status}`);
-        return response.json();
-    })
-        .then((data) => {
-        if (data.errors) {
-            throw Error(data.errors[0].message);
-        }
-        return;
-    })
-        .catch((err) => {
-        createError(err);
-    });
-    return;
 }
 export function setCookie(cname, cvalue, exdays) {
     var d = new Date();

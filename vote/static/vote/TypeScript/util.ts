@@ -296,60 +296,6 @@ function saveWinner(winner: string): void {
     });
 }
 
-export function plus_counter(): void {
-  // Get the comps
-  const comp_1 = Competitor.unserialize(localStorage.getItem('comp_1'));
-  const comp_2 = Competitor.unserialize(localStorage.getItem('comp_2'));
-
-  // Add the values
-  comp_1.counter++;
-  comp_2.counter++;
-
-  // Save the comps
-  localStorage.setItem('comp_1', comp_1.serialize());
-  localStorage.setItem('comp_2', comp_2.serialize());
-
-  // Modify the counter in the server
-  const mutation = `
-    mutation PlusReplica($id: ID!) {
-      plusReplica(id: $id) {
-        poll {
-          repCounter
-        }
-      }
-    }
-  `;
-
-  fetch('/graphql/', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      'X-CSRFToken': getCookie('csrftoken'),
-    },
-    body: JSON.stringify({
-      query: mutation,
-      variables: { id: parseInt(localStorage.getItem('poll')) },
-    }),
-    credentials: 'include',
-  })
-    .then((response) => {
-      if (!response.ok) throw Error(`${response.statusText} - ${response.status}`);
-      return response.json();
-    })
-    .then((data: PlusReplica) => {
-      if (data.errors) {
-        throw Error(data.errors[0].message);
-      }
-      return;
-    })
-    .catch((err: Error) => {
-      createError(err);
-    });
-
-  return;
-}
-
 export function setCookie(cname: string, cvalue: string, exdays: number) {
   var d = new Date();
   d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);

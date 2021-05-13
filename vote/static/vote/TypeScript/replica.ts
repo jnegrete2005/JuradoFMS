@@ -1,6 +1,7 @@
 import { changeMode } from './change_mode.js';
 import { Competitor } from './classes.js';
-import { createError, getCookie, get_winner, plus_counter, useModal } from './util.js';
+import { createError, getCookie, get_winner, useModal } from './util.js';
+import type { PlusReplica } from './types.js';
 
 export function fillRepTable(): void {
   // Populate fields
@@ -178,4 +179,59 @@ function validWinner(winner: string): boolean {
 
 function reload() {
   location.assign(location.href.split('/').slice(0, 3).join('/'));
+}
+
+function plus_counter(): void {
+  // Get the comps
+  const comp_1 = Competitor.unserialize(localStorage.getItem('comp_1'));
+  const comp_2 = Competitor.unserialize(localStorage.getItem('comp_2'));
+
+  // Modify the counter in the server
+  const mutation = `
+    mutation PlusReplica($id: ID!) {
+      plusReplica(id: $id) {
+        poll {
+          repCounter
+        }
+      }
+    }
+  `;
+
+  fetch('/graphql/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      'X-CSRFToken': getCookie('csrftoken'),
+    },
+    body: JSON.stringify({
+      query: mutation,
+      variables: { id: parseInt(localStorage.getItem('poll')) },
+    }),
+    credentials: 'include',
+  })
+    .then((response) => {
+      if (!response.ok) throw Error(`${response.statusText} - ${response.status}`);
+      return response.json();
+    })
+    .then((data: PlusReplica) => {
+      if (data.errors) {
+        throw Error(data.errors[0].message);
+      }
+
+      // Add the values
+      comp_1.counter++;
+      comp_2.counter++;
+
+      // Save the comps
+      localStorage.setItem('comp_1', comp_1.serialize());
+      localStorage.setItem('comp_2', comp_2.serialize());
+
+      return;
+    })
+    .catch((err: Error) => {
+      createError(err);
+    });
+
+  return;
 }
