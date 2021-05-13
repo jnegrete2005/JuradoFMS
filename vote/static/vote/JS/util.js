@@ -87,7 +87,7 @@ export function addInputs(lenght, data, first = false) {
             if (mode === 'random_score' || mode === 'deluxe' || mode === 'replica')
                 input.tabIndex = tabindex[mode][i][j];
             container.append(input);
-            if (mode.startsWith('min')) {
+            if (mode.startsWith('min') && i === 1) {
                 const checkbox = document.createElement('input');
                 checkbox.type = 'checkbox';
                 if (comp_container.id === 'comp-1-container') {
@@ -100,8 +100,8 @@ export function addInputs(lenght, data, first = false) {
             }
             // Populate inputs
             if (data) {
-                if (mode.startsWith('min')) {
-                    input.nextElementSibling.checked = data.data[`comp${i + 1}`].mode[j + 9] === 1 ? true : false;
+                if (mode.startsWith('min') && i === 1) {
+                    input.nextElementSibling.checked = data.data.comp2.mode[j + 9] === 1 ? true : false;
                 }
                 if (comp_container.id === 'comp-1-container') {
                     if (data.data.comp1.mode.length !== 0 && data.data.comp1.mode[j] !== 9) {
@@ -193,7 +193,7 @@ export function get_winner(comp_1, comp_2, replica = false) {
         // If it is already in replica #2
         if (comp_1.counter === 1) {
             // Check if it is replica again
-            if (comp_1_rep === comp_2_rep || Math.abs(comp_1_rep - comp_2_rep) < 6) {
+            if (comp_1_rep === comp_2_rep || Math.abs(comp_1_rep - comp_2_rep) < 1) {
                 return 'decide';
             }
             // Return the winner
@@ -202,7 +202,7 @@ export function get_winner(comp_1, comp_2, replica = false) {
             saveWinner(winner);
             return winner;
         }
-        if (comp_1_rep === comp_2_rep || Math.abs(comp_1_rep - comp_2_rep) < 6) {
+        if (comp_1_rep === comp_2_rep || Math.abs(comp_1_rep - comp_2_rep) <= 1) {
             return 'Réplica';
         }
         const max_num = Math.max(comp_1_rep, comp_2_rep);
@@ -214,7 +214,7 @@ export function get_winner(comp_1, comp_2, replica = false) {
     const comp_1_sum = comp_1.get_total();
     const comp_2_sum = comp_2.get_total();
     // Normal case
-    if (comp_1_sum === comp_2_sum || Math.abs(comp_1_sum - comp_2_sum) < 6) {
+    if (comp_1_sum === comp_2_sum || Math.abs(comp_1_sum - comp_2_sum) < 5.5) {
         return 'Réplica';
     }
     // Return and save the winner if there is one

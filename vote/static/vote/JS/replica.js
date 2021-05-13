@@ -43,12 +43,22 @@ document.getElementById('prev-rep-btn').addEventListener('click', () => {
     changeMode('end_replica', 'replica');
     localStorage.removeItem('winner');
 });
-document.getElementById('rep-btn').addEventListener('click', () => {
-    const rep_btn = document.getElementById('rep-btn');
+// Replica table btn
+const rep_btn = document.getElementById('rep-btn');
+rep_btn.addEventListener('click', () => {
+    // If the winner is done without second replica, reload
     if (rep_btn.innerHTML === 'Terminar' && rep_btn.dataset.decide === 'false') {
-        location.assign('http://127.0.0.1:8000/vota/');
+        reload();
         return;
     }
+    // If I don't have to decide, go to replica again
+    else if (rep_btn.dataset.decide === 'false' && !localStorage.getItem('winner')) {
+        history.pushState({ old_mode: 'end_replica', new_mode: 'replica' }, '', '#replica');
+        cleanReplicaValues();
+        changeMode('end_replica', 'replica');
+        plus_counter();
+    }
+    // If I have to decide, decide
     else if (rep_btn.dataset.decide === 'true' && localStorage.getItem('winner')) {
         // Define vars
         const winner = localStorage.getItem('winner');
@@ -82,7 +92,7 @@ document.getElementById('rep-btn').addEventListener('click', () => {
             if (data.errors) {
                 throw Error('No se pudo guardar el ganador');
             }
-            location.assign('http://127.0.0.1:8000/vota/');
+            reload();
             return;
         })
             .catch((err) => {
@@ -90,12 +100,7 @@ document.getElementById('rep-btn').addEventListener('click', () => {
         });
         return;
     }
-    else if (rep_btn.dataset.decide === 'false' && !localStorage.getItem('winner')) {
-        history.pushState({ old_mode: 'end_replica', new_mode: 'replica' }, '', '#replica');
-        cleanReplicaValues();
-        changeMode('end_replica', 'replica');
-        plus_counter();
-    }
+    // If I don't have a winner, then go send this modal
     else {
         useModal('No has escogido un ganador!', 'Como no ha habido un ganador, tienes que escoger uno tú mism@, de lo contrario, no habrá uno!\nPara escoger uno, solo hazle click a la cajita con el competidor que opinas que mejor desempeñó durante toda la batalla');
     }
@@ -103,7 +108,7 @@ document.getElementById('rep-btn').addEventListener('click', () => {
 function cleanReplicaValues() {
     // Clean the db
     const mutation = `
-    mutation SaveModes($id: ID!, $mode: String!, $value1: [Int]!, $value2: [Int]!) {
+    mutation SaveModes($id: ID!, $mode: String!, $value1: [Float]!, $value2: [Float]!) {
       saveModes(pollId: $id, mode: $mode, value1: $value1, value2: $value2) {
         comp1 {
           mode
@@ -140,10 +145,10 @@ function cleanReplicaValues() {
     localStorage.setItem('comp_2', comp_2.serialize());
 }
 function validWinner(winner) {
-    const poss_win = [
-        Competitor.unserialize(localStorage.getItem('comp_1')).name,
-        Competitor.unserialize(localStorage.getItem('comp_2')).name,
-    ];
+    const poss_win = [Competitor.unserialize(localStorage.getItem('comp_1')).name, Competitor.unserialize(localStorage.getItem('comp_2')).name];
     return poss_win.includes(winner);
+}
+function reload() {
+    location.assign(location.href.split('/').slice(0, 3).join('/'));
 }
 //# sourceMappingURL=replica.js.map
