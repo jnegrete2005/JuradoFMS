@@ -1,4 +1,5 @@
 @import 'media_queries';
+@import 'visibility';
 
 #rep-res-container > table {
   width: 100%;
@@ -16,4 +17,110 @@
 #rep-res-container > table > thead > tr > th,
 #rep-res-container > table > tbody > tr > td {
   width: 50%;
+}
+
+table {
+  margin: auto;
+  border-collapse: collapse;
+  font-size: 0.9em;
+  min-width: 400px;
+  border-radius: 5px 5px 0 0;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+th,
+td {
+  text-align: center;
+  padding: 12px 15px;
+}
+
+thead tr {
+  background-color: #e1e1e1;
+  color: #000000;
+  font-weight: bold;
+}
+
+tbody tr {
+  border-bottom: 1px solid #e1e1e1;
+}
+
+tbody tr:nth-of-type(odd) {
+  background-color: #ececec;
+}
+
+tbody tr:nth-of-type(even) {
+  background-color: #f6f6f6;
+}
+
+tbody tr:last-of-type {
+  border-bottom: 2px solid #e1e1e1;
+}
+
+tr:nth-of-type(3) td:last-of-type {
+  font-weight: bold;
+}
+
+#end-container {
+  th,
+  td {
+    text-align: center;
+  }
+
+  @media (max-width: 767px) {
+    thead {
+      @include hide-element();
+    }
+
+    table {
+      box-shadow: initial !important;
+      -moz-box-shadow: initial !important;
+    }
+
+    table,
+    tbody,
+    tr,
+    td {
+      display: block;
+      width: 100%;
+    }
+
+    tbody tr {
+      margin-bottom: 15px;
+
+      border-radius: 7px;
+      overflow: hidden;
+    }
+
+    tbody td {
+      text-align: right;
+      position: relative;
+    }
+
+    tbody td::before {
+      content: attr(data-title);
+      position: absolute;
+      left: 0;
+      width: 50%;
+      padding-left: 15px;
+      font-weight: bold;
+      font-size: 14px;
+      text-align: left;
+    }
+
+    #winner {
+      font-size: large;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    tbody td:nth-of-type(odd) {
+      background-color: #ececec;
+    }
+
+    tbody td:nth-of-type(even) {
+      background-color: #f6f6f6;
+    }
+  }
 }

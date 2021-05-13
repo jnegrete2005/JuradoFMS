@@ -19,4 +19,110 @@
 #rep-res-container > table > tbody > tr > td {
   width: 50%;
 }
+
+table {
+  margin: auto;
+  border-collapse: collapse;
+  font-size: 0.9em;
+  min-width: 400px;
+  border-radius: 5px 5px 0 0;
+  overflow: hidden;
+  -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+          box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+th,
+td {
+  text-align: center;
+  padding: 12px 15px;
+}
+
+thead tr {
+  background-color: #e1e1e1;
+  color: #000000;
+  font-weight: bold;
+}
+
+tbody tr {
+  border-bottom: 1px solid #e1e1e1;
+}
+
+tbody tr:nth-of-type(odd) {
+  background-color: #ececec;
+}
+
+tbody tr:nth-of-type(even) {
+  background-color: #f6f6f6;
+}
+
+tbody tr:last-of-type {
+  border-bottom: 2px solid #e1e1e1;
+}
+
+tr:nth-of-type(3) td:last-of-type {
+  font-weight: bold;
+}
+
+#end-container th,
+#end-container td {
+  text-align: center;
+}
+
+@media (max-width: 767px) {
+  #end-container thead {
+    border: 0;
+    clip: rect(1px 1px 1px 1px);
+    /* IE6, IE7 */
+    clip: rect(1px, 1px, 1px, 1px);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+  #end-container table {
+    -webkit-box-shadow: initial !important;
+            box-shadow: initial !important;
+    -moz-box-shadow: initial !important;
+  }
+  #end-container table,
+  #end-container tbody,
+  #end-container tr,
+  #end-container td {
+    display: block;
+    width: 100%;
+  }
+  #end-container tbody tr {
+    margin-bottom: 15px;
+    border-radius: 7px;
+    overflow: hidden;
+  }
+  #end-container tbody td {
+    text-align: right;
+    position: relative;
+  }
+  #end-container tbody td::before {
+    content: attr(data-title);
+    position: absolute;
+    left: 0;
+    width: 50%;
+    padding-left: 15px;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: left;
+  }
+  #end-container #winner {
+    font-size: large;
+    font-weight: bold;
+    text-align: center;
+  }
+  #end-container tbody td:nth-of-type(odd) {
+    background-color: #ececec;
+  }
+  #end-container tbody td:nth-of-type(even) {
+    background-color: #f6f6f6;
+  }
+}
 /*# sourceMappingURL=table.css.map */
