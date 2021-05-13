@@ -6,7 +6,7 @@
   font-weight: normal;
 }
 
-@media (min-width: 768px) {
+@media only screen and (min-width: 768px) {
   #comp-1,
   #comp-2 {
     text-align: start;
@@ -17,7 +17,7 @@
   grid-column: span 3 / auto;
 }
 
-@media (min-width: 768px) {
+@media only screen and (min-width: 768px) {
   .comp-container {
     grid-column: span 2 / auto;
   }
@@ -30,13 +30,13 @@
   grid-column: 3;
 }
 
-@media (min-width: 768px) {
+@media only screen and (min-width: 768px) {
   .input-right {
     margin: inherit !important;
   }
 }
 
-@media (min-width: 768px) {
+@media only screen and (min-width: 768px) {
   .input-right {
     grid-row: auto;
     grid-column: auto;
@@ -47,7 +47,7 @@
   margin: auto 0 auto auto !important;
 }
 
-@media (min-width: 768px) {
+@media only screen and (min-width: 768px) {
   .input-left {
     margin: inherit !important;
   }
@@ -59,7 +59,7 @@
   grid-column: 2;
 }
 
-@media (min-width: 768px) {
+@media only screen and (min-width: 768px) {
   .input-middle {
     grid-row: auto;
     grid-column: auto;
@@ -76,7 +76,7 @@
       grid-template-columns: repeat(3, minmax(1.5rem, 1fr));
 }
 
-@media (min-width: 768px) {
+@media only screen and (min-width: 768px) {
   .grid {
     -ms-grid-columns: (minmax(1rem, 1fr))[auto-fit];
         grid-template-columns: repeat(auto-fit, minmax(1rem, 1fr));
@@ -102,7 +102,7 @@ input[type='number'] {
   -moz-appearance: textfield;
 }
 
-@media (min-width: 768px) {
+@media only screen and (min-width: 768px) {
   input[type='number'] {
     width: 35px;
     height: 35px;

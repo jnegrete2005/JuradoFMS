@@ -3,13 +3,13 @@
   margin: auto;
 }
 
-@media (min-width: 576px) {
+@media only screen and (min-width: 576px) {
   #rep-res-container > table {
     width: 70%;
   }
 }
 
-@media (min-width: 992px) {
+@media only screen and (min-width: 992px) {
   #rep-res-container > table {
     width: 50%;
   }
