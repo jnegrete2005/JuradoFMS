@@ -2,6 +2,7 @@ from .types import CompetitorType, VotingPollType, CompMode
 from ..models import Competitor, VotingPoll
 
 from django.conf import settings
+from os import environ
 
 from graphql import GraphQLError
 import graphene
@@ -15,7 +16,7 @@ class CreatePoll(graphene.Mutation):
 
   @classmethod
   def mutate(cls, root, info, comp1, comp2):
-    if settings.DEBUG:
+    if settings.DEBUG and not environ.get('WORKFLOW_RUN'):
       poll = VotingPoll.objects.first()
       for i in range(9):
         poll.comp_1[i] = None
