@@ -1,6 +1,6 @@
 import { changeMode } from './change_mode.js';
 import { Competitor } from './classes.js';
-import { get_winner } from './util.js';
+import { getWinner } from './util.js';
 document.getElementById('prev-end-btn').addEventListener('click', () => {
     changeMode('end', 'deluxe');
 });
@@ -25,7 +25,7 @@ export function fillTable() {
     }
     // Fill the table's winner
     // Get the winner
-    const winner = get_winner(Competitor.unserialize(localStorage.getItem('comp_1')), Competitor.unserialize(localStorage.getItem('comp_2')));
+    const winner = getWinner(Competitor.unserialize(localStorage.getItem('comp_1')), Competitor.unserialize(localStorage.getItem('comp_2')));
     document.getElementById('winner').innerHTML = winner;
     const end = document.getElementById('end-btn');
     // Add the state of replica to the page
