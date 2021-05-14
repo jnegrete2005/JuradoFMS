@@ -1,6 +1,6 @@
 import { changeMode } from './change_mode.js';
 import { Competitor } from './classes.js';
-import { createError, getCookie, get_winner, useModal } from './util.js';
+import { createError, getCookie, getWinner, useModal } from './util.js';
 export function fillRepTable() {
     // Populate fields
     for (let i = 1; i <= 2; i++) {
@@ -15,7 +15,7 @@ export function fillRepTable() {
         });
     }
     // Get winner
-    const winner = get_winner(Competitor.unserialize(localStorage.getItem('comp_1')), Competitor.unserialize(localStorage.getItem('comp_2')), true);
+    const winner = getWinner(Competitor.unserialize(localStorage.getItem('comp_1')), Competitor.unserialize(localStorage.getItem('comp_2')), true);
     if (winner === 'decide') {
         document.getElementById('rep-btn').dataset.decide = 'true';
         // Add event listeners to decide inputs
