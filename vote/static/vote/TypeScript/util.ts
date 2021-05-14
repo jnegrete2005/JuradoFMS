@@ -167,7 +167,7 @@ function insertAfter(newNode: HTMLElement, referenceNode: HTMLElement) {
 
 export function createAlert(text: string | HTMLElement): void {
   const alert = `
-  <div class="alert alert-warning alert-dismissible fade show mb-5" role="alert">
+  <div class="alert alert-info alert-dismissible fade show mb-5" role="alert">
     ${text}
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>
@@ -210,7 +210,7 @@ export function arraysMatch(arr1: Array<any>, arr2: Array<any>): boolean {
   return true;
 }
 
-export function get_winner(comp_1: Competitor, comp_2: Competitor, replica = false): string {
+export function getWinner(comp_1: Competitor, comp_2: Competitor, replica = false): string {
   // Case replica
   if (replica) {
     // Get the replica sum of the comps
