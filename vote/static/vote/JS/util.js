@@ -1,5 +1,5 @@
 import { modes_to_int } from './classes.js';
-import { validate_inputs } from './validation.js';
+import { validateCompInputs } from './validation.js';
 export function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -83,6 +83,7 @@ export function addInputs(lenght, data, first = false) {
             input.max = '4';
             input.step = '0.5';
             input.maxLength = 3;
+            input.inputMode = 'decimal';
             // Tabindex edit
             if (mode === 'random_score' || mode === 'deluxe' || mode === 'replica')
                 input.tabIndex = tabindex[mode][i][j];
@@ -123,7 +124,7 @@ export function addInputs(lenght, data, first = false) {
             }
         }
     });
-    validate_inputs();
+    validateCompInputs();
     if (first || modes_to_int[mode] % 2 == 0) {
         comp_1_cont.getElementsByTagName('div')[1].firstElementChild.focus();
         return;

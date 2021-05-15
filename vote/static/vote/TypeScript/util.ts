@@ -1,6 +1,6 @@
 import { Competitor, modes_to_int } from './classes.js';
 import type { GetModes, PlusReplica, SaveWinner } from './types';
-import { validate_inputs } from './validation.js';
+import { validateCompInputs } from './validation.js';
 
 export function getCookie(name: string): string {
   let cookieValue: null | string = null;
@@ -94,6 +94,7 @@ export function addInputs(lenght: number, data?: GetModes, first = false) {
       input.max = '4';
       input.step = '0.5';
       input.maxLength = 3;
+      input.inputMode = 'decimal';
 
       // Tabindex edit
       if (mode === 'random_score' || mode === 'deluxe' || mode === 'replica') input.tabIndex = tabindex[mode][i][j];
@@ -136,7 +137,7 @@ export function addInputs(lenght: number, data?: GetModes, first = false) {
     }
   });
 
-  validate_inputs();
+  validateCompInputs();
 
   if (first || modes_to_int[mode] % 2 == 0) {
     (<HTMLInputElement>comp_1_cont.getElementsByTagName('div')[1].firstElementChild).focus();
