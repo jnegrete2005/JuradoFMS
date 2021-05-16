@@ -74,16 +74,11 @@
 }
 
 input[type='number'] {
-  width: 30px;
-  height: 30px;
+  width: 35px;
+  height: 35px;
 
   padding: 0;
   text-align: center !important;
-
-  @include md() {
-    width: 35px;
-    height: 35px;
-  }
 
   -moz-appearance: textfield;
   &::-webkit-outer-spin-button,

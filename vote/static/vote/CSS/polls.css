@@ -95,18 +95,11 @@
 }
 
 input[type='number'] {
-  width: 30px;
-  height: 30px;
+  width: 35px;
+  height: 35px;
   padding: 0;
   text-align: center !important;
   -moz-appearance: textfield;
-}
-
-@media only screen and (min-width: 768px) {
-  input[type='number'] {
-    width: 35px;
-    height: 35px;
-  }
 }
 
 input[type='number']::-webkit-outer-spin-button, input[type='number']::-webkit-inner-spin-button {
