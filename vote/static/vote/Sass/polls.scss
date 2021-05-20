@@ -22,7 +22,12 @@
 
 @mixin change-grid($col) {
   grid-row: auto;
-  grid-column: $col;
+
+  @if $col == 2 {
+    grid-column: span 3 / auto;
+  } @else {
+    grid-column: $col;
+  }
 
   @include md() {
     grid-row: auto;
@@ -30,21 +35,38 @@
   }
 }
 
-@mixin align($left, $right) {
-  margin: auto $right auto $left !important;
+@mixin align($side, $media: true) {
+  @if $side == right {
+    margin: 0 auto auto 0 !important;
+  } @else if $side == left {
+    margin: 0 0 auto auto !important;
+  }
 
-  @include md() {
-    margin: inherit !important;
+  @if $media {
+    @include md() {
+      margin: 0 auto auto !important;
+    }
+  } @else {
+    @media only screen and (max-width: 767px) {
+      margin: 0 auto auto !important;
+    }
   }
 }
 
-.input-right {
-  @include align(0, auto);
-  @include change-grid(3);
-}
+$sides: right, left;
 
-.input-left {
-  @include align(auto, 0);
+@each $side in $sides {
+  .input-#{$side} {
+    @include align($side);
+
+    @if $side == right {
+      @include change-grid(3);
+    }
+  }
+
+  .input-extra-#{$side} {
+    @include align($side, false);
+  }
 }
 
 .input-middle {
@@ -65,7 +87,7 @@
 }
 
 .input {
-  margin: auto;
+  margin: 0 auto auto;
 
   display: grid;
   justify-items: center;

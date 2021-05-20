@@ -67,15 +67,21 @@ export function addInputs(lenght: number, data?: GetModes, first = false) {
       const container = document.createElement('div');
       container.classList.add('input');
 
-      if (j > lenght - 3 && lenght % 3 !== 0) {
+      // Add classes to not divisible by 3 inputs
+      if (lenght % 3 !== 0 && (j === lenght - 5 || j === lenght - 4)) {
         if (Math.round(lenght % 3) === 2) {
-          if (j === lenght - 2) {
-            container.classList.add('input-left');
-          } else if (j === lenght - 1) {
-            container.classList.add('input-right');
-          }
-        } else if (Math.round(lenght % 3) === 1 && j > lenght - 2) {
+          j === lenght - 5 ? container.classList.add('input-left') : container.classList.add('input-right');
+        } else if (Math.round(lenght % 3) === 1 && j === lenght - 4) {
           container.classList.add('input-middle');
+        }
+      }
+
+      // Add classes to extra inputs
+      if (j > lenght - 4) {
+        if (j === lenght - 3) {
+          container.classList.add('input-extra-left');
+        } else if (j === lenght - 1) {
+          container.classList.add('input-extra-right');
         }
       }
 

@@ -24,7 +24,7 @@
 }
 
 .input-right {
-  margin: auto auto auto 0 !important;
+  margin: 0 auto auto 0 !important;
   grid-row: auto;
   -ms-grid-column: 3;
   grid-column: 3;
@@ -32,7 +32,7 @@
 
 @media only screen and (min-width: 768px) {
   .input-right {
-    margin: inherit !important;
+    margin: 0 auto auto !important;
   }
 }
 
@@ -43,20 +43,39 @@
   }
 }
 
+.input-extra-right {
+  margin: 0 auto auto 0 !important;
+}
+
+@media only screen and (max-width: 767px) {
+  .input-extra-right {
+    margin: 0 auto auto !important;
+  }
+}
+
 .input-left {
-  margin: auto 0 auto auto !important;
+  margin: 0 0 auto auto !important;
 }
 
 @media only screen and (min-width: 768px) {
   .input-left {
-    margin: inherit !important;
+    margin: 0 auto auto !important;
+  }
+}
+
+.input-extra-left {
+  margin: 0 0 auto auto !important;
+}
+
+@media only screen and (max-width: 767px) {
+  .input-extra-left {
+    margin: 0 auto auto !important;
   }
 }
 
 .input-middle {
   grid-row: auto;
-  -ms-grid-column: 2;
-  grid-column: 2;
+  grid-column: span 3 / auto;
 }
 
 @media only screen and (min-width: 768px) {
@@ -84,7 +103,7 @@
 }
 
 .input {
-  margin: auto;
+  margin: 0 auto auto;
   display: -ms-grid;
   display: grid;
   justify-items: center;
