@@ -11,10 +11,12 @@ async function saveMode(mode) {
         const convertChecked = (el) => (el.checked ? 1 : 9);
         if (mode.charAt(mode.length - 1) === '1') {
             value1.push(...Array.from(document.getElementsByClassName('check-1')).map(convertChecked));
+            value1.push(...[9, 9, 9]);
             value2.push(...new Array(9).fill(9));
         }
         else {
             value2.push(...Array.from(document.getElementsByClassName('check-2')).map(convertChecked));
+            value2.push(...[9, 9, 9]);
             value1.push(...new Array(9).fill(9));
         }
     }
