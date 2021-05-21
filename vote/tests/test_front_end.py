@@ -287,6 +287,8 @@ class FrontEndTestCase(LiveServerTestCase):
     else:
       self.assertEqual(self.selenium.find_element_by_class_name('comp-container').text, 'no')
 
+    self.check_answer_boxes(current_mode)
+
     if not check_next:
       return sleep(0.5)
 
@@ -434,3 +436,20 @@ class FrontEndTestCase(LiveServerTestCase):
 
     for comp in comps:
       comp.clear()
+
+  def check_answer_boxes(self, mode: str):
+    """
+    Will check if the checkboxes for minute answers exist
+    """
+    if not mode.startswith('min'):
+      return
+
+    # Get a list of all elements inside the bellow competitor (name and inputs)
+    inputs = self.selenium.find_elements_by_class_name('inputs-container')[1].find_elements_by_tag_name('div')
+
+    # Iterate over the rhyme inptus and check if
+    # the checkbox exists and has the correct class
+    for i in range(1, 7):
+      checkbox = inputs[i].find_element_by_css_selector("input[type='checkbox']")
+      self.assertIn(f'check-{mode[-1]}', checkbox.get_attribute('class'))
+      
