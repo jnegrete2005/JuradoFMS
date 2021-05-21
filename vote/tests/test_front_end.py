@@ -288,6 +288,7 @@ class FrontEndTestCase(LiveServerTestCase):
       self.assertEqual(self.selenium.find_element_by_class_name('comp-container').text, 'no')
 
     self.check_answer_boxes(current_mode)
+    self.check_extra_inputs()
 
     if not check_next:
       return sleep(0.5)
@@ -452,4 +453,23 @@ class FrontEndTestCase(LiveServerTestCase):
     for i in range(1, 7):
       checkbox = inputs[i].find_element_by_css_selector("input[type='checkbox']")
       self.assertIn(f'check-{mode[-1]}', checkbox.get_attribute('class'))
-      
+
+  def check_extra_inputs(self):
+    """
+    Will check the classes for the extra inputs
+    """
+    # Get a list of all elements inside the bellow competitor (name and inputs)
+    inputs = self.selenium.find_elements_by_class_name('inputs-container')[1].find_elements_by_tag_name('div')
+    extras: List[WebElement] = []
+    sides = ['input-extra-left', '', 'input-extra-right']
+
+    # Get the extra inputs (last 3 inputs)
+    for i in range(len(inputs) - 3, len(inputs)):
+      extras.append(inputs[i])
+
+    # Iterate over extra
+    for i in range(len(extras)):
+      if i == 1:
+        pass
+
+      self.assertIn(sides[i], extras[i].get_attribute('class'))
