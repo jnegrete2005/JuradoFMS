@@ -52,7 +52,7 @@ export function addInputs(lenght: number, data?: GetModes, first = false) {
     const poll = document.querySelector('.poll');
     const hr = poll.querySelector('hr');
 
-    if (modes_to_int[mode] % 2 == 0) {
+    if (modes_to_int[mode] % 2 == 0 || mode === 'replica') {
       poll.insertBefore(comp_1_cont, comp_2_cont);
       poll.insertBefore(hr, comp_2_cont);
     } else {
