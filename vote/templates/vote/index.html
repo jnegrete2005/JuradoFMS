@@ -6,15 +6,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>{% block title %}Jurado FMS{% endblock title %}</title>
+  <title>Jurado FMS</title>
+
+  <link rel="shortcut icon" href="{% static 'favicon.svg' %}" type="image/x-icon">
 
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+  
   <!-- Static Files -->
   <link rel="stylesheet" href="{% static 'vote/CSS/navbar.css' %}">
   <link rel="stylesheet" href="{% static 'vote/CSS/polls.css' %}">
   <link rel="stylesheet" href="{% static 'vote/CSS/table.css' %}">
 
+  <!-- Scripts -->
   <script src="{% static 'vote/JS/navbar.js' %}" type="module" defer></script>
   <script src="{% static 'vote/JS/popstate.js' %}" type="module" defer></script>
   <script src="{% static 'vote/JS/create_polls.js' %}" type="module" defer></script>
