@@ -86,8 +86,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'juradofms',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'USER': environ.get('POSTGRES_USER'),
+        'PASSWORD': environ.get('POSTGRES_PASSWORD'),
         'HOST': 'localhost',
         'PORT': ''
     }
