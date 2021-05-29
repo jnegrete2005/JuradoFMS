@@ -5,7 +5,7 @@ Jurado FMS is a web application developed using Django in the backend and TypeSc
 ## Table of Contents
 + [The app](#the-app-(how-it-works))
 + [Tecnologies used](#technologies-used)
-+ [Instalation](#instalation)
++ [Contributions](#contributions)
 + [Running the site](#installation-and-running)
 
 ## The app (how it works)
