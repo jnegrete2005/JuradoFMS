@@ -5,7 +5,6 @@ Jurado FMS is a web application developed using Django in the backend and TypeSc
 <br>
 
 ## Table of Contents
---------------------
 + [The app](#the-app-(how-it-works))
 + [Tecnologies used](#technologies-used)
 + [Instalation](#instalation)
@@ -14,7 +13,6 @@ Jurado FMS is a web application developed using Django in the backend and TypeSc
 <br>
 
 ## The app (how it works)
--------------------------
 To start voting, type in the names of the 2 competitors that will be battling, for example, 'Foo' and 'Bar'. These names have to meet certain requierements:
 1. They have to be minimum 2 characters long. 
 2. They have to be maximun 20 characters long.
@@ -57,7 +55,6 @@ And that is it. You just voted an FMS rap battle. Hope you didn't made a tongo!
 <br>
 
 ## Technologies used
---------------------
 In the back-end, there is a lot installed. You can find the dependecies of this project in [requirements.txt](./requirements.txt). I will explain what each module does. `Django` is the backend framework. `setuptools` is a dependency for `graphene-django`, that is used to create an API with GraphQL. For the database system, I used PostgresQL, and for that `psycopg2-binary` is necesary. For testing, I used `selenium`. And for deploy, I used [Heroku](https://heroku.com), which needs `gunicorn` and `django-heroku`.
 
 In the front-end, I used TypeScript, SCSS, and Bootstrap.
@@ -65,14 +62,12 @@ In the front-end, I used TypeScript, SCSS, and Bootstrap.
 <br>
 
 ## Contributions
-----------------
 Jurado FMS is open to contributions. If you want to contribute with an issue, first open one to let me know if I am not working on that myself. That way, we don't overwrite each other.  
 If you want to contribute with a simple bug, like a typo or a broken link, just use the GitHub inline editor.
 
 <br>
 
 ## Installation and running
--------------------
 Steps bellow:
 ```powershell
 # Clone the repo
