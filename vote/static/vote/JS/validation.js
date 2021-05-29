@@ -32,6 +32,8 @@ export function validateCompInputs() {
                     event.preventDefault();
                     break;
                 case 3:
+                    if (key === 'Tab')
+                        break;
                     if (key !== 'Backspace') {
                         event.preventDefault();
                         break;
