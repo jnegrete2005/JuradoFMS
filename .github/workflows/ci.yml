@@ -7,6 +7,8 @@ jobs:
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
       DJANGO_DEBUG: 'True'
       WORKFLOW_RUN: True
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'postgres'
 
     services:
       postgres:
