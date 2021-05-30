@@ -14,7 +14,6 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.decorators import user_passes_test
 from django.urls import path, include
 from django.views.decorators.csrf import csrf_exempt
@@ -22,11 +21,11 @@ from django.views.generic.base import RedirectView
 
 from graphene_django.views import GraphQLView
 
-def admin_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login_url=None):
+def admin_required(function=None):
     actual_decorator = user_passes_test(
         lambda u: u.is_superuser,
-        login_url=login_url,
-        redirect_field_name=redirect_field_name
+        login_url='/vota/',
+        redirect_field_name=''
     )
     if function:
         return actual_decorator(function)
