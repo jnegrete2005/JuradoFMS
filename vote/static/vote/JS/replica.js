@@ -1,6 +1,6 @@
 import { changeMode } from './change_mode.js';
 import { Competitor } from './classes.js';
-import { createError, getCookie, getWinner, useModal } from './util.js';
+import { createError, getCookie, getWinner, reload, useModal } from './util.js';
 export function fillRepTable() {
     // Populate fields
     for (let i = 1; i <= 2; i++) {
@@ -31,6 +31,7 @@ export function fillRepTable() {
     else {
         document.getElementById('rep-btn').dataset.decide = 'false';
     }
+    // Fill the table winner and the btn
     document.getElementById('rep-winner').innerHTML = winner === 'decide' ? 'Réplica' : winner;
     document.getElementById('rep-btn').innerHTML = winner === 'Réplica' ? 'Réplica' : 'Terminar';
     // Show and hide sections
@@ -38,6 +39,7 @@ export function fillRepTable() {
     document.getElementById('poll-container').classList.add('d-none');
     document.getElementById('rep-res-container').classList.remove('d-none');
 }
+// Prev btn goes to replica
 document.getElementById('prev-rep-btn').addEventListener('click', () => {
     history.pushState({ old_mode: 'end_replica', new_mode: 'replica' }, '', '#replica');
     changeMode('end_replica', 'replica');
@@ -144,12 +146,10 @@ function cleanReplicaValues() {
     localStorage.setItem('comp_1', comp_1.serialize());
     localStorage.setItem('comp_2', comp_2.serialize());
 }
+// Return true if the winner passed is valid
 function validWinner(winner) {
     const poss_win = [Competitor.unserialize(localStorage.getItem('comp_1')).name, Competitor.unserialize(localStorage.getItem('comp_2')).name];
     return poss_win.includes(winner);
-}
-function reload() {
-    location.assign(location.href.split('/').slice(0, 3).join('/'));
 }
 function plus_counter() {
     // Get the comps

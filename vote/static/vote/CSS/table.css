@@ -1,25 +1,26 @@
-#rep-res-container > table {
+#rep-res-container table {
   width: 100%;
   margin: auto;
 }
 
 @media only screen and (min-width: 576px) {
-  #rep-res-container > table {
+  #rep-res-container table {
     width: 70%;
   }
 }
 
 @media only screen and (min-width: 992px) {
-  #rep-res-container > table {
+  #rep-res-container table {
     width: 50%;
   }
 }
 
-#rep-res-container > table > thead > tr > th,
-#rep-res-container > table > tbody > tr > td {
+#rep-res-container th,
+#rep-res-container td {
   width: 50%;
 }
 
+/* Tables custom css */
 table {
   margin: auto;
   border-collapse: collapse;
@@ -60,6 +61,7 @@ tr:nth-of-type(3) td:last-of-type {
   font-weight: bold;
 }
 
+/* End table responsiveness */
 #end-container th,
 #end-container td {
   text-align: center;

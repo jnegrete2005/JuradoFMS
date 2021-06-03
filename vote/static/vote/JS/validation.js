@@ -1,4 +1,4 @@
-export function validateCompInputs() {
+export function validateModeInputs() {
     Array.from(document.querySelectorAll("input[type='number'].form-control")).forEach((el) => {
         el.addEventListener('keydown', (event) => {
             let key = event.key;
@@ -8,13 +8,13 @@ export function validateCompInputs() {
             switch (el.value.length) {
                 case 0:
                     try {
-                        if (key === 'Backspace')
+                        if (key === 'Backspace' || key === 'Tab')
                             break;
-                        if (decimals.includes(key)) {
+                        if (possible_decimals.includes(key)) {
                             el.value = '0.5';
                             break;
                         }
-                        if (check(parseFloat(key)) || key === 'Tab')
+                        if (check(parseFloat(key)))
                             break;
                     }
                     catch {
@@ -22,9 +22,9 @@ export function validateCompInputs() {
                         break;
                     }
                 case 1:
-                    if (key === 'Tab' || key === 'Backspace')
+                    if (key === 'Backspace' || key === 'Tab')
                         break;
-                    if (decimals.includes(key) && el.value !== '4') {
+                    if (possible_decimals.includes(key) && el.value !== '4') {
                         event.preventDefault();
                         el.value += '.5';
                         break;
@@ -49,5 +49,5 @@ export function validateCompInputs() {
     const check = (number) => number >= 0 && number <= 4 && number % 0.5 === 0;
 }
 const validInputs = ['Control', 'ArrowLeft', 'ArrowRight', 'Shift', 'Delete'];
-const decimals = ['.', ',', 'Unidentified', ' '];
+const possible_decimals = ['.', ',', 'Unidentified', ' '];
 //# sourceMappingURL=validation.js.map

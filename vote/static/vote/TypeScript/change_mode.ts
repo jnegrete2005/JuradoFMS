@@ -12,9 +12,11 @@ async function saveMode(mode: string): Promise<boolean> {
   const value1 = Array.from(document.getElementsByClassName('comp-1-input')).map(returnValueOr9);
   const value2 = Array.from(document.getElementsByClassName('comp-2-input')).map(returnValueOr9);
 
+  // Process min inputs
   if (mode.startsWith('min')) {
     const convertChecked = (el: HTMLInputElement) => (el.checked ? 1 : 9);
 
+    // Get and push the inputs. Push 3 more for the missing extra inputs
     if (mode.charAt(mode.length - 1) === '1') {
       value1.push(...Array.from(document.getElementsByClassName('check-1')).map(convertChecked));
       value1.push(...[9, 9, 9]);
@@ -26,6 +28,7 @@ async function saveMode(mode: string): Promise<boolean> {
     }
   }
 
+  // Validate the length of the inputs
   try {
     validateLength(value1, value2, <keyof ModeOptions>mode);
   } catch (e) {
@@ -35,6 +38,7 @@ async function saveMode(mode: string): Promise<boolean> {
 
   const allEqualTo9 = (arr: Array<number>) => arr.every((v) => v === 9);
 
+  // If they all === 9, just pass to the next mode
   if ((allEqualTo9(value1), allEqualTo9(value2))) {
     comp_1[mode] = value1;
     comp_2[mode] = value2;
@@ -44,6 +48,7 @@ async function saveMode(mode: string): Promise<boolean> {
     return true;
   }
 
+  // If the comps have the same values as before, just pass to the next mode
   if (comp_1[mode] && comp_2[mode]) {
     if (arraysMatch(comp_1[mode], value1) && arraysMatch(comp_2[mode], value2)) {
       return true;
@@ -132,30 +137,14 @@ function nextMode(mode: string): void {
         addInputs(data.data.comp1.mode.length, data);
       }
     } else {
-      switch (mode) {
-        case 'tematicas_1':
-        case 'tematicas_2':
-          addInputs(7);
-          break;
-
-        case 'random_score':
-          addInputs(11);
-          break;
-
-        case 'deluxe':
-          addInputs(14);
-          break;
-
-        default:
-          addInputs(9);
-          break;
-      }
+      addInputs(mode_length[mode]);
     }
 
     // Refresh the alert
     createAlert('Recuerda que los últimos 3 cuadritos siempre son para Skills, Flow y Puesta en escena');
   }
 
+  // If user is active, just pass to the next mode and save everything in local storage
   if (getCookie('isActive') === 'true') {
     let data: GetModes;
     if (comp_1 && comp_2) {
@@ -184,7 +173,10 @@ function nextMode(mode: string): void {
 
     next(data);
     return;
-  } else {
+  }
+
+  // Else, set the cookie
+  else {
     setCookie('isActive', 'true', 0.3);
   }
 
@@ -227,6 +219,7 @@ function nextMode(mode: string): void {
         throw Error(data.errors[0].message);
       }
 
+      // Go to the new mode with the new info
       next(data);
     })
     .catch((err: Error) => {
@@ -234,6 +227,7 @@ function nextMode(mode: string): void {
     });
 }
 
+// Prepares the next and previous btns
 function prepareBtns(mode: string): void {
   const previous = <HTMLButtonElement>document.getElementById('previous');
   const next = <HTMLButtonElement>document.getElementById('next');
@@ -259,7 +253,9 @@ function prepareBtns(mode: string): void {
   }
 }
 
+// This changes the modes
 export async function changeMode(old_mode: string, new_mode: string): Promise<void> {
+  // If you are from a table, don't save anything
   if (old_mode === 'end' || old_mode === 'end_replica') {
     if (new_mode === 'end') {
       document.getElementById('mode').dataset.current_mode = new_mode;
@@ -270,9 +266,9 @@ export async function changeMode(old_mode: string, new_mode: string): Promise<vo
     wrapper();
     return;
   } else {
-    if (!(await saveMode(old_mode))) {
-      return;
-    }
+    // Wait to see if the mode was saved successfully
+    if (!(await saveMode(old_mode))) return;
+
     switch (new_mode) {
       case 'end':
         document.getElementById('mode').dataset.current_mode = new_mode;
@@ -298,6 +294,7 @@ export async function changeMode(old_mode: string, new_mode: string): Promise<vo
     }
   }
 
+  // Changes the mode
   function wrapper(replica = false) {
     nextMode(new_mode);
     prepareBtns(new_mode);

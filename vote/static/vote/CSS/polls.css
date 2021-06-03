@@ -1,3 +1,4 @@
+/* Comp text */
 #comp-1,
 #comp-2 {
   text-align: center;
@@ -13,7 +14,9 @@
   }
 }
 
+/* Comp text container */
 .comp-container {
+  /* If small, make it a complete row */
   grid-column: span 3 / auto;
 }
 
@@ -23,6 +26,9 @@
   }
 }
 
+/* To change grid position on .input-side */
+/* To change alignment of an input */
+/* The input and input-extra classes */
 .input-right {
   margin: 0 auto auto 0 !important;
   grid-row: auto;
@@ -91,6 +97,7 @@
   grid-gap: 1.5rem;
   -ms-grid-column-span: 2 / auto;
       grid-column-end: span 2 / auto;
+  /* On small screens, the grid is of 3 cols */
   -ms-grid-columns: (minmax(1.5rem, 1fr))[3];
       grid-template-columns: repeat(3, minmax(1.5rem, 1fr));
 }
@@ -113,6 +120,7 @@
   grid-row-gap: 0.5em;
 }
 
+/* Customize the little boxes */
 input[type='number'] {
   width: 35px;
   height: 35px;
@@ -126,6 +134,7 @@ input[type='number']::-webkit-outer-spin-button, input[type='number']::-webkit-i
   margin: 0;
 }
 
+/* The second replica choices */
 .choice-input {
   width: 7rem;
   height: 5rem;
@@ -156,6 +165,7 @@ input[type='number']::-webkit-outer-spin-button, input[type='number']::-webkit-i
   border-color: black;
 }
 
+/* Main poll */
 .poll {
   padding: 17px;
   border: 3px solid gainsboro;

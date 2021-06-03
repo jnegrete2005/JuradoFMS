@@ -1,6 +1,6 @@
 import { changeMode } from './change_mode.js';
 import { Competitor } from './classes.js';
-import { getWinner } from './util.js';
+import { getWinner, reload } from './util.js';
 
 document.getElementById('prev-end-btn').addEventListener('click', () => {
   changeMode('end', 'deluxe');
@@ -22,6 +22,7 @@ export function fillTable(): void {
 
       mode = Object.keys(comp)[j];
 
+      // The mode after deluxe, so the total
       if (mode === 'replica') {
         el.innerHTML = comp.get_total().toString();
         return;
@@ -31,10 +32,10 @@ export function fillTable(): void {
     });
   }
 
-  // Fill the table's winner
   // Get the winner
   const winner = getWinner(Competitor.unserialize(localStorage.getItem('comp_1')), Competitor.unserialize(localStorage.getItem('comp_2')));
 
+  // Show the winner
   document.getElementById('winner').innerHTML = winner;
   const end = document.getElementById('end-btn');
 
@@ -53,7 +54,7 @@ export function fillTable(): void {
 document.getElementById('end-btn').addEventListener('click', () => {
   // If it wasn't a tie, just refresh the browser
   if (document.getElementById('end-btn').dataset.isEnd === 'true') {
-    location.assign('http://127.0.0.1:8000/vota/');
+    reload();
     return;
   }
 

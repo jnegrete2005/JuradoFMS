@@ -7,8 +7,10 @@ async function saveMode(mode) {
     // Get the values
     const value1 = Array.from(document.getElementsByClassName('comp-1-input')).map(returnValueOr9);
     const value2 = Array.from(document.getElementsByClassName('comp-2-input')).map(returnValueOr9);
+    // Process min inputs
     if (mode.startsWith('min')) {
         const convertChecked = (el) => (el.checked ? 1 : 9);
+        // Get and push the inputs. Push 3 more for the missing extra inputs
         if (mode.charAt(mode.length - 1) === '1') {
             value1.push(...Array.from(document.getElementsByClassName('check-1')).map(convertChecked));
             value1.push(...[9, 9, 9]);
@@ -20,6 +22,7 @@ async function saveMode(mode) {
             value1.push(...new Array(9).fill(9));
         }
     }
+    // Validate the length of the inputs
     try {
         validateLength(value1, value2, mode);
     }
@@ -28,6 +31,7 @@ async function saveMode(mode) {
         return false;
     }
     const allEqualTo9 = (arr) => arr.every((v) => v === 9);
+    // If they all === 9, just pass to the next mode
     if ((allEqualTo9(value1), allEqualTo9(value2))) {
         comp_1[mode] = value1;
         comp_2[mode] = value2;
@@ -35,6 +39,7 @@ async function saveMode(mode) {
         localStorage.setItem('comp_2', comp_2.serialize());
         return true;
     }
+    // If the comps have the same values as before, just pass to the next mode
     if (comp_1[mode] && comp_2[mode]) {
         if (arraysMatch(comp_1[mode], value1) && arraysMatch(comp_2[mode], value2)) {
             return true;
@@ -115,25 +120,12 @@ function nextMode(mode) {
             }
         }
         else {
-            switch (mode) {
-                case 'tematicas_1':
-                case 'tematicas_2':
-                    addInputs(7);
-                    break;
-                case 'random_score':
-                    addInputs(11);
-                    break;
-                case 'deluxe':
-                    addInputs(14);
-                    break;
-                default:
-                    addInputs(9);
-                    break;
-            }
+            addInputs(mode_length[mode]);
         }
         // Refresh the alert
         createAlert('Recuerda que los últimos 3 cuadritos siempre son para Skills, Flow y Puesta en escena');
     }
+    // If user is active, just pass to the next mode and save everything in local storage
     if (getCookie('isActive') === 'true') {
         let data;
         if (comp_1 && comp_2) {
@@ -163,6 +155,7 @@ function nextMode(mode) {
         next(data);
         return;
     }
+    // Else, set the cookie
     else {
         setCookie('isActive', 'true', 0.3);
     }
@@ -204,12 +197,14 @@ function nextMode(mode) {
         if (data.errors) {
             throw Error(data.errors[0].message);
         }
+        // Go to the new mode with the new info
         next(data);
     })
         .catch((err) => {
         createError(err);
     });
 }
+// Prepares the next and previous btns
 function prepareBtns(mode) {
     const previous = document.getElementById('previous');
     const next = document.getElementById('next');
@@ -232,7 +227,9 @@ function prepareBtns(mode) {
             break;
     }
 }
+// This changes the modes
 export async function changeMode(old_mode, new_mode) {
+    // If you are from a table, don't save anything
     if (old_mode === 'end' || old_mode === 'end_replica') {
         if (new_mode === 'end') {
             document.getElementById('mode').dataset.current_mode = new_mode;
@@ -244,9 +241,9 @@ export async function changeMode(old_mode, new_mode) {
         return;
     }
     else {
-        if (!(await saveMode(old_mode))) {
+        // Wait to see if the mode was saved successfully
+        if (!(await saveMode(old_mode)))
             return;
-        }
         switch (new_mode) {
             case 'end':
                 document.getElementById('mode').dataset.current_mode = new_mode;
@@ -268,6 +265,7 @@ export async function changeMode(old_mode, new_mode) {
                 return;
         }
     }
+    // Changes the mode
     function wrapper(replica = false) {
         nextMode(new_mode);
         prepareBtns(new_mode);

@@ -8,6 +8,7 @@ const comp_form = <HTMLFormElement>document.getElementById('comps-form');
 const input_1 = <HTMLInputElement>document.getElementById('comp-1-input');
 const input_2 = <HTMLInputElement>document.getElementById('comp-2-input');
 
+// Activate validation in comp inputs
 [input_1, input_2].forEach((el: HTMLInputElement) => {
   el.addEventListener('input', (event) => {
     checkInput(event, el);
@@ -19,6 +20,7 @@ comp_form.addEventListener('submit', (event) => createPoll(event));
 function createPoll(event: Event): void {
   event.preventDefault();
 
+  // Validate both inputs
   if (!checkInputs(event)) return;
 
   comp_form.classList.remove('was-validated');
@@ -117,9 +119,12 @@ function checkInput(event: Event, el?: HTMLInputElement) {
   // Get the input values
   const val = el.value.trim();
 
+  // Check for invalidities
   if (val === '') return setErrorFor(el, 'Por favor, llene el campo para continuar');
   if (val.length < 2 || val.length > 20) return setErrorFor(el, 'El competidor tiene que tener entre 2 y 20 caracteres');
   if (val === 'replica' || val === 'Réplica') return setErrorFor(el, "El competidor no se puede llamar 'replica'");
+
+  // Success
   return setSuccessFor(el);
 }
 
@@ -127,11 +132,13 @@ function checkInputs(event: Event) {
   event.preventDefault();
   event.stopPropagation();
 
+  // Get inputs and values
   const vals = [input_1.value.trim(), input_2.value.trim()];
   const els = [input_1, input_2];
 
   let continue_func = 0;
 
+  // Check if both are true
   vals.forEach((val: string, i) => {
     if (val === '') return setErrorFor(els[i], 'Por favor, llene el campo para continuar');
     if (val.length < 2 || val.length > 20) return setErrorFor(els[i], 'El competidor tiene que tener entre 2 y 20 caracteres');
@@ -161,8 +168,11 @@ function setErrorFor(input: HTMLInputElement, message: string): false {
 }
 
 function setSuccessFor(input: HTMLInputElement) {
+  // Add and remove classes
   input.classList.remove('is-invalid');
   input.classList.add('is-valid');
+
+  // Remove custom validity
   input.setCustomValidity('');
   return true;
 }

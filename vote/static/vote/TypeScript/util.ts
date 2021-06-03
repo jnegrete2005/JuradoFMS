@@ -1,6 +1,6 @@
 import { Competitor, modes_to_int } from './classes.js';
-import type { GetModes, PlusReplica, SaveWinner } from './types';
-import { validateCompInputs } from './validation.js';
+import type { GetModes, SaveWinner } from './types';
+import { validateModeInputs } from './validation.js';
 
 export function getCookie(name: string): string {
   let cookieValue: null | string = null;
@@ -107,6 +107,7 @@ export function addInputs(lenght: number, data?: GetModes, first = false) {
 
       container.append(input);
 
+      // Create min checkboxes
       if (mode.startsWith('min') && i === 1 && j < lenght - 3) {
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
@@ -120,6 +121,7 @@ export function addInputs(lenght: number, data?: GetModes, first = false) {
 
       // Populate inputs
       if (data) {
+        // Add the checkbox if the current is a rhyme input
         if (mode.startsWith('min') && i === 1 && j < lenght - 3) {
           (<HTMLInputElement>input.nextElementSibling).checked = data.data.comp2.mode[j + 9] === 1 ? true : false;
         }
@@ -143,8 +145,9 @@ export function addInputs(lenght: number, data?: GetModes, first = false) {
     }
   });
 
-  validateCompInputs();
+  validateModeInputs();
 
+  // Focus the first visible input
   if (first || modes_to_int[mode] % 2 == 0) {
     (<HTMLInputElement>comp_1_cont.getElementsByTagName('div')[1].firstElementChild).focus();
     return;
@@ -153,6 +156,7 @@ export function addInputs(lenght: number, data?: GetModes, first = false) {
   (<HTMLInputElement>comp_2_cont.getElementsByTagName('div')[1].firstElementChild).focus();
 }
 
+// The corresponding tabindex for custom tabindex modes
 const tabindex = {
   random_score: [
     [1, 2, 5, 6, 9, 10, 13, 14, 17, 18, 19],
@@ -172,6 +176,7 @@ function insertAfter(newNode: HTMLElement, referenceNode: HTMLElement) {
   referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
 
+// Creates a bootstrap alert
 export function createAlert(text: string | HTMLElement): void {
   const alert = `
   <div class="alert alert-info alert-dismissible fade show mb-5" role="alert">
@@ -181,12 +186,6 @@ export function createAlert(text: string | HTMLElement): void {
   `;
 
   document.getElementById('alert-container').innerHTML = alert;
-}
-
-if (typeof String.prototype.trim === 'undefined') {
-  String.prototype.trim = function () {
-    return String(this).replace(/^\s+|\s+$/g, '');
-  };
 }
 
 export function getKeyByValue(object: object, value: string | number) {
@@ -264,6 +263,7 @@ export function getWinner(comp_1: Competitor, comp_2: Competitor, replica = fals
   return winner;
 }
 
+// Saves a new winner
 function saveWinner(winner: string): void {
   const mutation = `
     mutation SaveWinner($id: ID!, $winner: String!) {
@@ -308,4 +308,8 @@ export function setCookie(cname: string, cvalue: string, exdays: number) {
   d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
   var expires = 'expires=' + d.toUTCString();
   document.cookie = `${cname}=${cvalue};${expires};path=/`;
+}
+
+export function reload() {
+  location.assign(location.href.split('/').slice(0, 3).join('/'));
 }

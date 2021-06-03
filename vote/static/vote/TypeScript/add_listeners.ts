@@ -2,6 +2,7 @@ import { getKeyByValue } from './util.js';
 import { modes_to_int } from './classes.js';
 import { changeMode } from './change_mode.js';
 
+// Get all the mode changers and listen to clicks on them
 Array.from(document.getElementsByClassName('listen')).forEach((el: HTMLAnchorElement | HTMLInputElement) => {
   el.addEventListener('click', async (event: Event) => {
     event.preventDefault();

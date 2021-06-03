@@ -1,4 +1,4 @@
-export function validateCompInputs() {
+export function validateModeInputs() {
   Array.from(document.querySelectorAll("input[type='number'].form-control")).forEach((el: HTMLInputElement) => {
     el.addEventListener('keydown', (event: KeyboardEvent) => {
       let key: string | number = event.key;
@@ -9,20 +9,20 @@ export function validateCompInputs() {
       switch (el.value.length) {
         case 0:
           try {
-            if (key === 'Backspace') break;
-            if (decimals.includes(key)) {
+            if (key === 'Backspace' || key === 'Tab') break;
+            if (possible_decimals.includes(key)) {
               el.value = '0.5';
               break;
             }
-            if (check(parseFloat(key)) || key === 'Tab') break;
+            if (check(parseFloat(key))) break;
           } catch {
             event.preventDefault();
             break;
           }
 
         case 1:
-          if (key === 'Tab' || key === 'Backspace') break;
-          if (decimals.includes(key) && el.value !== '4') {
+          if (key === 'Backspace' || key === 'Tab') break;
+          if (possible_decimals.includes(key) && el.value !== '4') {
             event.preventDefault();
             el.value += '.5';
             break;
@@ -50,4 +50,4 @@ export function validateCompInputs() {
 }
 
 const validInputs = ['Control', 'ArrowLeft', 'ArrowRight', 'Shift', 'Delete'];
-const decimals = ['.', ',', 'Unidentified', ' '];
+const possible_decimals = ['.', ',', 'Unidentified', ' '];

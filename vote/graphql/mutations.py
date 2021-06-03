@@ -16,6 +16,7 @@ class CreatePoll(graphene.Mutation):
 
   @classmethod
   def mutate(cls, root, info, comp1, comp2):
+    # Get the first comp if debug
     if settings.DEBUG and not environ.get('WORKFLOW_RUN'):
       poll = VotingPoll.objects.first()
       for i in range(9):
@@ -25,8 +26,13 @@ class CreatePoll(graphene.Mutation):
       poll.save(update_fields=['rep_counter'])
       return CreatePoll(poll=poll)
 
+    # Validate comp length
     if (len(comp1) > 20 or len(comp1) < 2) or (len(comp2) > 20 or len(comp2) < 2):
       raise GraphQLError('Los competidores tienen que tener un máximo de 20 caracteres y un mínimo de 2')
+
+    # Validate comp name
+    if ((comp1 == 'replica' or comp1 == 'Réplica') or (comp2 == 'replica' or comp2 == 'Réplica')):
+      raise GraphQLError('Los competidores no pueden llamarse replica ni Réplica')
 
     comp_1 = Competitor.objects.create(name=comp1)
     comp_2 = Competitor.objects.create(name=comp2)
@@ -68,14 +74,14 @@ class SaveModes(graphene.Mutation):
     elif len(value_1) != 9 or len(value_2) != 9:
       raise GraphQLError(f'{Competitor._meta.get_field(mode).verbose_name} no puede tener más ni menos de 9 elementos')
 
+    # Validate inputs
     validate_input(value_1)
     validate_input(value_2)
 
+    # Get and save the modes
     poll = VotingPoll.objects.get(pk=int(poll_id))
-
     poll.comp_1.__dict__[mode] = value_1
     poll.comp_2.__dict__[mode] = value_2
-    
     poll.comp_1.save(update_fields=[mode])
     poll.comp_2.save(update_fields=[mode])
 
@@ -136,6 +142,7 @@ class Mutation(graphene.ObjectType):
 
 
 def validate_input(val: list):
+  """ Checks if the input is a valid number (from 0 to 4 or 9) """
   for num in val:
     if (num >= 0 and num <= 4 and num % 0.5 == 0) or num == 9:
       continue

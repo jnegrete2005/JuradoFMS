@@ -2,6 +2,7 @@ import { changeMode } from './change_mode.js';
 window.onpopstate = (event) => {
     if (event.state) {
         const old_mode = document.getElementById('mode').dataset.current_mode;
+        // If it has a table, display the correct one
         if (event.state.show_table) {
             if (!event.state.replica) {
                 changeMode(old_mode, 'end');
@@ -10,9 +11,11 @@ window.onpopstate = (event) => {
                 changeMode(old_mode, 'end_replica');
             }
         }
+        // Else, just change the mode
         else if (event.state.new_mode) {
             changeMode(old_mode, event.state.new_mode);
         }
+        // TODO: make the comp choose case
     }
 };
 //# sourceMappingURL=popstate.js.map

@@ -1,5 +1,6 @@
 @import 'media_queries';
 
+/* Comp text */
 #comp-1,
 #comp-2 {
   text-align: center;
@@ -12,7 +13,9 @@
   }
 }
 
+/* Comp text container */
 .comp-container {
+  /* If small, make it a complete row */
   grid-column: span 3 / auto;
 
   @include md() {
@@ -20,6 +23,7 @@
   }
 }
 
+/* To change grid position on .input-side */
 @mixin change-grid($col) {
   grid-row: auto;
 
@@ -35,6 +39,7 @@
   }
 }
 
+/* To change alignment of an input */
 @mixin align($side, $media: true) {
   @if $side == right {
     margin: 0 auto auto 0 !important;
@@ -55,6 +60,7 @@
 
 $sides: right, left;
 
+/* The input and input-extra classes */
 @each $side in $sides {
   .input-#{$side} {
     @include align($side);
@@ -76,9 +82,9 @@ $sides: right, left;
 .grid {
   display: grid;
   grid-gap: 1.5rem;
-
   grid-column-end: span 2 / auto;
 
+  /* On small screens, the grid is of 3 cols */
   grid-template-columns: repeat(3, minmax(1.5rem, 1fr));
 
   @include md() {
@@ -95,6 +101,7 @@ $sides: right, left;
   grid-row-gap: 0.5em;
 }
 
+/* Customize the little boxes */
 input[type='number'] {
   width: 35px;
   height: 35px;
@@ -110,6 +117,7 @@ input[type='number'] {
   }
 }
 
+/* The second replica choices */
 .choice-input {
   width: 7rem;
   height: 5rem;
@@ -135,6 +143,7 @@ input[type='number'] {
   }
 }
 
+/* Main poll */
 .poll {
   padding: 17px;
   border: 3px solid gainsboro;
