@@ -14,21 +14,9 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
   
   <!-- Static Files -->
-  <link rel="stylesheet" href="{% static 'vote/CSS/navbar.css' %}">
-  <link rel="stylesheet" href="{% static 'vote/CSS/polls.css' %}">
-  <link rel="stylesheet" href="{% static 'vote/CSS/table.css' %}">
-
-  <!-- Scripts -->
-  <script src="{% static 'vote/JS/navbar.js' %}" type="module" defer></script>
-  <script src="{% static 'vote/JS/popstate.js' %}" type="module" defer></script>
-  <script src="{% static 'vote/JS/create_polls.js' %}" type="module" defer></script>
-  <script src="{% static 'vote/JS/util.js' %}" type="module" defer></script>
-  <script src="{% static 'vote/JS/add_listeners.js' %}" type="module" defer></script>
-  <script src="{% static 'vote/JS/change_mode.js' %}" type="module" defer></script>
-  <script src="{% static 'vote/JS/end.js' %}" type="module" defer></script>
-  <script src="{% static 'vote/JS/classes.js' %}" type="module" defer></script>
-  <script src="{% static 'vote/JS/replica.js' %}" type="module"></script>
-  <script src="{% static 'vote/JS/validation.js' %}" type="module"></script>
+  <link rel="stylesheet" href="{% static 'vote/CSS/navbar.min.css' %}">
+  <link rel="stylesheet" href="{% static 'vote/CSS/polls.min.css' %}">
+  <link rel="stylesheet" href="{% static 'vote/CSS/table.min.css' %}">
 </head>
 <body>
   {% csrf_token %}
@@ -286,8 +274,19 @@
       </div>
     </div>
   </main>
-
+  
   <!-- Bootstrap Bundle with Popper -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
-</body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script></body>
+  
+  <!-- Scripts -->
+  <script src="{% static 'vote/JS/add_listeners.min.js' %}"></script>
+  <script src="{% static 'vote/JS/change_mode.min.js' %}"></script>
+  <script src="{% static 'vote/JS/classes.min.js' %}" type="module"></script>
+  <script src="{% static 'vote/JS/create_polls.min.js' %}" type="module"></script>
+  <script src="{% static 'vote/JS/end.min.js' %}"></script>
+  <script src="{% static 'vote/JS/navbar.min.js' %}" type="module"></script>
+  <script src="{% static 'vote/JS/popstate.min.js' %}" type="module"></script>
+  <script src="{% static 'vote/JS/replica.min.js' %}"></script>
+  <script src="{% static 'vote/JS/util.min.js' %}" type="module"></script>
+  <script src="{% static 'vote/JS/validation.min.js' %}"></script>
 </html>
